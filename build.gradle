@@ -1,0 +1,85 @@
+import net.ltgt.gradle.errorprone.CheckSeverity
+
+apply plugin: 'io.github.gradle-nexus.publish-plugin'
+apply plugin: 'io.snyk.gradle.plugin.snykplugin'
+apply plugin: 'org.kordamp.gradle.source-stats'
+apply plugin: 'com.github.ben-manes.versions'
+
+
+//apply from: "${rootDir}/gradle/coveralls.gradle"
+
+buildscript {
+    apply from: "${rootDir}/gradle/dependencies.gradle"
+
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath gradlePlugins.values()
+    }
+}
+
+allprojects {
+    apply plugin: 'com.github.ethankhall.semantic-versioning'
+    apply from: "${rootDir}/gradle/eclipse.gradle"
+
+    repositories {
+        mavenCentral()
+    }
+
+    group = 'com.licho.brain-zone.'
+    version.with {
+        major = 3 // incompatible API changes
+        minor = 0 // backwards-compatible additions
+        patch = 6 // backwards-compatible bug fixes
+        releaseBuild = rootProject.hasProperty('release')
+    }
+}
+
+subprojects {
+  apply plugin: 'biz.aQute.bnd.builder'
+  apply plugin: 'java-library'
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+
+  apply from: "${rootDir}/gradle/publish.gradle"
+  apply from: "${rootDir}/gradle/codeQuality.gradle"
+  apply from: "${rootDir}/gradle/dependencies.gradle"
+  apply from: "${rootDir}/gradle/objectLayout.gradle"
+
+  java.toolchain.languageVersion = JavaLanguageVersion.of(System.env.'JAVA_VERSION' ?: 11)
+
+  configurations.all {
+    resolutionStrategy.dependencySubstitution {
+      substitute module('org.hamcrest:hamcrest-core') using module(testLibraries.hamcrest)
+    }
+  }
+
+  dependencies {
+    testImplementation libraries.guava
+    testImplementation testLibraries.truth
+    testImplementation testLibraries.mockito
+    testImplementation testLibraries.hamcrest
+    testImplementation testLibraries.awaitility
+    testImplementation testLibraries.osgiCompile
+
+    testRuntimeOnly testLibraries.osgiRuntime
+  }
+
+  tasks.register('bundle', aQute.bnd.gradle.Bundle) {
+    from sourceSets.main.output
+    sourceSet = sourceSets.main
+  }
+
+  tasks.withType(JavaCompile).configureEach {
+    if (name.contains('Test') || name.contains('Jmh')) {
+      options.errorprone.nullaway {
+        severity = CheckSeverity.OFF
+      }
+    }
+  }
+
+}
+

@@ -1,33 +1,51 @@
-import net.ltgt.gradle.errorprone.CheckSeverity
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
-apply plugin: 'io.github.gradle-nexus.publish-plugin'
-apply plugin: 'io.snyk.gradle.plugin.snykplugin'
-apply plugin: 'org.kordamp.gradle.source-stats'
-apply plugin: 'com.github.ben-manes.versions'
+apply from: "${rootDir}/gradle/jmh.gradle"
+//apply from: "${projectDir}/testing.gradle"
 
-plugins {
-
+sourceSets {
+    javaPoet {
+        java.srcDir 'src/javaPoet/java'
+    }
+    main {
+        java.srcDir "${buildDir}/generated-sources/"
+    }
+    codeGen {
+        java.srcDir "${buildDir}/generated-sources/"
+    }
 }
 
-repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
+configurations {
+    javaAgent
+}
+
+idea.module {
+    scopes.PROVIDED.plus += [configurations.javaPoetCompileClasspath]
+}
+
+eclipse.classpath.file.whenMerged {
+    entries.findAll { it instanceof SourceFolder && it.output == 'bin/codeGen' }*.output = 'bin/main'
+}
+
+plugins.withType(EclipsePlugin) {
+    project.eclipse.classpath.plusConfigurations += [configurations.javaPoetCompileClasspath]
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+//    api libraries.checkerAnnotations
+    api libraries.errorproneAnnotations
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:30.1.1-jre'
-}
+    implementation libraries.guava
+    implementation libraries.hutool
+    implementation libraries.log4j
+    implementation libraries.springframework
+    implementation libraries.lombok
+    implementation libraries.dom4j
+    testImplementation testLibraries.junit
 
-application {
-    // Define the main class for the application.
-    mainClass = 'brain.zone.App'
-}
+    jmh libraries.guava
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+    javaPoetImplementation libraries.guava
+    javaPoetImplementation libraries.javapoet
+    javaPoetImplementation libraries.googleJavaFormat
 }
