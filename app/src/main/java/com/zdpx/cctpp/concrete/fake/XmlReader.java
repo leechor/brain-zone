@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import static javax.xml.stream.XMLStreamConstants.COMMENT;
 import static javax.xml.stream.XMLStreamConstants.END_DOCUMENT;
@@ -167,14 +168,16 @@ public abstract class XmlReader implements IDisposable {
                         sb.append(spaces(c) + this.reader.getText() + "\n");
                     }
                     this.nextTag();
-                } while (!(this.reader.isEndElement() && this.reader.getLocalName().equals(elementName)) || c != 0);
+                } while (!(this.reader.isEndElement() && this.reader.getLocalName().equals(elementName) && c == 0));
             }
             sb.append("</" + this.reader.getLocalName() + ">\n");
+            this.nextTag();
             return sb.toString();
         }
 
         private String spaces(int c) {
             StringBuilder space = new StringBuilder();
+            Stream.generate(() -> " ").limit(c).forEach(System.out::println);
             for (int i = 0; i < c; i++) {
                 space.append("  ");
             }
@@ -185,7 +188,7 @@ public abstract class XmlReader implements IDisposable {
             StringBuilder sb = new StringBuilder();
             sb.append("<").append(this.reader.getLocalName());
             for (int i = 0; i < this.reader.getAttributeCount(); i++) {
-                sb.append(" " + this.reader.getAttributeName(i)).append("=\"").append(this.reader.getAttributeValue(i));
+                sb.append(" " + this.reader.getAttributeName(i) + "=\"" + this.reader.getAttributeValue(i) + "\"");
             }
             sb.append(">\n");
             return sb.toString();
