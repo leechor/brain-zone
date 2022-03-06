@@ -1,8 +1,5 @@
 package com.zdpx.cctpp.concrete.fake;
 
-import com.sun.org.apache.xerces.internal.impl.XMLEntityScanner;
-import com.sun.org.apache.xerces.internal.impl.XMLStreamReaderImpl;
-import com.sun.xml.internal.stream.Entity;
 import com.zdpx.cctpp.concrete.XmlReaderSettings;
 import com.zdpx.cctpp.utils.simu.system.IDisposable;
 import org.slf4j.Logger;
@@ -58,7 +55,7 @@ public abstract class XmlReader implements IDisposable {
 
     public static class SubXmlReader extends XmlReader {
 
-        private XMLEntityScanner entityScanner;
+
         XMLInputFactory xmlInputFactory;
         XMLStreamReader reader;
         Field fEntityScanner;
@@ -67,8 +64,7 @@ public abstract class XmlReader implements IDisposable {
             xmlInputFactory = XMLInputFactory.newDefaultFactory();
             try {
                 this.reader = xmlInputFactory.createXMLStreamReader(reader);
-                this.entityScanner = this.getXMLEntityScanner();
-            } catch (XMLStreamException | NoSuchFieldException e) {
+            } catch (XMLStreamException e) {
                 logger.error(e.toString());
             }
         }
@@ -77,15 +73,14 @@ public abstract class XmlReader implements IDisposable {
             xmlInputFactory = XMLInputFactory.newDefaultFactory();
             try {
                 this.reader = xmlInputFactory.createXMLStreamReader(reader);
-                this.entityScanner = this.getXMLEntityScanner();
-            } catch (XMLStreamException | NoSuchFieldException e) {
+            } catch (XMLStreamException e) {
                 logger.error(e.toString());
             }
         }
 
         public String Name() {
             try {
-                if (this.reader.getEventType() == XMLStreamConstants.START_ELEMENT || this.reader.getEventType() == XMLStreamConstants.END_ELEMENT) {
+                if (this.reader.isStartElement() || this.reader.isEndElement()) {
                     return this.reader.getLocalName();
                 }
             } catch (IllegalStateException e) {
@@ -152,64 +147,48 @@ public abstract class XmlReader implements IDisposable {
             return "";
         }
 
-        private XMLEntityScanner getXMLEntityScanner() throws NoSuchFieldException {
-            XMLStreamReaderImpl r = (XMLStreamReaderImpl) this.reader;
-            Class<?> cls = r.getClass();
-            this.fEntityScanner = cls.getDeclaredField("fEntityScanner");
-            fEntityScanner.setAccessible(true);
-            XMLEntityScanner entityScanner = null;
-            try {
-                entityScanner = (XMLEntityScanner) fEntityScanner.get(this.reader);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            return entityScanner;
-        }
-
         @Override
         public String ReadOuterXml() {
             StringBuilder sb = new StringBuilder();
-            String elementName = null;
-            int c = 0;
-            int start = 0;
-            if (this.NodeType() == XMLStreamConstants.START_ELEMENT && entityScanner != null) {
-                elementName = this.reader.getLocalName();
+            if (this.reader.isStartElement()) {
+                String elementName = this.reader.getLocalName();
+                sb.append(getStartElementText());
 
-                sb.append("<").append(elementName).append(" ");
-                for (int i = 0; i < this.reader.getAttributeCount(); i++) {
-                    sb.append(this.reader.getAttributeName(i)).append("=\"").append(this.reader.getAttributeValue(i)).append("\" ");
-                }
-                sb.append(">");
-                var currentEntry = entityScanner.getCurrentEntity();
-
-                start = currentEntry.position;
-                sb.append(currentEntry.ch, start, currentEntry.count - start);
-                c++;
-            }
-
-
-            while (elementName != null && sb.length() < 10000000) {
                 this.nextTag();
-                Entity.ScannedEntity currentEntry = entityScanner.getCurrentEntity();
-
-                if (this.NodeType() == XMLStreamConstants.START_ELEMENT) {
-                    c++;
-                } else if (this.NodeType() == XMLStreamConstants.END_ELEMENT) {
-                    c--;
-
-                    if (elementName.equals(this.reader.getLocalName()) || c == 0) {
-                        var result = sb.substring(0, sb.length() - (currentEntry.count - currentEntry.position));
-                        this.nextTag();
-                        return result;
+                int c = 0;
+                do {
+                    if (this.reader.isStartElement()) {
+                        c++;
+                        sb.append(spaces(c) + getStartElementText());
+                    } else if (this.reader.isEndElement()) {
+                        sb.append(spaces(c) + "</" + this.reader.getLocalName() + ">\n");
+                        c--;
+                    } else if (this.reader.hasText()) {
+                        sb.append(spaces(c) + this.reader.getText() + "\n");
                     }
-                }
-
-                if (currentEntry.position < start) {
-                    sb.append(currentEntry.ch, 0, currentEntry.count);
-                }
-                start = currentEntry.position;
+                    this.nextTag();
+                } while (!(this.reader.isEndElement() && this.reader.getLocalName().equals(elementName)) || c != 0);
             }
-            return "";
+            sb.append("</" + this.reader.getLocalName() + ">\n");
+            return sb.toString();
+        }
+
+        private String spaces(int c) {
+            StringBuilder space = new StringBuilder();
+            for (int i = 0; i < c; i++) {
+                space.append("  ");
+            }
+            return space.toString();
+        }
+
+        private String getStartElementText() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<").append(this.reader.getLocalName());
+            for (int i = 0; i < this.reader.getAttributeCount(); i++) {
+                sb.append(" " + this.reader.getAttributeName(i)).append("=\"").append(this.reader.getAttributeValue(i));
+            }
+            sb.append(">\n");
+            return sb.toString();
         }
 
         @Override

@@ -65,7 +65,7 @@ public class DateTime {
     }
 
     public int compare(DateTime nowTime) {
-        return this.compare(nowTime);
+        return this.value.compareTo(nowTime.value);
     }
 
     public DateTime Date() {

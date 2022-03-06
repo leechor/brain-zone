@@ -1,16 +1,26 @@
 package com.zdpx.cctpp.simuApi;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 /**
  *
  */
-@Setter
-@Getter
+@Data
 @RequiredArgsConstructor
 public class FacilitySize {
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
 
     public double length;
     public double width;

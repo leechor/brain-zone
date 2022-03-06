@@ -39,47 +39,49 @@ allprojects {
 }
 
 subprojects {
-  apply plugin: 'biz.aQute.bnd.builder'
-  apply plugin: 'java-library'
-  apply plugin: 'eclipse'
-  apply plugin: 'idea'
+    apply plugin: 'biz.aQute.bnd.builder'
+    apply plugin: 'java-library'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
 
-  apply from: "${rootDir}/gradle/publish.gradle"
-  apply from: "${rootDir}/gradle/codeQuality.gradle"
-  apply from: "${rootDir}/gradle/dependencies.gradle"
-  apply from: "${rootDir}/gradle/objectLayout.gradle"
+    apply from: "${rootDir}/gradle/publish.gradle"
+    apply from: "${rootDir}/gradle/codeQuality.gradle"
+    apply from: "${rootDir}/gradle/dependencies.gradle"
+    apply from: "${rootDir}/gradle/objectLayout.gradle"
 
-  java.toolchain.languageVersion = JavaLanguageVersion.of(System.env.'JAVA_VERSION' ?: 11)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(System.env.'JAVA_VERSION' ?: 11)
 
-  configurations.all {
-    resolutionStrategy.dependencySubstitution {
-      substitute module('org.hamcrest:hamcrest-core') using module(testLibraries.hamcrest)
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute module('org.hamcrest:hamcrest-core') using module(testLibraries.hamcrest)
+        }
     }
-  }
 
-  dependencies {
-    testImplementation libraries.guava
-    testImplementation testLibraries.truth
-    testImplementation testLibraries.mockito
-    testImplementation testLibraries.hamcrest
-    testImplementation testLibraries.awaitility
-    testImplementation testLibraries.osgiCompile
+    dependencies {
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 
-    testRuntimeOnly testLibraries.osgiRuntime
-  }
+        testImplementation libraries.guava
+        testImplementation testLibraries.truth
+        testImplementation testLibraries.mockito
+        testImplementation testLibraries.hamcrest
+        testImplementation testLibraries.awaitility
+        testImplementation testLibraries.osgiCompile
 
-  tasks.register('bundle', aQute.bnd.gradle.Bundle) {
-    from sourceSets.main.output
-    sourceSet = sourceSets.main
-  }
-
-  tasks.withType(JavaCompile).configureEach {
-    if (name.contains('Test') || name.contains('Jmh')) {
-      options.errorprone.nullaway {
-        severity = CheckSeverity.OFF
-      }
+        testRuntimeOnly testLibraries.osgiRuntime
     }
-  }
+
+    tasks.register('bundle', aQute.bnd.gradle.Bundle) {
+        from sourceSets.main.output
+        sourceSet = sourceSets.main
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        if (name.contains('Test') || name.contains('Jmh')) {
+            options.errorprone.nullaway {
+                severity = CheckSeverity.OFF
+            }
+        }
+    }
 
 }
 

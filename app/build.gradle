@@ -41,6 +41,10 @@ dependencies {
     implementation libraries.springframework
     implementation libraries.lombok
     implementation libraries.dom4j
+    implementation libraries.javassist
+    implementation libraries.reflections
+
+
     testImplementation testLibraries.junit
 
     jmh libraries.guava
