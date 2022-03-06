@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -257,18 +256,12 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         }
 
         if (maxSome == Integer.MAX_VALUE) {
-            switch (runStatus) {
-                case NormalRun:
-                    maxSome = (this.getRunSetup() != null ?
-                            this.getRunSetup().CalendarEventsBetweenCallbacksForInteractiveRun() : 32);
-                    break;
-                case FastRun:
-                    maxSome = 10000;
-                    break;
-                case Two:
-                    maxSome = 50000;
-                    break;
-            }
+            maxSome = switch (runStatus) {
+                case NormalRun -> (this.getRunSetup() != null ?
+                        this.getRunSetup().CalendarEventsBetweenCallbacksForInteractiveRun() : 32);
+                case FastRun -> 10000;
+                case Two -> 50000;
+            };
         }
 
         if (this.beRun()) {
@@ -376,7 +369,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         if (this.projectDefinition != null && this.projectDefinition.ActiveModels != null) {
             List<ActiveModel> source = this.projectDefinition.ActiveModels;
             for (ActiveModel activeModel : source.stream().filter(activeModel -> activeModel != this &&
-                    !activeModel.Runnable()).collect(Collectors.toList())) {
+                    !activeModel.Runnable()).toList()) {
                 activeModel.getIntelligentObjectDefinition().method_428();
             }
         }

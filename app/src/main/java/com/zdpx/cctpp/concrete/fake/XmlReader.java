@@ -148,6 +148,11 @@ public abstract class XmlReader implements IDisposable {
             return "";
         }
 
+        /**
+         * read element string contains begin and end.
+         * <b>Note:</b> if element node like <a/>, it will become <a></a>
+         * @return
+         */
         @Override
         public String ReadOuterXml() {
             StringBuilder sb = new StringBuilder();
@@ -184,6 +189,10 @@ public abstract class XmlReader implements IDisposable {
             return space.toString();
         }
 
+        /**
+         * read elementNode begin information.
+         * @return
+         */
         private String getStartElementText() {
             StringBuilder sb = new StringBuilder();
             sb.append("<").append(this.reader.getLocalName());

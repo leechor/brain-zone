@@ -40,7 +40,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/app/build/libs/caffeine-local.jar" />
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.16/6dc192c7f93ec1853f70d59d8a6dcf94eb42866/lombok-1.18.16.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.22/9c08ea24c6eb714e2d6170e8122c069a0ba9aacf/lombok-1.18.22.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_core/2.11.0/7dcdc0cb4d945ba8555bf804796a7fe32e536a3e/error_prone_core-2.11.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.uber.nullaway/nullaway/0.9.5/6473282839c9b0e74b113d8e0cac528628832141/nullaway-0.9.5.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_check_api/2.11.0/b3e83751bf8efb0f98f960fe7da5af4897189db4/error_prone_check_api-2.11.0.jar" />
@@ -68,11 +68,6 @@
         <module name="brain-zone.app.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11" />
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="brain-zone.app.main" options="--add-exports java.xml/com.sun.org.apache.xerces.internal.impl=ALL-UNNAMED --add-exports java.xml/com.sun.xml.internal.stream=ALL-UNNAMED" />
-    </option>
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>

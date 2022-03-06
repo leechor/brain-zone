@@ -9,7 +9,7 @@ import com.zdpx.cctpp.utils.simu.system.IDisposable;
  *
  */
 public abstract class AbsBaseMaterial implements IDisposable, IGridObject, IItemDescriptor,
-		IPropertyChangedCreateAction {
+        IPropertyChangedCreateAction {
     protected Guid guid = Guid.Empty;
 
     public AbsBaseMaterial() {
@@ -19,8 +19,7 @@ public abstract class AbsBaseMaterial implements IDisposable, IGridObject, IItem
     public static boolean readXmlMaterialRef(XmlReader xmlReader, Facade facade,
                                              Action<AbsBaseMaterial> assignAction) {
         AbsBaseMaterial[] absBaseMaterial = new AbsBaseMaterial[1];
-        boolean result = SomeXmlOperator.xmlReaderElementOperator(xmlReader, "MaterialRef", (XmlReader attr) ->
-        {
+        boolean result = SomeXmlOperator.xmlReaderElementOperator(xmlReader, "MaterialRef", (XmlReader attr) -> {
             String attribute = attr.GetAttribute("Id");
             Guid guid = new Guid(attribute);
             absBaseMaterial[0] = facade.getAbsBaseMaterialByGuid(guid);

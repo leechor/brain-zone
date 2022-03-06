@@ -38,7 +38,7 @@ import java.util.Objects;
 
 public class IntelligentObject extends AbsIntelligentPropertyObject implements IIntelligentObject, IField, ICaption {
 
-    private static String defaultName = "DefinitionName";
+    private static final String defaultName = "DefinitionName";
     public List<Node> nodes;
     private boolean setSizing;
 
@@ -513,7 +513,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
             return;
         }
         for (Warning warning : this.suppressedWarnings) {
-            Warning warning2 = (Warning) warning.clone();
+            Warning warning2 = warning.clone();
             warning2.bindToInstance(this.InstanceName());
             returnedWarnings.add(warning2);
         }

@@ -28,15 +28,15 @@ import java.util.stream.IntStream;
  *
  */
 public class IntelligentObjectXml {
-    private static Logger logger = LoggerFactory.getLogger(IntelligentObjectXml.class);
-    private IntelligentObjectXml.ModeType mode;
+    private static final Logger logger = LoggerFactory.getLogger(IntelligentObjectXml.class);
+    private final IntelligentObjectXml.ModeType mode;
     private int fileVersion;
     private boolean multiFile;
     private IFiles files;
-    private Map<String, GuidRevision> definitionRefNameGuidVersionsMap = new HashMap<>();
-    private List<IntelligentObjectDefinition> IntelligentObjectDefinitions = new ArrayList<>();
-    private Map<String, IntelligentObjectDefinition> allIntelligentObjectDefinitionNameMap = new HashMap<>();
-    private Map<GuidRevision, String> definitionXmlMap = new HashMap<>();
+    private final Map<String, GuidRevision> definitionRefNameGuidVersionsMap = new HashMap<>();
+    private final List<IntelligentObjectDefinition> IntelligentObjectDefinitions = new ArrayList<>();
+    private final Map<String, IntelligentObjectDefinition> allIntelligentObjectDefinitionNameMap = new HashMap<>();
+    private final Map<GuidRevision, String> definitionXmlMap = new HashMap<>();
     private int modelCount;
     private List<IntelligentObjectXml.OutXml> runnableInstanceXml = new ArrayList<>();
     private Map<ActiveModel, List<Warning>> activeModelWarning = new HashMap<>();
@@ -523,8 +523,12 @@ public class IntelligentObjectXml {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             GuidRevision that = (GuidRevision) o;
             return revision == that.revision && Objects.equals(guid, that.guid);
         }
