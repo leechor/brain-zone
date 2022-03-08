@@ -23,11 +23,11 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
     private final IntelligentObjectDefinition intelligentObjectDefinition;
     private static Map<String, IntelligentObjectDefinition> NameDefinitionMap = new HashMap<>();
     private List<NameIntelligentObjectDefinition> reserveNameDefinitions = new ArrayList<>();
-    private List<InternalReference.NameIntelligentObjectDefinition> newNameDefinitions = new ArrayList<>();
+    private List<NameIntelligentObjectDefinition> newNameDefinitions = new ArrayList<>();
     private boolean bool_0;
 
-    public InternalReference(IntelligentObjectDefinition objectFacility) {
-        this.intelligentObjectDefinition = objectFacility;
+    public InternalReference(IntelligentObjectDefinition intelligentObjectDefinition) {
+        this.intelligentObjectDefinition = intelligentObjectDefinition;
     }
 
 
@@ -36,10 +36,10 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
     }
 
     public Iterable<InternalReference.NameIntelligentObjectDefinition> allNameDefinitionsAndStandardLibrary() {
-        List<NameIntelligentObjectDefinition> first = this.allNameDefinitions();
-        List<IntelligentObjectDefinition> source = this.getStandardLibraryFacility();
+        List<NameIntelligentObjectDefinition> nameIntelligentObjectDefinitions = this.allNameDefinitions();
+        List<IntelligentObjectDefinition> standardLibraryFacility = this.getStandardLibraryFacility();
 
-        return CollectionUtil.concatenate(first, source.stream()
+        return CollectionUtil.concatenate(nameIntelligentObjectDefinitions, standardLibraryFacility.stream()
                 .map(t -> new NameIntelligentObjectDefinition(t, t.Name())).collect(Collectors.toList()));
     }
 
@@ -58,6 +58,9 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
                 .anyMatch((NameIntelligentObjectDefinition d) -> d.Definition() == intelligentObjectDefinition);
     }
 
+    /**
+     * @return
+     */
     public List<NameIntelligentObjectDefinition> getActiveModelNameDefinitions() {
         if (this.intelligentObjectDefinition.activeModel == null ||
                 this.intelligentObjectDefinition.activeModel.getIntelligentObjectDefinition() != this.intelligentObjectDefinition ||
@@ -65,17 +68,14 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
             return new ArrayList<>();
         }
 
-        List<ActiveModel> activeModels =
-                this.intelligentObjectDefinition.activeModel.parentProjectDefinition.ActiveModels;
-        var definitionOfActiveModel
-                = activeModels.stream().map(ActiveModel::getIntelligentObjectDefinition).collect(Collectors.toList());
+        var activeModels = this.intelligentObjectDefinition.activeModel.parentProjectDefinition.ActiveModels;
+        var definitionOfActiveModel = activeModels.stream().map(ActiveModel::getIntelligentObjectDefinition).toList();
 
         if (!definitionOfActiveModel.contains(this.intelligentObjectDefinition)) {
             definitionOfActiveModel.add(this.intelligentObjectDefinition);
         }
 
-        return definitionOfActiveModel.stream()
-                .map(t -> new NameIntelligentObjectDefinition(t, t.Name())).collect(Collectors.toList());
+        return definitionOfActiveModel.stream().map(t -> new NameIntelligentObjectDefinition(t, t.Name())).toList();
     }
 
     public IntelligentObjectDefinition updateSameIntelligentObjectDefinition(IntelligentObjectDefinition intelligentObjectDefinition) {
@@ -83,43 +83,38 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
             return null;
         }
 
-        IntelligentObjectDefinition objectDefinition;
         var nameIntelligentObjectDefinition = this.reserveNameDefinitions.stream()
                 .filter(definition -> definition.Definition().sameGuid(intelligentObjectDefinition))
                 .findAny()
                 .orElse(null);
 
         if (nameIntelligentObjectDefinition == null) {
-            IntelligentObjectDefinition standard =
-                    this.getStandardLibraryFacility().stream()
-                            .filter((IntelligentObjectDefinition definition) -> definition.sameGuid(intelligentObjectDefinition))
-                            .findAny()
-                            .orElse(null);
+            var standard = this.getStandardLibraryFacility().stream()
+                    .filter((IntelligentObjectDefinition definition) -> definition.sameGuid(intelligentObjectDefinition))
+                    .findAny()
+                    .orElse(null);
 
             if (standard != null) {
-                IntelligentObjectDefinition base = standard.CreateNewBaseClassDefinition();
+                var base = standard.CreateNewBaseClassDefinition();
                 this.registerNameDefinition(base, null, false);
-                objectDefinition = base;
+                return base;
             } else {
                 IntelligentObjectDefinition definition = null;
-                NameIntelligentObjectDefinition nDefinition =
+                var sameNameDefinition =
                         this.reserveNameDefinitions.stream()
                                 .filter(t -> Objects.equals(t.Name(), intelligentObjectDefinition.Name()))
                                 .findAny()
                                 .orElse(null);
-                if (nDefinition != null) {
-                    definition = nDefinition.Definition();
+                if (sameNameDefinition != null) {
+                    definition = sameNameDefinition.Definition();
                 }
-                Runnable remove = this.removeNameDefinitionAction(definition);
+                var remove = this.removeNameDefinitionAction(definition);
                 this.registerNameDefinition(intelligentObjectDefinition, remove, false);
-                objectDefinition = intelligentObjectDefinition;
+                return intelligentObjectDefinition;
             }
-
         } else {
-            objectDefinition = nameIntelligentObjectDefinition.Definition();
+            return nameIntelligentObjectDefinition.Definition();
         }
-
-        return objectDefinition;
     }
 
 
@@ -136,38 +131,45 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
     }
 
     public void transportDefinitionBy(NodeDefinition nodeDefinition) {
-        transportDefinition(nodeDefinition, null);
+        transportToNewDefinitions(nodeDefinition, null);
     }
 
-    public void transportDefinition(NodeDefinition nodeDefinition, String name) {
+    /**
+     * reserse to newDefinitions
+     * transportDefinition
+     *
+     * @param nodeDefinition
+     * @param name
+     */
+    public void transportToNewDefinitions(NodeDefinition nodeDefinition, String name) {
         IntelligentObjectDefinition objectDefinition = null;
-        var newFind =
+        var nameIntelligentObjectDefinition =
                 this.newNameDefinitions.stream()
                         .filter(definition -> definition.Definition().sameGuidAndVersion(nodeDefinition))
                         .findAny()
                         .orElse(null);
 
-        if (newFind != null) {
-            objectDefinition = newFind.Definition();
+        if (nameIntelligentObjectDefinition != null) {
+            objectDefinition = nameIntelligentObjectDefinition.Definition();
         }
 
         if (objectDefinition == null) {
-            newFind = new InternalReference.NameIntelligentObjectDefinition(nodeDefinition,
+            nameIntelligentObjectDefinition = new NameIntelligentObjectDefinition(nodeDefinition,
                     nodeDefinition.Name());
-            this.newNameDefinitions.add(newFind);
+            this.newNameDefinitions.add(nameIntelligentObjectDefinition);
         }
 
         if (name != null) {
-            newFind.Name(name);
+            nameIntelligentObjectDefinition.Name(name);
         }
 
-        newFind = this.reserveNameDefinitions.stream()
+        nameIntelligentObjectDefinition = this.reserveNameDefinitions.stream()
                 .filter(definition -> definition.Definition().sameGuidAndVersion(nodeDefinition))
                 .findAny()
                 .orElse(null);
 
-        if (newFind != null) {
-            this.reserveNameDefinitions.remove(newFind);
+        if (nameIntelligentObjectDefinition != null) {
+            this.reserveNameDefinitions.remove(nameIntelligentObjectDefinition);
         }
     }
 
@@ -404,7 +406,7 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
                     .findFirst()
                     .ifPresent(t -> {
                                 if (t.Definition().propertyVersionDifferent(this.intelligentObjectDefinition)) {
-                                    this.transportDefinition((NodeDefinition) definition, t.Name());
+                                    this.transportToNewDefinitions((NodeDefinition) definition, t.Name());
                                 } else {
                                     t.Definition(definition);
                                 }
@@ -478,27 +480,60 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
     }
 
     public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
-        return false;
+        return SomeXmlOperator.xmlReaderElementOperator(xmlReader, "InternalReferences", null,
+                (XmlReader body) -> SomeXmlOperator.xmlReaderElementOperator(body, "InternalReference",
+                        (XmlReader attr) -> {
+                            class Tmp {
+                                String id;
+                                String name;
+                                String type;
+                            }
+                            var tmp = new Tmp();
+                            SomeXmlOperator.readXmlAttributeString(xmlReader, "Id", t -> tmp.id = t);
+                            SomeXmlOperator.readXmlAttributeString(xmlReader, "Name", t -> tmp.name = t);
+                            SomeXmlOperator.readXmlAttributeString(xmlReader, "Type", t -> tmp.type = t);
+                            if (!Strings.isNullOrEmpty(tmp.id) && !Strings.isNullOrEmpty(tmp.name)) {
+                                IntelligentObjectDefinition intelligentObjectDefinition =
+                                        intelligentObjectXml.readIntelligentObjectDefinitionByName(tmp.id, null,
+                                                this.intelligentObjectDefinition.activeModel != null ?
+                                                        this.intelligentObjectDefinition.activeModel.projectDefinition : null,
+                                                false, false);
+                                if (intelligentObjectDefinition != null) {
+                                    if (Objects.equals(tmp.name, "AssociatedReference")) {
+                                        this.newNameDefinitions
+                                                .add(new InternalReference.NameIntelligentObjectDefinition(intelligentObjectDefinition,
+                                                        tmp.name));
+                                        return;
+                                    }
+
+                                    this.reserveNameDefinitions.add(new InternalReference.NameIntelligentObjectDefinition(intelligentObjectDefinition, tmp.name));
+                                }
+                            }
+                        }, null));
     }
 
     public void transportDefinitions(NodeDefinition nodeDefinition, String name) {
         IntelligentObjectDefinition objectDefinition = null;
-        InternalReference.NameIntelligentObjectDefinition newFind =
-                this.newNameDefinitions.stream().filter((InternalReference.NameIntelligentObjectDefinition definition) ->
-                        definition.Definition().sameGuidAndVersion(nodeDefinition)).findFirst().orElse(null);
+        NameIntelligentObjectDefinition newFind =
+                this.newNameDefinitions.stream()
+                        .filter((NameIntelligentObjectDefinition definition) -> definition.Definition().sameGuidAndVersion(nodeDefinition))
+                        .findFirst()
+                        .orElse(null);
         if (newFind != null) {
             objectDefinition = newFind.Definition();
         }
         if (objectDefinition == null) {
-            newFind = new InternalReference.NameIntelligentObjectDefinition(nodeDefinition, nodeDefinition.Name());
+            newFind = new NameIntelligentObjectDefinition(nodeDefinition, nodeDefinition.Name());
             this.newNameDefinitions.add(newFind);
         }
         if (name != null) {
             newFind.Name(name);
         }
         newFind =
-                this.reserveNameDefinitions.stream().filter((InternalReference.NameIntelligentObjectDefinition definition) ->
-                        definition.Definition().sameGuidAndVersion(nodeDefinition)).findFirst().orElse(null);
+                this.reserveNameDefinitions.stream().filter((NameIntelligentObjectDefinition definition) ->
+                                definition.Definition().sameGuidAndVersion(nodeDefinition))
+                        .findFirst()
+                        .orElse(null);
         if (newFind != null) {
             this.reserveNameDefinitions.remove(newFind);
         }

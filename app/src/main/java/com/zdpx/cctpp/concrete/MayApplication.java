@@ -138,84 +138,58 @@ public class MayApplication implements ITrace {
         if (this.ActiveModel() == null) {
             return unitCarry;
         }
-        switch (unitType) {
-            case Time:
-                return this.ActiveModel().getRunSetup().getTimeInitValue(unitCarry);
-            case TravelRate:
-                return this.ActiveModel().getRunSetup().getTravelRateInitValue(unitCarry);
-            case Length:
-                return this.ActiveModel().getRunSetup().getLengthInitValue(unitCarry);
-            case Currency:
-                return this.ActiveModel().getRunSetup().getCurrencyInitValue(unitCarry);
-            case CurrencyPerTimeUnit:
-                return this.ActiveModel().getRunSetup().getCurrencyPerTimeUnitInitValue(unitCarry);
-            case Volume:
-                return this.ActiveModel().getRunSetup().getVolumeInitValue(unitCarry);
-            case Weight:
-                return this.ActiveModel().getRunSetup().getWeightinitValue(unitCarry);
-            case VolumeFlowRate:
-                return this.ActiveModel().getRunSetup().getVolumeFlowRateInitValue(unitCarry);
-            case WeightFlowRate:
-                return this.ActiveModel().getRunSetup().getWeightFlowRateinitValue(unitCarry);
-            case TravelAcceleration:
-                return this.ActiveModel().getRunSetup().getTravelAccelerationInitValue(unitCarry);
-            default:
-                return unitCarry;
-        }
+
+        var runSetup = this.ActiveModel().getRunSetup();
+        return switch (unitType) {
+            case Time -> runSetup.getTimeInitValue(unitCarry);
+            case TravelRate -> runSetup.getTravelRateInitValue(unitCarry);
+            case Length -> runSetup.getLengthInitValue(unitCarry);
+            case Currency -> runSetup.getCurrencyInitValue(unitCarry);
+            case CurrencyPerTimeUnit -> runSetup.getCurrencyPerTimeUnitInitValue(unitCarry);
+            case Volume -> runSetup.getVolumeInitValue(unitCarry);
+            case Weight -> runSetup.getWeightinitValue(unitCarry);
+            case VolumeFlowRate -> runSetup.getVolumeFlowRateInitValue(unitCarry);
+            case WeightFlowRate -> runSetup.getWeightFlowRateinitValue(unitCarry);
+            case TravelAcceleration -> runSetup.getTravelAccelerationInitValue(unitCarry);
+            default -> unitCarry;
+        };
     }
 
     public String getUnitDescription(UnitType unitType) {
         if (this.ActiveModel() != null) {
-            switch (unitType) {
-                case Time:
-                    return this.ActiveModel().getRunSetup().getTimeUnitDescription();
-                case TravelRate:
-                    return this.ActiveModel().getRunSetup().getTravelRateUnitDescription();
-                case Length:
-                    return this.ActiveModel().getRunSetup().getLengthUnitDescription();
-                case Currency:
-                    return this.ActiveModel().getRunSetup().getCurrencyUnitDescription();
-                case CurrencyPerTimeUnit:
-                    return this.ActiveModel().getRunSetup().getCurrencyPerTimeUnitUnitDescription();
-                case Volume:
-                    return this.ActiveModel().getRunSetup().getVolumeUnitDescription();
-                case Weight:
-                    return this.ActiveModel().getRunSetup().getWeightUnitDescription();
-                case VolumeFlowRate:
-                    return this.ActiveModel().getRunSetup().getVolumeFlowRateUnitDescription();
-                case WeightFlowRate:
-                    return this.ActiveModel().getRunSetup().getWeightFlowRateUnitDescription();
-                case TravelAcceleration:
-                    return this.ActiveModel().getRunSetup().getTravelAccelerationUnitDescription();
-                default:
-                    return "";
-            }
+            final RunSetup runSetup = this.ActiveModel().getRunSetup();
+            return switch (unitType) {
+                case Time -> runSetup.getTimeUnitDescription();
+                case TravelRate -> runSetup.getTravelRateUnitDescription();
+                case Length -> runSetup.getLengthUnitDescription();
+                case Currency -> runSetup.getCurrencyUnitDescription();
+                case CurrencyPerTimeUnit -> runSetup.getCurrencyPerTimeUnitUnitDescription();
+                case Volume -> runSetup.getVolumeUnitDescription();
+                case Weight -> runSetup.getWeightUnitDescription();
+                case VolumeFlowRate -> runSetup.getVolumeFlowRateUnitDescription();
+                case WeightFlowRate -> runSetup.getWeightFlowRateUnitDescription();
+                case TravelAcceleration -> runSetup.getTravelAccelerationUnitDescription();
+                default -> "";
+            };
         } else {
-            switch (unitType) {
-                case Time:
-                    return AboutUnit.getUnitPerDescription(UnitType.Time, 0);
-                case TravelRate:
-                    return AboutUnit.getUnitPerDescription(UnitType.TravelRate, 0);
-                case Length:
-                    return AboutUnit.getUnitPerDescription(UnitType.Length, 0);
-                case Currency:
-                    return AboutUnit.getUnitPerDescription(UnitType.Currency, CurrencyWrapper.unitType);
-                case CurrencyPerTimeUnit:
-                    return AboutUnit.getUnitPerDescription(UnitType.CurrencyPerTimeUnit, CurrencyWrapper.level);
-                case Volume:
-                    return AboutUnit.getUnitPerDescription(UnitType.Volume, 0);
-                case Weight:
-                    return AboutUnit.getUnitPerDescription(UnitType.Weight, 0);
-                case VolumeFlowRate:
-                    return AboutUnit.getUnitPerDescription(UnitType.VolumeFlowRate, AboutUnit.getUnitTypeIndex(0, 0));
-                case WeightFlowRate:
-                    return AboutUnit.getUnitPerDescription(UnitType.WeightFlowRate, AboutUnit.getUnitTypeIndex(0, 0));
-                case TravelAcceleration:
-                    return AboutUnit.getUnitPerDescription(UnitType.TravelAcceleration, AboutUnit.getUnitTypeIndex(0,
-                            0));
-                default:
-                    return "";
-            }
+            return switch (unitType) {
+                case Time -> AboutUnit.getUnitPerDescription(UnitType.Time, 0);
+                case TravelRate -> AboutUnit.getUnitPerDescription(UnitType.TravelRate, 0);
+                case Length -> AboutUnit.getUnitPerDescription(UnitType.Length, 0);
+                case Currency -> AboutUnit.getUnitPerDescription(UnitType.Currency, CurrencyWrapper.unitType);
+                case CurrencyPerTimeUnit -> AboutUnit.getUnitPerDescription(UnitType.CurrencyPerTimeUnit,
+                        CurrencyWrapper.level);
+                case Volume -> AboutUnit.getUnitPerDescription(UnitType.Volume, 0);
+                case Weight -> AboutUnit.getUnitPerDescription(UnitType.Weight, 0);
+                case VolumeFlowRate -> AboutUnit.getUnitPerDescription(UnitType.VolumeFlowRate,
+                        AboutUnit.getUnitTypeIndex(0, 0));
+                case WeightFlowRate -> AboutUnit.getUnitPerDescription(UnitType.WeightFlowRate,
+                        AboutUnit.getUnitTypeIndex(0, 0));
+                case TravelAcceleration -> AboutUnit.getUnitPerDescription(UnitType.TravelAcceleration,
+                        AboutUnit.getUnitTypeIndex(0,
+                        0));
+                default -> "";
+            };
         }
     }
 

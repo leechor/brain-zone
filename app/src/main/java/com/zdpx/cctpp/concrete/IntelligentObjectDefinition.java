@@ -92,7 +92,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- *
+ * general object definition
  */
 public class IntelligentObjectDefinition extends AbsDefinition implements IFacility, IIntelligentObjects,
         IModel, IRunSetup, IPlan {
@@ -2985,7 +2985,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     }
 
     private void flashState() {
-        // TODO: 2021/11/30 
+        this.flashState(true);
     }
 
     private void propertyListenHandle(Action<IListener> propertyAction, Enum6 enum6) {
@@ -3222,13 +3222,10 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     }
 
     public void changeNameSome(IntelligentObjectDefinition intelligentObjectDefinition, String string_0) {
-//		if (this.method_402())
-//		{
-//			this.propertyListenHandle_1(delegate(IListener listener)
-//			{
-//				listener.UpdateForParentObjectLibraryDefinitionChange(intelligentObjectDefinition, (Enum38)1);
-//			});
-//		}
+        if (this.noUpdating()) {
+            this.propertyListenHandle_1((IListener listener) ->
+                    listener.UpdateForParentObjectLibraryDefinitionChange(intelligentObjectDefinition, Enum38.One));
+        }
         this.flashState();
     }
 
@@ -4894,16 +4891,15 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     }
 
     public void removeWorkSchedule(WorkSchedule workSchedule) {
-        		this.removeObjectByName(workSchedule.Name(), workSchedule);
-		this.propertyListenHandle_1((IListener t) ->
+        this.removeObjectByName(workSchedule.Name(), workSchedule);
+        this.propertyListenHandle_1((IListener t) ->
                 t.UpdateForParentObjectWorkScheduleChange(workSchedule, Enum38.Zero));
-		this.processChildrenDefinition((IntelligentObjectDefinition t) ->
+        this.processChildrenDefinition((IntelligentObjectDefinition t) ->
                 t.getWorkSchedulesUtils().getWorkSchedules().Remove(workSchedule));
-		this.activeModel.getErrors().RemoveErrorByObject(workSchedule);
-		if (workSchedule.IsOwnedBy(this))
-		{
-			this.resetTable(255);
-		}
+        this.activeModel.getErrors().RemoveErrorByObject(workSchedule);
+        if (workSchedule.IsOwnedBy(this)) {
+            this.resetTable(255);
+        }
     }
 
     public enum Enum_7 {
