@@ -11,13 +11,14 @@ import java.util.List;
  *
  */
 public class EventDefinitions implements IEventDefinitions {
-    public AbsDefinition AbsDefinition;
+    // AbsDefinition
+    public AbsDefinition parent;
     private BindingList<EventDefinition> eventDefinitions;
     private ActionRun actionRun;
     public BindingList<EventDefinition> EventDefinitionBindingList;
 
     public EventDefinitions(AbsDefinition absDefinition) {
-        this.AbsDefinition = absDefinition;
+        this.parent = absDefinition;
         this.EventDefinitionBindingList = new BindingList<>();
     }
 
@@ -26,8 +27,8 @@ public class EventDefinitions implements IEventDefinitions {
         return null;
     }
 
-    public AbsDefinition getAbsDefinition() {
-        return AbsDefinition;
+    public AbsDefinition getParent() {
+        return parent;
     }
 
     public BindingList<EventDefinition> getEventDefinitions() {
@@ -79,7 +80,7 @@ public class EventDefinitions implements IEventDefinitions {
             eventDefinition.EventDefinitions = this;
         }
         this.EventDefinitionBindingList.Insert(index, eventDefinition);
-        List<AbsPropertyObject> list = this.AbsDefinition.getAssociatedInstances();
+        List<AbsPropertyObject> list = this.parent.getAssociatedInstances();
         for (AbsPropertyObject absPropertyObject : list) {
             AbsIntelligentPropertyObject absIntelligentPropertyObject =
                     (AbsIntelligentPropertyObject) absPropertyObject;
@@ -91,13 +92,13 @@ public class EventDefinitions implements IEventDefinitions {
             EventDefinition definition = (EventDefinition) obj;
             definition.eventIndex = num++;
         }
-        this.AbsDefinition.NotifyEventAdded(this, eventDefinition, index);
+        this.parent.NotifyEventAdded(this, eventDefinition, index);
     }
 
     public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         return SomeXmlOperator.xmlReaderElementOperator(xmlReader, "Events", null,
                 (XmlReader body) -> EventDefinition.readXmlEventDefinition(body, intelligentObjectXml,
-                        this.AbsDefinition) != null);
+                        this.parent) != null);
     }
 
     public void addEventDefinition(EventDefinition eventDefinition) {

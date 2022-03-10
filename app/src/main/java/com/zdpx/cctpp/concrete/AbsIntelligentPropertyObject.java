@@ -12,7 +12,6 @@ import com.zdpx.cctpp.resource.Image;
 import com.zdpx.cctpp.simioEnums.ElementScope;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,29 +22,26 @@ import java.util.Objects;
  */
 public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject implements IItemDescriptor {
 
-    private static final String groupName =
-            MemberExpressionUtils.getMemberExpressionMemberName("Group");
+    private static final String GROUP_NAME = MemberExpressionUtils.getMemberExpressionMemberName("Group");
+    private static final String  PUBLIC = "public";
     protected static String instanceName = "InstanceName";
+    private static final String INSTANCE_NAME = "InstanceName";
     public boolean bool_0;
     public int index;
     public int processPropertyIndex;
 
 
     private ElementScope scope;
-
+    public EventInfos EventInfos;
+    private boolean autoCreated;
     public StateIGridItemPropertyObjectList StateIGridItemPropertyObjectList;
 
-    public EventInfos EventInfos;
-
-    private boolean autoCreated;
-
-    private static final String INSTANCE_NAME = "InstanceName";
 
     private BooleanPropertyRow booleanPropertyRow;
+    private ElementScope elementScope;
 
     private static final String MEMBER_EXPRESSION_NAME =
             MemberExpressionUtils.getMemberExpressionMemberName(AbsIntelligentPropertyObject::Group);
-    private ElementScope elementScope;
 
 
     protected AbsIntelligentPropertyObject(GridObjectDefinition definition, String name, ElementScope scope) {
@@ -86,19 +82,20 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     public void Scope(ElementScope value) {
         this.elementScope = value;
-        super.propertyChanged("Public");
+        super.propertyChanged(PUBLIC);
     }
 
+    @Override
     public void InstanceName(String name) {
         if (Objects.equals(INSTANCE_NAME, name)) {
             return;
         }
 
-        String instanceName = this.InstanceName();
+        String preInstanceName = this.InstanceName();
         super.InstanceName(name);
         this.propertyChanged(AbsIntelligentPropertyObject.INSTANCE_NAME);
         if (super.getIntelligentObjectFacility() != null) {
-            super.getIntelligentObjectFacility().method_382(this, instanceName);
+            super.getIntelligentObjectFacility().method_382(this, preInstanceName);
         }
     }
 
@@ -110,14 +107,13 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     public void setScope(ElementScope scope) {
         this.scope = scope;
-        this.propertyChanged("Public");
+        this.propertyChanged(PUBLIC);
     }
 
     protected AbsBaseRunSpace getRunSpaceOutOfParent(
             IntelligentObjectRunSpace statisticsDataSourceIntelligentObject) {
         return statisticsDataSourceIntelligentObject.getAbsBaseStatisticsDataSources()[this.index];
     }
-
 
     public AbsBaseRunSpace GetRunSpaceRecursionOutOfParent(IntelligentObjectRunSpace intelligentObject) {
         if (intelligentObject == null) {
@@ -146,8 +142,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
 
     public void RemoveExistingRunSpace(IntelligentObjectRunSpace intelligentObject) {
-        AbsBaseRunSpace absBaseRunSpace =
-                this.GetRunSpaceRecursionOutOfParent(intelligentObject);
+        AbsBaseRunSpace absBaseRunSpace = this.GetRunSpaceRecursionOutOfParent(intelligentObject);
         absBaseRunSpace.Clear(Enum34.V_1);
         int num = intelligentObject.getAbsBaseStatisticsDataSources().length - 1;
 
@@ -167,19 +162,16 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     public void AddNewRunSpace(IntelligentObjectRunSpace intelligentObject) {
         AbsBaseRunSpace absBaseRunSpace =
-                this.CreateRunSpaceWithPopulation(intelligentObject,
-                        intelligentObject.getMayApplication());
+                this.CreateRunSpaceWithPopulation(intelligentObject, intelligentObject.getMayApplication());
 
         if (intelligentObject.getAbsBaseStatisticsDataSources() != null) {
-            int num = intelligentObject.getAbsBaseStatisticsDataSources().length + 1;
-            AbsBaseRunSpace[] array = new AbsBaseRunSpace[num];
-            array = Arrays.copyOf(intelligentObject.getAbsBaseStatisticsDataSources(),
-                    intelligentObject.getAbsBaseStatisticsDataSources().length);
-            array[num - 1] = absBaseRunSpace;
+            int num = intelligentObject.getAbsBaseStatisticsDataSources().length;
+            AbsBaseRunSpace[] array = new AbsBaseRunSpace[num + 1];
+            System.arraycopy(intelligentObject.getAbsBaseStatisticsDataSources(), 0, array, 0, num);
+            array[num] = absBaseRunSpace;
             intelligentObject.setAbsBaseStatisticsDataSources(array);
         } else {
-            intelligentObject.setAbsBaseStatisticsDataSources(
-                    new AbsBaseRunSpace[]{absBaseRunSpace});
+            intelligentObject.setAbsBaseStatisticsDataSources(new AbsBaseRunSpace[]{absBaseRunSpace});
         }
     }
 
@@ -405,17 +397,18 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     public void AutoCreated(boolean value) {
         this.autoCreated = value;
-        super.propertyChanged(AbsIntelligentPropertyObject.groupName);
+        super.propertyChanged(AbsIntelligentPropertyObject.GROUP_NAME);
     }
 
     public void readXmlAttribute(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         Map<String, String> savedAttributes = new HashMap<>();
         String elementName = xmlReader.Name();
         SomeXmlOperator.xmlReaderElementAll(xmlReader, xmlReader.Name(), (XmlReader attr) -> {
-
                     Boolean flag = false;
                     String name = attr.GetAttribute("Name");
-                    if (((intelligentObjectXml.Mode() == IntelligentObjectXml.ModeType.Two && this.SetInstanceNameOnPaste()) || intelligentObjectXml.Mode() != IntelligentObjectXml.ModeType.Two) && !Strings.isNullOrEmpty(name) && !StringHelper.equalsLocal(name, this.InstanceName())) {
+                    if (((intelligentObjectXml.Mode() == IntelligentObjectXml.ModeType.Two && this.SetInstanceNameOnPaste()) ||
+                            intelligentObjectXml.Mode() != IntelligentObjectXml.ModeType.Two) && 
+                            !Strings.isNullOrEmpty(name) && !StringHelper.equalsLocal(name, this.InstanceName())) {
                         if (intelligentObjectXml.Mode() == IntelligentObjectXml.ModeType.Two && this.Parent() != null) {
                             String uniqueName = this.Parent().GetUniqueName(name, false);
                             if (!Objects.equals(this.InstanceName(), uniqueName)) {
@@ -435,7 +428,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
                     }
                     SomeXmlOperator.readXmlBooleanAttribute(xmlReader, "AutoCreated", this::AutoCreated);
                     String scope = attr.GetAttribute("Scope");
-                    if (scope.equalsIgnoreCase("Public")) {
+                    if (scope.equalsIgnoreCase("public")) {
                         this.Scope(ElementScope.Public);
                     }
                     String description = attr.GetAttribute("Description");
@@ -473,6 +466,6 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
     }
 
     public boolean ExpressionResultPosive(IntelligentObjectRunSpace intelligentObjectRunSpace) {
-		return this.booleanPropertyRow.getExpressionResult(null, intelligentObjectRunSpace, null).toDouble() > 0.0;
+        return this.booleanPropertyRow.getExpressionResult(null, intelligentObjectRunSpace, null).toDouble() > 0.0;
     }
 }

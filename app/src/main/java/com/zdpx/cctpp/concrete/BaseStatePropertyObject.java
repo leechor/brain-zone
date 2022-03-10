@@ -328,9 +328,9 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
     public void UnitTypePropertyName(String value) {
         this.unitTypePropertyName = value;
         this.stringPropertyDefinition = null;
-        if (this.StateDefinitions != null && this.StateDefinitions.AbsDefinition != null && this.StateDefinitions.AbsDefinition.getPropertyDefinitions() != null) {
+        if (this.StateDefinitions != null && this.StateDefinitions.parent != null && this.StateDefinitions.parent.getPropertyDefinitions() != null) {
             this.UnitTypePropertyDefinition(
-                    this.StateDefinitions.AbsDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(this.unitTypePropertyName));
+                    this.StateDefinitions.parent.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(this.unitTypePropertyName));
         }
     }
 
@@ -392,9 +392,9 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
 //        this.currencyIndex = this.
         this.propertyChanged("UnitType");
         if (this.StateDefinitions != null) {
-            if (this.StateDefinitions.getAbsDefinition() instanceof TableStateDefinition) {
+            if (this.StateDefinitions.getParent() instanceof TableStateDefinition) {
                 TableStateDefinition tableStateDefinition =
-                        (TableStateDefinition) this.StateDefinitions.getAbsDefinition();
+                        (TableStateDefinition) this.StateDefinitions.getParent();
                 if (tableStateDefinition.getSchema() != null && tableStateDefinition.getSchema().getParent() != null) {
                     tableStateDefinition.getSchema().getParent().method_23(this);
                 }
@@ -419,9 +419,9 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
     double getUnitValue() {
         if (this.unitType != UnitType.Unspecified) {
             UnitConversions unitConversions = null;
-            if (this.StateDefinitions.getAbsDefinition() instanceof IntelligentObjectDefinition) {
+            if (this.StateDefinitions.getParent() instanceof IntelligentObjectDefinition) {
                 IntelligentObjectDefinition intelligentObjectDefinition =
-                        (IntelligentObjectDefinition) this.StateDefinitions.getAbsDefinition();
+                        (IntelligentObjectDefinition) this.StateDefinitions.getParent();
                 if (intelligentObjectDefinition.ActiveModel() != null) {
                     unitConversions =
                             intelligentObjectDefinition.ActiveModel().getRunSetup().getUnitConversions();
@@ -517,7 +517,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
 
     private AbsDefinition getAbsDefinition() {
         if (this.StateDefinitions != null) {
-            return this.StateDefinitions.AbsDefinition;
+            return this.StateDefinitions.parent;
         }
         return null;
     }
@@ -763,7 +763,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
     }
 
     public boolean IsOwnedBy(GridObjectDefinition gridObjectDefinition) {
-        return this.StateDefinitions != null && this.StateDefinitions.AbsDefinition == gridObjectDefinition && (!(gridObjectDefinition
+        return this.StateDefinitions != null && this.StateDefinitions.parent == gridObjectDefinition && (!(gridObjectDefinition
                 instanceof TokenDefinition) || this.StateDefinitions.StateProperties.values.get(0) != this);
 
     }

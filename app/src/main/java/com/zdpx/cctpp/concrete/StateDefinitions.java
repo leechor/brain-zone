@@ -12,13 +12,13 @@ import java.util.List;
  *
  */
 public class StateDefinitions implements IIdentityName, IStateDefinitions {
-
-    public AbsDefinition AbsDefinition;
+    // AbsDefinition
+    public AbsDefinition parent;
 
     public BindingList<BaseStatePropertyObject> StateProperties;
 
     public StateDefinitions(AbsDefinition absDefinition) {
-        this.AbsDefinition = absDefinition;
+        this.parent = absDefinition;
         this.StateProperties = new BindingList<>();
     }
 
@@ -32,7 +32,7 @@ public class StateDefinitions implements IIdentityName, IStateDefinitions {
             stateProperty.StateDefinitions = this;
         }
         this.StateProperties.Insert(index, stateProperty);
-        List<AbsPropertyObject> list = this.AbsDefinition.getAssociatedInstances();
+        List<AbsPropertyObject> list = this.parent.getAssociatedInstances();
         for (AbsPropertyObject absPropertyObject : list) {
             AbsIntelligentPropertyObject absIntelligentPropertyObject =
                     (AbsIntelligentPropertyObject) absPropertyObject;
@@ -46,7 +46,7 @@ public class StateDefinitions implements IIdentityName, IStateDefinitions {
             }
             num++;
         }
-        this.AbsDefinition.NotifyStateAdded(this, stateProperty, index);
+        this.parent.NotifyStateAdded(this, stateProperty, index);
     }
 
     @Override
@@ -104,12 +104,12 @@ public class StateDefinitions implements IIdentityName, IStateDefinitions {
         return null;
     }
 
-    public AbsDefinition getAbsDefinition() {
-        return AbsDefinition;
+    public AbsDefinition getParent() {
+        return parent;
     }
 
-    public void setAbsDefinition(AbsDefinition absDefinition) {
-        this.AbsDefinition = absDefinition;
+    public void setParent(AbsDefinition parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class StateDefinitions implements IIdentityName, IStateDefinitions {
 
     public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         return SomeXmlOperator.xmlReaderElementOperator(xmlReader, this.getName(), null,
-                (XmlReader body) -> BaseStatePropertyObject.readXml(xmlReader, intelligentObjectXml, this.AbsDefinition) != null);
+                (XmlReader body) -> BaseStatePropertyObject.readXml(xmlReader, intelligentObjectXml, this.parent) != null);
 
     }
 

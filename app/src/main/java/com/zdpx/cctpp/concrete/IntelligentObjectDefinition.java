@@ -181,7 +181,6 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     private List<ChangeDescription> changeDescriptions = new ArrayList<>();
 
-
     private static Guid[] standardLibraryUUID = new Guid[]{
             new Guid("{585953CA-C744-444b-92D9-8AF032F3E9A1}"),
             new Guid("{0D40FBF0-8206-443f-B771-65F85633A2F6}"),
@@ -199,6 +198,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             new Guid("{FF39356C-A4F9-412c-BB3D-14BAF4DC5D11}"),
             new Guid("{205487E1-5E9E-4b70-B80B-A6C333F7F872}")
     };
+
     private IContextBound animationSetup;
     private IContextBound defaultAdditionalSymbol;
     private IContextBound dashboard;
@@ -222,11 +222,12 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     private EventHandler<GridObjectEventArgs> propertyChangeEvent;
     private EventHandler<IntelligentObjectPropertyEventArgs> objectPropertyChangeEvent;
     private EventHandler<EventArgs> resourceLogicChangedEvent;
-    private boolean bool_6;
     private EventHandler<IntelligentObject> propertyUpdatedEvent;
     private EventHandler<IntelligentObjectDefinition.DefinitionNameChangedEventArgs> definitionNameChangedEvent;
     private EventHandler<IntelligentObjectDefinition.GridObjectInsertEventArgs> insertGridObjectEventHandler;
+    private EventHandler<IntelligentObjectDefinition.ElementEventArgs> processPropertyEventHandler;
 
+    private boolean bool_6;
 
     public IntelligentObjectDefinition(String name) {
         super(name);
@@ -347,59 +348,52 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
                                                                 SimioProjectDefinition simioProjectDefinition,
                                                                 Enum8 enum8) {
         String name = xmlReader.Name();
-        if (name.endsWith("Definition")) {
-            String preName = name.substring(0, name.length() - "Definition".length());
-            String attributeName = xmlReader.GetAttribute("Name");
-            String baseClass = xmlReader.GetAttribute("BaseClass");
-            IntelligentObjectDefinition baseClassDefinition = null;
+        if (!name.endsWith("Definition")) {
+            return null;
+        }
 
-            if (!Strings.isNullOrEmpty(baseClass)) {
-                baseClassDefinition = intelligentObjectXml.readIntelligentObjectDefinitionByName(baseClass,
-                        null, null, false, false);
-                if (baseClassDefinition == null) {
-                    return null;
-                }
-            }
-            IntelligentObjectDefinition objectDefinition = null;
-            ObjectClass objectClass = ObjectClass.valueOf(preName);
+        String preName = name.substring(0, name.length() - "Definition".length());
+        String attributeName = xmlReader.GetAttribute("Name");
+        String baseClass = xmlReader.GetAttribute("BaseClass");
+        IntelligentObjectDefinition baseClassDefinition = null;
 
-            if (objectClass != ObjectClass.Object && !Strings.isNullOrEmpty(attributeName)) {
-                switch (objectClass) {
-                    case Fixed:
-                        objectDefinition = new FixedDefinition(attributeName, null, baseClassDefinition);
-                        break;
-                    case Entity:
-                        objectDefinition = new EntityDefinition(attributeName, null, baseClassDefinition);
-                        break;
-                    case Transporter:
-                        objectDefinition = new TransporterDefinition(attributeName, null, baseClassDefinition);
-                        break;
-                    case Link:
-                        objectDefinition = new LinkDefinition(attributeName, null,
-                                (LinkDefinition) baseClassDefinition);
-                        break;
-                    case Agent:
-                        objectDefinition = new AgentDefinition(attributeName, null, baseClassDefinition);
-                        break;
-                    case Node:
-                        objectDefinition = new NodeDefinition(attributeName, null, baseClassDefinition);
-                        break;
-                }
+        if (!Strings.isNullOrEmpty(baseClass)) {
+            baseClassDefinition = intelligentObjectXml.readIntelligentObjectDefinitionByName(baseClass,
+                    null, null, false, false);
+            if (baseClassDefinition == null) {
+                return null;
             }
-            if (objectDefinition != null) {
-                if (objectDefinition.activeModel == null) {
-                    objectDefinition.activeModel = new ActiveModel(objectDefinition);
-                    objectDefinition.activeModel.parentProjectDefinition = simioProjectDefinition;
-                }
-                intelligentObjectXml.initContextBound(objectDefinition);
-                objectDefinition.readXmlDefinition(xmlReader, intelligentObjectXml, enum8);
-                objectDefinition.activeModel.initIntelligentObject();
-                return objectDefinition;
+        }
+
+        ObjectClass objectClass = ObjectClass.valueOf(preName);
+
+        IntelligentObjectDefinition objectDefinition = null;
+        if (objectClass != ObjectClass.Object && !Strings.isNullOrEmpty(attributeName)) {
+            objectDefinition = switch (objectClass) {
+                case Fixed -> new FixedDefinition(attributeName, null, baseClassDefinition);
+                case Entity -> new EntityDefinition(attributeName, null, baseClassDefinition);
+                case Transporter -> new TransporterDefinition(attributeName, null, baseClassDefinition);
+                case Link -> new LinkDefinition(attributeName, null, (LinkDefinition) baseClassDefinition);
+                case Agent -> new AgentDefinition(attributeName, null, baseClassDefinition);
+                case Node -> new NodeDefinition(attributeName, null, baseClassDefinition);
+                default -> throw new IllegalStateException("Unexpected value: " + objectClass);
+            };
+        }
+
+        if (objectDefinition != null) {
+            if (objectDefinition.activeModel == null) {
+                objectDefinition.activeModel = new ActiveModel(objectDefinition);
+                objectDefinition.activeModel.parentProjectDefinition = simioProjectDefinition;
             }
+            intelligentObjectXml.initContextBound(objectDefinition);
+            objectDefinition.readXmlDefinition(xmlReader, intelligentObjectXml, enum8);
+            objectDefinition.activeModel.initIntelligentObject();
+            return objectDefinition;
         }
         return null;
     }
 
+    @SuppressWarnings("rawtypes")
     public static int getObjectClassProcessTypeIndexByName(ObjectClass objectClass, String interfaceProcessId) {
         Class<? extends Enum> enumType = IntelligentObjectDefinition.getProcessType(objectClass);
         Enum[] names = enumType.getEnumConstants();
@@ -413,7 +407,6 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         return -1;
     }
 
-
     private void settingNetworkProperty() {
         this.NetworkProperty = NetworkDefinition.createInstance(NetworkDefinition.name);
         this.NetworkProperty.Parent(this);
@@ -422,9 +415,8 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         this.NetworkProperty.properties.init();
     }
 
-
     private void initIntelligentObjectDefinition(ActiveModel activeModel, Guid guid, boolean param2,
-                                                 IntelligentObjectDefinition intelligentObjectDefinition) {
+                                                 IntelligentObjectDefinition parent) {
         this.activeModel = activeModel;
         this.guid = guid;
         this.childrenObject = new ArrayList<>();
@@ -434,7 +426,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         this.processProperties = new ArrayList<>(2);
         this.tokenProperties = new ArrayList<>(2);
         this.transferPoints = new ArrayList<>(2);
-        this.parent = intelligentObjectDefinition;
+        this.parent = parent;
         this.changeoverMatrices = new ChangeoverMatrices(this);
         this.functionTables = new FunctionTables(this);
         this.resourceLogExpressions = new ResourceLogExpressions(this);
@@ -447,7 +439,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         PropertyDefinitions propertyDefinitions = super.getPropertyDefinitions();
         StateDefinitions stateDefinitions = super.getStateDefinitions();
         EventDefinitions eventDefinitions = super.getEventDefinitions();
-        for (StringPropertyDefinition stringPropertyDefinition : definition.getPropertyDefinitions().values) {
+        for (StringPropertyDefinition stringPropertyDefinition : definition.getPropertyDefinitions().getValues()) {
             propertyDefinitions.addDefinition(stringPropertyDefinition);
         }
         for (PropertyDefinitionFacade propertyDefinitionFacade :
@@ -455,53 +447,53 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             propertyDefinitions.addPropertyDefinition(propertyDefinitionFacade);
         }
         for (BaseStatePropertyObject baseStatePropertyObject :
-                definition.getStateDefinitions().StateProperties.values) {
+                definition.getStateDefinitions().StateProperties.getValues()) {
             stateDefinitions.addBaseStateProperty(baseStatePropertyObject);
         }
         for (Object obj : definition.getEventDefinitions()) {
             EventDefinition eventDefinition = (EventDefinition) obj;
             eventDefinitions.addEventDefinition(eventDefinition);
         }
-        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : definition.elements.values) {
+        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : definition.elements.getValues()) {
             this.addAbsIntelligentPropertyObject(absIntelligentPropertyObject);
         }
-        for (AbsListProperty item : definition.Lists().values) {
+        for (AbsListProperty item : definition.Lists().getValues()) {
             this.Lists().Add(item);
         }
-        for (Table table : definition.Tables().values) {
+        for (Table table : definition.Tables().getValues()) {
             this.Tables().Add(table);
         }
-        for (ChangeoverMatrix changeoverMatrix : definition.getChangeoverMatrices().values) {
+        for (ChangeoverMatrix changeoverMatrix : definition.getChangeoverMatrices().getValues()) {
             this.getChangeoverMatrices().Add(changeoverMatrix);
         }
-        for (DayPattern dayPattern : definition.getWorkSchedulesUtils().DayPatterns().values) {
+        for (DayPattern dayPattern : definition.getWorkSchedulesUtils().DayPatterns().getValues()) {
             this.getWorkSchedulesUtils().DayPatterns().Add(dayPattern);
         }
-        for (WorkSchedule workSchedule : definition.getWorkSchedulesUtils().getWorkSchedules().values) {
+        for (WorkSchedule workSchedule : definition.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
             this.getWorkSchedulesUtils().getWorkSchedules().Add(workSchedule);
         }
-        for (ExpressionFunction myFunction : definition.ExpressionFunctions().values) {
-            this.ExpressionFunctions().Add(myFunction);
+        for (ExpressionFunction expressionFunction : definition.ExpressionFunctions().getValues()) {
+            this.ExpressionFunctions().Add(expressionFunction);
         }
-        for (AbsInputParameter absInputParameter : definition.InputParameters().values) {
+        for (AbsInputParameter absInputParameter : definition.InputParameters().getValues()) {
             this.InputParameters().Add(absInputParameter);
         }
-        for (RateTable rateTable : definition.RateTables().values) {
+        for (RateTable rateTable : definition.RateTables().getValues()) {
             this.RateTables().Add(rateTable);
         }
-        for (ResourceLogExpression logExpression : definition.getResourceLogExpressions().values) {
+        for (ResourceLogExpression logExpression : definition.getResourceLogExpressions().getValues()) {
             this.getResourceLogExpressions().Add(logExpression);
         }
         for (int i = 0; i < definition.processProperties.size(); i++) {
             this.InsertProcessProperty(definition.processProperties.get(i), i);
         }
         for (NodeClassProperty nodeClassProperty : definition.transferPoints) {
-            this.addNodeClassProperty(nodeClassProperty);
+            this.addTransferPoint(nodeClassProperty);
         }
-        for (UserFunction functionTable : definition.getFunctionTables().values) {
+        for (UserFunction functionTable : definition.getFunctionTables().getValues()) {
             this.getFunctionTables().Add(functionTable);
         }
-        for (TokenDefinition tokenDefinition : definition.getTokens().values) {
+        for (TokenDefinition tokenDefinition : definition.getTokens().getValues()) {
             this.getTokens().Add(tokenDefinition);
         }
         for (IntelligentObject intelligentObject : definition.getChildrenObject()) {
@@ -560,7 +552,6 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             this.lists = new Lists(this);
         }
         return this.lists;
-
     }
 
     @Override
@@ -926,8 +917,8 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             return;
         }
 
-        for (Table table : this.Tables().values) {
-            table.method_79(this.getInteractiveVersion(), this.getPlanResultsVersion(), this.getRiskResultsVersion());
+        for (Table table : this.Tables().getValues()) {
+            table.resetTable(this.getInteractiveVersion(), this.getPlanResultsVersion(), this.getRiskResultsVersion());
         }
 
         if (IEnumMask.contains(resultType, ResultType.InteractiveResults)) {
@@ -2696,10 +2687,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     public void InsertProcessProperty(ProcessProperty processProperty, int index) {
         this.processProperties.add(index, processProperty);
-        // TODO: 2021/11/25 
-//        if (this.elementEvenHandler != null && processProperty != null) {
-//            this.elementEvenHandler(this, new IntelligentObjectDefinition.ElementEventArgs(processProperty));
-//        }
+        EventHandler.fire(this.processPropertyEventHandler, this, new ElementEventArgs(processProperty));
         this.reassignProcessPropertyIndex();
         this.addProcessProperty(processProperty, index);
     }
@@ -2714,8 +2702,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     private void addObjectByName(String instanceName, Object target) {
         this.getNameUtil().addObjectByName(name, target);
-        if (target instanceof ISearch) {
-            ISearch search = (ISearch) target;
+        if (target instanceof ISearch search) {
             if (this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() == this && this.activeModel.parentProjectDefinition != null) {
                 this.activeModel.parentProjectDefinition.getItemEditPolicy().method_0(search, ItemEditPolicy.name,
                         this.activeModel);
@@ -2823,12 +2810,12 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 //            this.elementEvenHandler(this,
 //                    new IntelligentObjectDefinition.ElementEventArgs(absIntelligentPropertyObject));
 //        }
-        this.addElement(absIntelligentPropertyObject, this.elements.values.size() - 1);
+        this.addElement(absIntelligentPropertyObject, this.elements.getValues().size() - 1);
         return absIntelligentPropertyObject;
     }
 
     private void initElement(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
-        absIntelligentPropertyObject.index = this.elements.values.size();
+        absIntelligentPropertyObject.index = this.elements.getValues().size();
         absIntelligentPropertyObject.Parent(this);
         this.elements.add(absIntelligentPropertyObject);
         this.getNameUtil().addObjectByName(absIntelligentPropertyObject.InstanceName(), absIntelligentPropertyObject);
@@ -2849,8 +2836,8 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     private void InsertElement(AbsIntelligentPropertyObject intelligentPropertyObject, int index) {
         this.elements.Insert(index, intelligentPropertyObject);
         EventHandler.fire(this.elementEvenHandler, this, new ElementEventArgs(intelligentPropertyObject));
-        for (int i = index; i < this.elements.values.size(); i++) {
-            this.elements.values.get(i).index = i;
+        for (int i = index; i < this.elements.getValues().size(); i++) {
+            this.elements.getValues().get(i).index = i;
         }
         this.addElement(intelligentPropertyObject, index);
     }
@@ -2989,7 +2976,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     }
 
     private void propertyListenHandle(Action<IListener> propertyAction, Enum6 enum6) {
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             propertyAction.apply(table);
             propertyAction.apply(table.Schema());
         }
@@ -3020,29 +3007,30 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             }
         }
 
-        for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().values) {
+        for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().getValues()) {
             if (enum6 == Enum6.Zero || changeoverMatrix.IsOwnedBy(this)) {
                 propertyAction.apply(changeoverMatrix);
             }
         }
 
-        for (BaseStatePropertyObject baseStatePropertyObject : super.getStateDefinitions().StateProperties.values) {
+        for (BaseStatePropertyObject baseStatePropertyObject :
+                super.getStateDefinitions().StateProperties.getValues()) {
             if (enum6 == Enum6.Zero || baseStatePropertyObject.IsOwnedBy(this)) {
                 propertyAction.apply(baseStatePropertyObject);
             }
         }
 
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             if (enum6 == Enum6.Zero || table.IsOwnedBy(this)) {
                 table.Schema().actionTableStatesDefinition(propertyAction::apply);
             }
         }
 
-        for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().values) {
+        for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
             propertyAction.apply(workSchedule);
             if (enum6 == Enum6.Zero || workSchedule.IsOwnedBy(this)) {
                 propertyAction.apply(workSchedule);
-                for (WorkPeriodException workPeriodException : workSchedule.WorkPeriodExceptions().values) {
+                for (WorkPeriodException workPeriodException : workSchedule.WorkPeriodExceptions().getValues()) {
                     if (enum6 == Enum6.Zero || workPeriodException.IsOwnedBy(this)) {
                         for (IListener listener : workPeriodException.createExpressionActionListener()) {
                             if (listener != null) {
@@ -3054,9 +3042,9 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             }
         }
 
-        for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().values) {
+        for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().getValues()) {
             if (enum6 == Enum6.Zero || dayPattern.IsOwnedBy(this)) {
-                for (WorkPeriod workPeriod : dayPattern.WorkPeriods().values) {
+                for (WorkPeriod workPeriod : dayPattern.WorkPeriods().getValues()) {
                     if (enum6 == Enum6.Zero || workPeriod.IsOwnedBy(this)) {
                         for (IListener listener : workPeriod.createExpressionActionListener()) {
                             if (listener != null) {
@@ -3068,13 +3056,13 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             }
         }
 
-        for (ResourceLogExpression logExpression : this.getResourceLogExpressions().values) {
+        for (ResourceLogExpression logExpression : this.getResourceLogExpressions().getValues()) {
             if (enum6 == Enum6.Zero || logExpression.IsOwnedBy(this)) {
                 propertyAction.apply(logExpression);
             }
         }
 
-        for (ExpressionFunction expressionFunction : this.ExpressionFunctions().values) {
+        for (ExpressionFunction expressionFunction : this.ExpressionFunctions().getValues()) {
             if (enum6 == Enum6.Zero || expressionFunction.IsOwnedBy(this)) {
                 IListener listener = expressionFunction.createExpressionActionListener();
                 if (listener != null) {
@@ -3083,7 +3071,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             }
         }
 
-        for (AbsInputParameter absInputParameter : this.InputParameters().values) {
+        for (AbsInputParameter absInputParameter : this.InputParameters().getValues()) {
             if (enum6 == Enum6.Zero || absInputParameter.IsOwnedBy(this)) {
                 IListener childObjectChangeListener = absInputParameter.ChildObjectChangeListener();
                 if (childObjectChangeListener != null) {
@@ -3124,9 +3112,9 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     private void propertyInstanceAction(Action<Properties> action) {
         this.actionProperty(propertyObject -> action.apply(propertyObject.properties));
 
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             try (var a = table.Data().dispose()) {
-                for (Properties properties : table.Data().Rows().values) {
+                for (Properties properties : table.Data().Rows().getValues()) {
                     action.apply(properties);
                 }
             }
@@ -3143,7 +3131,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         for (IntelligentObject intelligentObject : this.childrenObject) {
             action.apply(intelligentObject);
         }
-        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : this.elements.values) {
+        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : this.elements.getValues()) {
             action.apply(absIntelligentPropertyObject);
         }
         for (Node node : this.nodes) {
@@ -3152,7 +3140,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         for (NodeClassProperty nodeClassProperty : this.transferPoints) {
             action.apply(nodeClassProperty);
         }
-        for (AbsListProperty absListProperty : this.Lists().values) {
+        for (AbsListProperty absListProperty : this.Lists().getValues()) {
             action.apply(absListProperty);
         }
         if (this.IntelligentObject != null) {
@@ -3282,31 +3270,31 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             EventDefinition definition = (EventDefinition) eventDefinition;
             action.apply(definition);
         }
-        for (TokenDefinition tokenDefinition : this.getTokens().values) {
+        for (TokenDefinition tokenDefinition : this.getTokens().getValues()) {
             action.apply(tokenDefinition);
         }
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             action.apply(table);
         }
-        for (RateTable rateTable : this.RateTables().values) {
+        for (RateTable rateTable : this.RateTables().getValues()) {
             action.apply(rateTable);
         }
-        for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().values) {
+        for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().getValues()) {
             action.apply(dayPattern);
         }
-        for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().values) {
+        for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
             action.apply(workSchedule);
         }
-        for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().values) {
+        for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().getValues()) {
             action.apply(changeoverMatrix);
         }
-        for (UserFunction userFunction : this.getFunctionTables().values) {
+        for (UserFunction userFunction : this.getFunctionTables().getValues()) {
             action.apply(userFunction);
         }
-        for (ExpressionFunction expressionFunction : this.ExpressionFunctions().values) {
+        for (ExpressionFunction expressionFunction : this.ExpressionFunctions().getValues()) {
             action.apply(expressionFunction);
         }
-        for (AbsInputParameter absInputParameter : this.InputParameters().values) {
+        for (AbsInputParameter absInputParameter : this.InputParameters().getValues()) {
             action.apply(absInputParameter);
         }
     }
@@ -3318,10 +3306,10 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     }
 
     public void flushResourceLogExpressionTable() {
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             table.resetRowsBindings();
         }
-        for (ResourceLogExpression expression : this.getResourceLogExpressions().values) {
+        for (ResourceLogExpression expression : this.getResourceLogExpressions().getValues()) {
             expression.propertyDisplayNameChange();
         }
     }
@@ -3374,12 +3362,11 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         var inner = new Object() {
             public final IntelligentObjectXml readContext = intelligentObjectXml;
             public final IntelligentObjectDefinition.Enum8 createType = enum8;
-            public boolean x;
-            public final Action<Boolean> action =
-                    (Boolean b) -> {
-                        IntelligentObjectDefinition.this.ResourceLogic(b);
-                        x = true;
-                    };
+            private boolean x;
+            public final Action<Boolean> action = (Boolean b) -> {
+                IntelligentObjectDefinition.this.ResourceLogic(b);
+                x = true;
+            };
         };
 
         try (var a = inner.readContext.createFacadeWrapper()) {
@@ -3392,19 +3379,18 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             SomeXmlOperator.readXmlIntAttribute(xmlReader, "AvailableForExpressRevision",
                     i -> canUseInExpressVersion[0] = i);
 
-            IContextBound[] array = new IContextBound[]
-                    {
-                            this.getAnimationSetup(),
-                            this.getDefaultAdditionalSymbol(),
-                            this.getDashboard()
-                    };
+            IContextBound[] array = new IContextBound[]{
+                    this.getAnimationSetup(),
+                    this.getDefaultAdditionalSymbol(),
+                    this.getDashboard()
+            };
 
             IDisposable[] contextBounds = Arrays.stream(array).filter(java.util.Objects::nonNull)
                     .map(IContextBound::LoadTransaction).toArray(IDisposable[]::new);
 
             if (inner.createType == Enum8.Zero) {
-                try (var b = this.getActionRun().disposable()) {
-                    try (var cd = this.createDefinitionOperator()) {
+                try (var _1 = this.getActionRun().disposable()) {
+                    try (var _2 = this.createDefinitionOperator()) {
                         SomeXmlOperator.xmlReaderElementOperator(xmlReader, xmlReader.Name(), (XmlReader attr) -> {
                             var author = attr.GetAttribute("Author");
                             if (!Strings.isNullOrEmpty(author)) {
@@ -3473,48 +3459,49 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     void resetNameCollections() {
         this.getNameUtil().clear();
-        for (String name : super.getNames()) {
-            this.addObjectByName(name, this.getBuiltInFunction());
+        for (String name_ : super.getNames()) {
+            this.addObjectByName(name_, this.getBuiltInFunction());
         }
         this.registerSomeTypeObjectsName((AbsIntelligentPropertyObject object) -> this.addObjectByName(object.InstanceName(), object));
-        for (StringPropertyDefinition stringPropertyDefinition : super.getPropertyDefinitions().values) {
+        for (StringPropertyDefinition stringPropertyDefinition : super.getPropertyDefinitions().getValues()) {
             this.addObjectByName(stringPropertyDefinition.Name(), stringPropertyDefinition);
         }
-        for (BaseStatePropertyObject baseStatePropertyObject : super.getStateDefinitions().StateProperties.values) {
+        for (BaseStatePropertyObject baseStatePropertyObject :
+                super.getStateDefinitions().StateProperties.getValues()) {
             this.addObjectByName(baseStatePropertyObject.Name(), baseStatePropertyObject);
         }
         for (Object obj : super.getEventDefinitions()) {
             EventDefinition eventDefinition = (EventDefinition) obj;
             this.addObjectByName(eventDefinition.Name(), eventDefinition);
         }
-        for (ExpressionFunction myFunction : this.ExpressionFunctions().values) {
-            this.addObjectByName(myFunction.Name(), myFunction);
+        for (ExpressionFunction expressionFunction : this.ExpressionFunctions().getValues()) {
+            this.addObjectByName(expressionFunction.Name(), expressionFunction);
         }
-        for (AbsInputParameter absInputParameter : this.InputParameters().values) {
+        for (AbsInputParameter absInputParameter : this.InputParameters().getValues()) {
             this.addObjectByName(absInputParameter.Name(), absInputParameter);
         }
-        for (UserFunction functionTable : this.getFunctionTables().values) {
+        for (UserFunction functionTable : this.getFunctionTables().getValues()) {
             this.addObjectByName(functionTable.Name(), functionTable);
         }
-        for (RateTable rateTable : this.RateTables().values) {
+        for (RateTable rateTable : this.RateTables().getValues()) {
             this.addObjectByName(rateTable.Name(), rateTable);
         }
-        for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().values) {
+        for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().getValues()) {
             this.addObjectByName(changeoverMatrix.Name(), changeoverMatrix);
         }
-        for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().values) {
+        for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().getValues()) {
             this.addObjectByName(dayPattern.Name(), dayPattern);
         }
-        for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().values) {
+        for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
             this.addObjectByName(workSchedule.Name(), workSchedule);
         }
         for (NodeClassProperty nodeClassProperty : this.transferPoints) {
             this.addObjectByName(nodeClassProperty.InstanceName(), nodeClassProperty);
         }
-        for (AbsListProperty absListProperty : this.Lists().values) {
+        for (AbsListProperty absListProperty : this.Lists().getValues()) {
             this.addObjectByName(absListProperty.Name(), absListProperty);
         }
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             this.addObjectByName(table.Name(), table.getTableProperty());
         }
     }
@@ -3526,7 +3513,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         for (IntelligentObject intelligentObject : this.childrenObject) {
             action.apply(intelligentObject);
         }
-        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : this.elements.values) {
+        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : this.elements.getValues()) {
             action.apply(absIntelligentPropertyObject);
         }
         for (Node node : this.nodes) {
@@ -3875,10 +3862,10 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
                     ObjectClass.Fixed);
             IntelligentObjectDefinition.standard[4] = IntelligentObjectDefinition.getEnumSum(ObjectClass.Object,
                     ObjectClass.Fixed);
-            int[] array2 = IntelligentObjectDefinition.standard;
+            int[] standard = IntelligentObjectDefinition.standard;
             int num2 = 5;
             ObjectClass[] interfaceProcessObjectClasses2 = new ObjectClass[1];
-            array2[num2] = IntelligentObjectDefinition.getEnumSum(interfaceProcessObjectClasses2);
+            standard[num2] = IntelligentObjectDefinition.getEnumSum(interfaceProcessObjectClasses2);
             IntelligentObjectDefinition.standard[2] = IntelligentObjectDefinition.getEnumSum(ObjectClass.Object,
                     ObjectClass.Agent);
             IntelligentObjectDefinition.standard[3] = IntelligentObjectDefinition.getEnumSum(ObjectClass.Object,
@@ -4002,8 +3989,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         }
         intelligentObjectDefinition =
                 this.getInternalReference().updateSameIntelligentObjectDefinition(intelligentObjectDefinition);
-        if (intelligentObjectDefinition instanceof NodeDefinition) {
-            NodeDefinition nodeDefinition = (NodeDefinition) intelligentObjectDefinition;
+        if (intelligentObjectDefinition instanceof NodeDefinition nodeDefinition) {
             return this.createNode(nodeDefinition, name, elementScope);
         }
         IntelligentObject intelligentObject = (IntelligentObject) intelligentObjectDefinition.CreateInstance(name);
@@ -4100,9 +4086,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     private void addLinkRecursive(IntelligentObject intelligentObject, int index) {
         this.addObjectByName(intelligentObject.InstanceName(), intelligentObject);
         this.triggerDefinitionChildrenNameChangedEvent((IntelligentObjectDefinition intelligentObjectDefinition) ->
-        {
-            intelligentObjectDefinition.addLink(intelligentObject, index);
-        });
+                intelligentObjectDefinition.addLink(intelligentObject, index));
         this.flashState();
         this.resetTable(255);
     }
@@ -4141,8 +4125,8 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         if (!this.equalOrChild(nodeDefinition)) {
             return null;
         }
-        nodeDefinition =
-                (NodeDefinition) this.getInternalReference().updateSameIntelligentObjectDefinition(nodeDefinition);
+        nodeDefinition = (NodeDefinition) this.getInternalReference()
+                .updateSameIntelligentObjectDefinition(nodeDefinition);
         Node node = (Node) nodeDefinition.CreateInstance(name);
         node.Scope(elementScope);
         this.addNode(node, true);
@@ -4202,14 +4186,16 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     }
 
     private boolean equalOrChild(IntelligentObjectDefinition intelligentObjectDefinition) {
-        return intelligentObjectDefinition.getRelation(this) != Relation.Same && !intelligentObjectDefinition.containChild(this);
+        return intelligentObjectDefinition.getRelation(this) != Relation.Same &&
+                !intelligentObjectDefinition.containChild(this);
     }
 
     public boolean containChild(IntelligentObjectDefinition intelligentObjectDefinition) {
         for (IntelligentObject intelligentObject : this.childrenObject) {
             IntelligentObjectDefinition objectObjectDefinition =
                     (IntelligentObjectDefinition) intelligentObject.objectDefinition;
-            if (objectObjectDefinition.sameGuid(intelligentObjectDefinition) || objectObjectDefinition.containChild(intelligentObjectDefinition)) {
+            if (objectObjectDefinition.sameGuid(intelligentObjectDefinition) ||
+                    objectObjectDefinition.containChild(intelligentObjectDefinition)) {
                 return true;
             }
         }
@@ -4229,8 +4215,8 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             return null;
         }
 
-        linkDefinition =
-                (LinkDefinition) this.getInternalReference().updateSameIntelligentObjectDefinition(linkDefinition);
+        linkDefinition = (LinkDefinition) this.getInternalReference()
+                .updateSameIntelligentObjectDefinition(linkDefinition);
         Link link = (Link) linkDefinition.CreateInstance(super.GetUniqueName(linkDefinition.Name()));
         this.addLink(link);
         link.Scope(scope);
@@ -4296,24 +4282,15 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
 
     public boolean valid(ValidObjectType validObjectType) {
-        switch (validObjectType) {
-            case Object:
-                return true;
-            case FixedObject:
-                return this instanceof FixedDefinition;
-            case Link:
-                return this instanceof LinkDefinition;
-            case Node:
-                return this instanceof NodeDefinition;
-            case Agent:
-                return this instanceof AgentDefinition;
-            case Entity:
-                return this instanceof EntityDefinition;
-            case Transporter:
-                return this instanceof TransporterDefinition;
-            default:
-                return false;
-        }
+        return switch (validObjectType) {
+            case Object -> true;
+            case FixedObject -> this instanceof FixedDefinition;
+            case Link -> this instanceof LinkDefinition;
+            case Node -> this instanceof NodeDefinition;
+            case Agent -> this instanceof AgentDefinition;
+            case Entity -> this instanceof EntityDefinition;
+            case Transporter -> this instanceof TransporterDefinition;
+        };
     }
 
     public void updateInstanceName(AbsListProperty absListProperty, String instanceName) {
@@ -4337,7 +4314,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
                 (NodeClassProperty) gridObjectDefinition.CreateInstance(node + String.valueOf(num));
         nodeClassProperty.index = this.transferPoints.size();
         nodeClassProperty.Parent(this);
-        this.addNodeClassProperty(nodeClassProperty);
+        this.addTransferPoint(nodeClassProperty);
         this.flashNodeClassPropertyState(nodeClassProperty);
         return nodeClassProperty;
     }
@@ -4346,8 +4323,97 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     }
 
-    private void addNodeClassProperty(NodeClassProperty nodeClassProperty) {
+    private void addTransferPoint(NodeClassProperty nodeClassProperty) {
+        this.addTransferPoint(nodeClassProperty, this.transferPoints.size(), null);
+    }
 
+    private void addTransferPoint(NodeClassProperty nodeClassProperty, int transferPointsCount,
+                                  List<NodePointInfo> infos) {
+        this.transferPoints.add(transferPointsCount, nodeClassProperty);
+        for (var e : super.getAssociatedInstances()) {
+            var instance = (IntelligentObject) e;
+            var parent = instance.Parent();
+            if (parent != null) {
+                var info = new NodePointInfo();
+                if (infos != null) {
+                    info = infos.stream().filter(t -> t.IntelligentObject == instance).findFirst().orElse(null);
+                }
+
+                if (info.NodeRestoreHandle != null) {
+                    if (parent.restoreObject(info.NodeRestoreHandle) instanceof Node restoreNode) {
+                        restoreNode.NodeClassProperty = nodeClassProperty;
+                        restoreNode.IntelligentObject = info.IntelligentObject;
+                        instance.nodes.add(info.index, restoreNode);
+                    }
+                } else if (info.underlineName != null) {
+                    var infoTmp = info;
+                    parent.nodes.stream()
+                            .filter(node -> StringHelper.equalsLocal(node.InstanceName(), infoTmp.underlineName))
+                            .findFirst()
+                            .ifPresent(t -> {
+                                t.NodeClassProperty = nodeClassProperty;
+                                t.IntelligentObject = infoTmp.IntelligentObject;
+                                t.InstanceName(infoTmp.instanceName);
+                                instance.nodes.add(infoTmp.index, t);
+                            });
+                } else {
+                    parent.setNodeLocation(nodeClassProperty, transferPointsCount, instance,
+                            nodeClassProperty.NodeClass());
+                }
+            }
+        }
+        this.locations.add(transferPointsCount, null);
+
+    }
+
+    private void addTransferPointForChildren(NodeClassProperty nodeClassProperty, int transferPointsCount,
+                                             List<NodePointInfo> infos) {
+        this.addObjectByName(nodeClassProperty.InstanceName(), nodeClassProperty);
+        this.processChildrenDefinition((IntelligentObjectDefinition subclass) ->
+                subclass.addTransferPoint(nodeClassProperty, transferPointsCount, infos));
+        this.flashState();
+        this.resetTable(255);
+        this.addTransferPointForChildren(nodeClassProperty, transferPointsCount, infos);
+    }
+
+
+    public IntelligentObject restoreObject(NodeRestoreHandle nodeRestoreHandle) {
+        if (nodeRestoreHandle instanceof NodeRestoreHandleOperator nodeRestoreHandleOperator) {
+            nodeRestoreHandleOperator.getIntelligentObjectDefinition();
+            if (nodeRestoreHandleOperator.getIntelligentObjectDefinition() != this) {
+                throw new IllegalStateException("Trying to restore an object to a different definition than it " +
+                        "was removed from");
+            }
+            if (nodeRestoreHandleOperator.isAlreadyRestore()) {
+                throw new IllegalStateException("Trying to restore an object twice");
+            }
+
+            if (nodeRestoreHandleOperator.Instance() instanceof Node node) {
+                this.addNode(node, true);
+            } else {
+                this.addIntelligentObject(nodeRestoreHandleOperator.Instance(), false);
+            }
+
+            this.triggerChangeRestoreData(nodeRestoreHandleOperator.Instance(),
+                    nodeRestoreHandleOperator.getExternalRestoreData());
+            this.triggerSubmitSearchAndBreakpoint(nodeRestoreHandleOperator.Instance());
+            if (nodeRestoreHandleOperator.Instance() instanceof Node node) {
+                this.addNodeRecursive(node, this.getNodes().size() - 1);
+            } else {
+                this.addLinkRecursive(nodeRestoreHandleOperator.Instance(), this.getChildrenObject().size() - 1);
+            }
+
+            nodeRestoreHandleOperator.Instance().properties.init();
+            nodeRestoreHandleOperator.restored();
+            if (nodeRestoreHandleOperator.getAdditionalHandles() != null) {
+                nodeRestoreHandleOperator.getAdditionalHandles().forEach(this::restoreObject);
+            }
+
+            nodeRestoreHandleOperator.initLink();
+            return nodeRestoreHandleOperator.Instance();
+        }
+
+        return null;
     }
 
     public Table createTable(String name) {
@@ -4435,8 +4501,8 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         return (T) (this.addElement((AbsIntelligentPropertyObject) instance, elementScope, false));
     }
 
-    private <T> AbsIntelligentPropertyObject addElement(AbsIntelligentPropertyObject absIntelligentPropertyObject,
-                                                        ElementScope scope, boolean autoCreated) {
+    private AbsIntelligentPropertyObject addElement(AbsIntelligentPropertyObject absIntelligentPropertyObject,
+                                                    ElementScope scope, boolean autoCreated) {
         absIntelligentPropertyObject.Scope(scope);
         absIntelligentPropertyObject.AutoCreated(autoCreated);
         this.initElement(absIntelligentPropertyObject);
@@ -4472,16 +4538,13 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             return null;
         }
         this.resetTable(255);
-        Node node;
-        if (intelligentObject instanceof Node) {
-            node = (Node) intelligentObject;
+        if (intelligentObject instanceof Node node) {
             if (node.IntelligentObject != null) {
                 return null;
             }
             return this.removeNode(node);
         } else {
-            if (intelligentObject instanceof Link) {
-                Link link = (Link) intelligentObject;
+            if (intelligentObject instanceof Link link) {
                 return this.removeLink(link);
             }
             List<IntelligentObjectDefinition.NodeRestoreHandle> nodeRestoreHandles = new ArrayList<>();
@@ -4514,8 +4577,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     private void removeLink(IntelligentObject intelligentObject) {
         this.UpdateForParentObjectMemberElementChange(intelligentObject);
-        if (intelligentObject instanceof Link) {
-            Link link = (Link) intelligentObject;
+        if (intelligentObject instanceof Link link) {
             this.NetworkProperty.removeLink(link);
         }
         this.getChildrenObject().remove(intelligentObject);
@@ -5253,7 +5315,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
     public List<String> filterNameByStringPropertyDefinition(Predicate<StringPropertyDefinition> match) {
         List<String> result = new ArrayList<>();
 
-        for (Table table : this.Tables().values) {
+        for (Table table : this.Tables().getValues()) {
             table.Schema().processStringPropertyDefinition((StringPropertyDefinition stringPropertyDefinition) -> {
                 if (match.test(stringPropertyDefinition)) {
                     result.add(table.Name() + "." + stringPropertyDefinition.Name());
@@ -5261,7 +5323,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             });
         }
 
-        for (StringPropertyDefinition propertyDefinition : super.getPropertyDefinitions().values) {
+        for (StringPropertyDefinition propertyDefinition : super.getPropertyDefinitions().getValues()) {
             RepeatingPropertyDefinition repeatingPropertyDefinition = (RepeatingPropertyDefinition) propertyDefinition;
             if (repeatingPropertyDefinition != null && repeatingPropertyDefinition.IsVisible(super.getPropertyDefinitions())) {
                 repeatingPropertyDefinition.propertyDefinitions.process((StringPropertyDefinition stringPropertyDefinition) -> {
@@ -5301,7 +5363,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         private IntelligentObject instance;
         private Map<Guid, List<Object>> externalRestoreData;
         private List<IntelligentObjectDefinition.NodeRestoreHandle> additionalHandles;
-        private boolean bool_0;
+        private boolean alreadyRestore;
 
         public NodeRestoreHandleOperator(IntelligentObjectDefinition intelligentObjectDefinition,
                                          IntelligentObject instance, Map<Guid, List<Object>> externalRestoreData,
@@ -5324,12 +5386,12 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             return this.additionalHandles;
         }
 
-        public void method_2() {
-            this.bool_0 = true;
+        public void restored() {
+            this.alreadyRestore = true;
         }
 
-        public boolean method_3() {
-            return this.bool_0;
+        public boolean isAlreadyRestore() {
+            return this.alreadyRestore;
         }
 
         public Map<Guid, List<Object>> getExternalRestoreData() {
@@ -5408,5 +5470,13 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
         private IGridObject gridObject;
 
+    }
+
+    public class NodePointInfo {
+        public IntelligentObject IntelligentObject;
+        public String instanceName;
+        public String underlineName;
+        public int index;
+        public IntelligentObjectDefinition.NodeRestoreHandle NodeRestoreHandle;
     }
 }

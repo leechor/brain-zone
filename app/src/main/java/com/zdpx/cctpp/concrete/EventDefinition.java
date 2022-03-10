@@ -75,7 +75,7 @@ public class EventDefinition implements INotifyPropertyChanged, IGridObject, IOw
 
     private AbsDefinition getAbsDefinition() {
         if (this.eventDefinitions != null) {
-            return this.eventDefinitions.getAbsDefinition();
+            return this.eventDefinitions.getParent();
         }
         return null;
     }

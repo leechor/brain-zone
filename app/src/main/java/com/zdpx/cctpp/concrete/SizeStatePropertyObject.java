@@ -46,8 +46,8 @@ public class SizeStatePropertyObject extends AbsStatePropertyObject {
     @Override
     protected boolean ParameterIsReadOnly(int param0) {
         return (param0 == 0 && this.StateDefinitions != null &&
-                this.StateDefinitions.AbsDefinition != null &&
-                this.StateDefinitions.AbsDefinition instanceof LinkDefinition) ||
+                this.StateDefinitions.parent != null &&
+                this.StateDefinitions.parent instanceof LinkDefinition) ||
                 param0 == 3 || param0 == 4 || param0 == 5;
     }
 

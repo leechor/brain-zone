@@ -33,6 +33,24 @@ public class TargetResults {
         this.planResultsVersion = -1;
     }
 
+    public void resetTable(int interactiveVersion, int planResultsVersion, int riskResultsVersion) {
+        if (this.getInteractiveVersion() == interactiveVersion || this.gePlanResultsVersion() == planResultsVersion || this.getRiskResultsVersion() == riskResultsVersion) {
+            this.table.Data().Rows().ResetBindings();
+        }
+    }
+
+    private int getRiskResultsVersion() {
+        return this.riskResultsVersion;
+    }
+
+    private int gePlanResultsVersion() {
+        return this.interactiveVersion;
+    }
+
+    private int getInteractiveVersion() {
+        return this.planResultsVersion;
+    }
+
     public enum Enum68 {
         Zero,
         One

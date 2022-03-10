@@ -309,7 +309,13 @@ public class Table implements INotifyPropertyChanged, IGridObject, IAutoComplete
         return this.schemaColumns;
     }
 
-    public void method_79(int interactiveVersion, int planResultsVersion, int riskResultsVersion) {
+    public void resetTable(int interactiveVersion, int planResultsVersion, int riskResultsVersion) {
+        this.TargetResults().resetTable(interactiveVersion, planResultsVersion, riskResultsVersion);
+        this.States().resetTable(interactiveVersion, planResultsVersion, riskResultsVersion);
+    }
+
+    public StateResults States() {
+        return this.stateResults;
     }
 
     public IntelligentObjectDefinition Parent() {
