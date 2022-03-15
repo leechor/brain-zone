@@ -13,7 +13,7 @@ import org.licho.brain.concrete.SelectionRulePropertyRow;
 import org.licho.brain.concrete.StationDefinition;
 import org.licho.brain.concrete.entity.EnumPropertyRow;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.step.EndTransfer;
 import org.licho.brain.step.Transfer;
 

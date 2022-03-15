@@ -5,8 +5,8 @@ import org.licho.brain.concrete.fake.XmlWriter;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.utils.simu.IBreakpoint;
 import org.licho.brain.utils.simu.system.IDataErrorInfo;
-import org.licho.brain.simuApi.containers.BreakpointExpressionEvaluation;
-import org.licho.brain.simuApi.containers.BreakpointHitCountCondition;
+import org.licho.brain.brainApi.containers.BreakpointExpressionEvaluation;
+import org.licho.brain.brainApi.containers.BreakpointHitCountCondition;
 
 /**
  *

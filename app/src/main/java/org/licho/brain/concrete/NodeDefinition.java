@@ -19,14 +19,14 @@ import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.PropertyGridFeel;
-import org.licho.brain.simioEnums.ElementScope;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.IEntityProcess;
 import org.licho.brain.utils.simu.system.Color;
-import org.licho.brain.simuApi.NodeShapeType;
-import org.licho.brain.simioEnums.NodeOutputFlowStrategy;
-import org.licho.brain.simioEnums.NodeSplitAllocationRule;
-import org.licho.brain.simioEnums.QueueRanking;
+import org.licho.brain.brainApi.NodeShapeType;
+import org.licho.brain.brainEnums.NodeOutputFlowStrategy;
+import org.licho.brain.brainEnums.NodeSplitAllocationRule;
+import org.licho.brain.brainEnums.QueueRanking;
 
 import java.util.Collection;
 

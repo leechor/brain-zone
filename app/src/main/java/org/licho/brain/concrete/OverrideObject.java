@@ -6,7 +6,7 @@ import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.IReferencedObjects;
 
 import java.util.ArrayList;

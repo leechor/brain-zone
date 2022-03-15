@@ -2,8 +2,8 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
-import org.licho.brain.simuApi.IExperiment;
-import org.licho.brain.simuApi.IExperimentConstraint;
+import org.licho.brain.brainApi.IExperiment;
+import org.licho.brain.brainApi.IExperimentConstraint;
 import org.licho.brain.utils.simu.IReferencedObjects;
 
 /**

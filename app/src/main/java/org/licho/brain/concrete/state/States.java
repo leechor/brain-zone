@@ -1,7 +1,7 @@
 package org.licho.brain.concrete.state;
 
-import org.licho.brain.simuApi.IState;
-import org.licho.brain.simuApi.IStates;
+import org.licho.brain.brainApi.IState;
+import org.licho.brain.brainApi.IStates;
 
 import java.util.Iterator;
 

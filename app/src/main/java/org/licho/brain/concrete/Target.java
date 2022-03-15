@@ -5,8 +5,8 @@ import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
 import org.licho.brain.utils.simu.IReferencedObjects;
-import org.licho.brain.simuApi.ITarget;
-import org.licho.brain.simuApi.enu.TargetType;
+import org.licho.brain.brainApi.ITarget;
+import org.licho.brain.brainApi.enu.TargetType;
 
 /**
  *

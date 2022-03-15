@@ -18,8 +18,8 @@ import org.licho.brain.concrete.entity.EnumPropertyRow;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.fake.XmlWriter;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
-import org.licho.brain.simioEnums.ElementScope;
-import org.licho.brain.simuApi.IFixedObject;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainApi.IFixedObject;
 import org.licho.brain.utils.simu.IBreakpoint;
 
 import java.util.Map;

@@ -9,7 +9,7 @@ import org.licho.brain.concrete.property.AbsBaseStepProperty;
 import org.licho.brain.element.EventPropertyRow;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.exceptions.InvalidOperationException;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.utils.simu.IEntityProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

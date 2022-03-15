@@ -8,7 +8,7 @@ import org.licho.brain.concrete.StringHelper;
 import org.licho.brain.concrete.TokenRunSpace;
 import org.licho.brain.concrete.entity.EnumPropertyRow;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
-import org.licho.brain.simioEnums.BOMActionRules;
+import org.licho.brain.brainEnums.BOMActionRules;
 
 import java.util.Objects;
 

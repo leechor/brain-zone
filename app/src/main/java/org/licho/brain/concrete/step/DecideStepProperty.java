@@ -7,7 +7,7 @@ import org.licho.brain.concrete.IntelligentObjectXml;
 import org.licho.brain.concrete.TokenRunSpace;
 import org.licho.brain.concrete.entity.EnumPropertyRow;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
-import org.licho.brain.simioEnums.DecideType;
+import org.licho.brain.brainEnums.DecideType;
 
 import java.util.Objects;
 

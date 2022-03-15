@@ -2,9 +2,9 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
-import org.licho.brain.simuApi.IExecutionContext;
-import org.licho.brain.simuApi.extensions.IElement;
-import org.licho.brain.simuApi.extensions.IElementProperty;
+import org.licho.brain.brainApi.IExecutionContext;
+import org.licho.brain.brainApi.extensions.IElement;
+import org.licho.brain.brainApi.extensions.IElementProperty;
 import org.licho.brain.utils.simu.IListeners;
 
 import java.util.List;

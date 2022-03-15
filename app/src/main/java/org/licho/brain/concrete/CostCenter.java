@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 
 /**
  *

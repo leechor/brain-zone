@@ -10,7 +10,7 @@ import org.licho.brain.enu.DataFormat;
 import org.licho.brain.enu.Enum38;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.NumericFormat;
+import org.licho.brain.brainEnums.NumericFormat;
 
 @PropertyDefinitionFactory(NumericDataPropertyFactory.class)
 public class NumericDataPropertyDefinition extends StringPropertyDefinition {

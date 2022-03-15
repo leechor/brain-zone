@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.simioEnums.ValidObjectType;
+import org.licho.brain.brainEnums.ValidObjectType;
 
 @PropertyDefinitionName("TransporterProperty")
 public class TransporterPropertyDefinition extends ObjectInstancePropertyDefinition {

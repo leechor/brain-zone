@@ -7,7 +7,7 @@ import org.licho.brain.concrete.ExpressionPropertyDefinition;
 import org.licho.brain.concrete.Resources;
 import org.licho.brain.concrete.entity.EnumPropertyDefinition;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.simioEnums.DecideType;
+import org.licho.brain.brainEnums.DecideType;
 
 /**
  *

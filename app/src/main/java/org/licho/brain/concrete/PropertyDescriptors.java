@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.simuApi.IRow;
-import org.licho.brain.simuApi.IRows;
+import org.licho.brain.brainApi.IRow;
+import org.licho.brain.brainApi.IRows;
 import org.licho.brain.utils.simu.IValues;
 import org.licho.brain.utils.simu.system.ITypedList;
 import org.licho.brain.utils.simu.system.ListChangedEventArgs;

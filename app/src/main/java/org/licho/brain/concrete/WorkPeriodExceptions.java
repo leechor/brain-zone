@@ -2,8 +2,8 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.utils.simu.system.ITypedList;
-import org.licho.brain.simuApi.IWorkPeriodException;
-import org.licho.brain.simuApi.IWorkPeriodExceptions;
+import org.licho.brain.brainApi.IWorkPeriodException;
+import org.licho.brain.brainApi.IWorkPeriodExceptions;
 
 import java.beans.PropertyDescriptor;
 import java.util.Iterator;

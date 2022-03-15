@@ -6,8 +6,8 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.DataFormat;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.PropertyGridFeel;
-import org.licho.brain.simioEnums.NumericFormat;
-import org.licho.brain.simioEnums.StateReferenceType;
+import org.licho.brain.brainEnums.NumericFormat;
+import org.licho.brain.brainEnums.StateReferenceType;
 
 /**
  *

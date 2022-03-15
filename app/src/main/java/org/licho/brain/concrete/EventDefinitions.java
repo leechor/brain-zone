@@ -1,8 +1,8 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
-import org.licho.brain.simuApi.IEventDefinition;
-import org.licho.brain.simuApi.IEventDefinitions;
+import org.licho.brain.brainApi.IEventDefinition;
+import org.licho.brain.brainApi.IEventDefinitions;
 
 import java.util.Iterator;
 import java.util.List;

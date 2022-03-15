@@ -14,7 +14,7 @@ import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.utils.simu.IEntityProcess;
 
 import java.util.Collection;

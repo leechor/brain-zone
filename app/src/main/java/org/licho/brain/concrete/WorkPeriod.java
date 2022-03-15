@@ -5,7 +5,7 @@ import org.licho.brain.concrete.fake.TimeSpan;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
-import org.licho.brain.simuApi.IWorkPeriod;
+import org.licho.brain.brainApi.IWorkPeriod;
 import org.licho.brain.utils.simu.system.DateTime;
 import org.licho.brain.utils.simu.system.IDataErrorInfo;
 

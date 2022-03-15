@@ -11,13 +11,13 @@ import org.licho.brain.enu.BooleanType;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.ElementScope;
-import org.licho.brain.simioEnums.FlowRateUnitType;
-import org.licho.brain.simioEnums.QueueRanking;
-import org.licho.brain.simioEnums.RegulatorInputFlowStrategy;
-import org.licho.brain.simioEnums.RegulatorMergeAllocationRule;
-import org.licho.brain.simioEnums.RegulatorMergeMatchingRule;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainEnums.FlowRateUnitType;
+import org.licho.brain.brainEnums.QueueRanking;
+import org.licho.brain.brainEnums.RegulatorInputFlowStrategy;
+import org.licho.brain.brainEnums.RegulatorMergeAllocationRule;
+import org.licho.brain.brainEnums.RegulatorMergeMatchingRule;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 
 import java.text.MessageFormat;
 

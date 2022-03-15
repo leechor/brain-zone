@@ -4,8 +4,8 @@ import org.licho.brain.concrete.entity.Entity;
 import org.licho.brain.concrete.OutboundLinkPreference;
 import org.licho.brain.enu.LinkSelectionRule;
 import org.licho.brain.enu.TokenWaitAction;
-import org.licho.brain.simioEnums.TransferFromType;
-import org.licho.brain.simioEnums.TransferToType;
+import org.licho.brain.brainEnums.TransferFromType;
+import org.licho.brain.brainEnums.TransferToType;
 import lombok.Getter;
 import lombok.Setter;
 

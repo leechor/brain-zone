@@ -1,6 +1,6 @@
 package org.licho.brain.utils.simu;
 
-import org.licho.brain.simuApi.IState;
+import org.licho.brain.brainApi.IState;
 
 /**
  *

@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 
 /**
  *

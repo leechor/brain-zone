@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.cont.EngineResources;
-import org.licho.brain.simioEnums.QueueRanking;
+import org.licho.brain.brainEnums.QueueRanking;
 import org.licho.brain.utils.simu.system.IDisposable;
 
 import java.util.ArrayList;

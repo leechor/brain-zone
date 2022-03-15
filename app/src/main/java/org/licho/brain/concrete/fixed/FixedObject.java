@@ -1,11 +1,11 @@
 package org.licho.brain.concrete.fixed;
 
-import org.licho.brain.simuApi.FacilityLocation;
-import org.licho.brain.simuApi.FacilitySize;
-import org.licho.brain.simuApi.IFixedObject;
-import org.licho.brain.simuApi.INodeObject;
-import org.licho.brain.simuApi.INodeObjects;
-import org.licho.brain.simuApi.IProperties;
+import org.licho.brain.brainApi.FacilityLocation;
+import org.licho.brain.brainApi.FacilitySize;
+import org.licho.brain.brainApi.IFixedObject;
+import org.licho.brain.brainApi.INodeObject;
+import org.licho.brain.brainApi.INodeObjects;
+import org.licho.brain.brainApi.IProperties;
 
 import java.util.Iterator;
 

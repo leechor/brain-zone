@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.entity.Entity;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 
 /**
  * A <b>Transporter</b> object is a special type of entity that can pickup entity object at a location, carry these

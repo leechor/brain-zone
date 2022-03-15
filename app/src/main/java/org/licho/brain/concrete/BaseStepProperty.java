@@ -2,8 +2,8 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.exception.SimioRuntimeException;
 import org.licho.brain.concrete.property.AbsBaseStepProperty;
-import org.licho.brain.simuApi.enu.ExitType;
-import org.licho.brain.simuApi.extensions.IStep;
+import org.licho.brain.brainApi.enu.ExitType;
+import org.licho.brain.brainApi.extensions.IStep;
 
 /**
  *

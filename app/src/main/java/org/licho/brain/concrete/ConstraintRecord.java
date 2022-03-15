@@ -5,7 +5,7 @@ import org.licho.brain.concrete.entity.EntityRunSpace;
 import org.licho.brain.enu.ConstraintType;
 import org.licho.brain.utils.simu.system.Color;
 import org.licho.brain.utils.simu.system.DateTime;
-import org.licho.brain.simuApi.IConstraintRecord;
+import org.licho.brain.brainApi.IConstraintRecord;
 
 /**
  *

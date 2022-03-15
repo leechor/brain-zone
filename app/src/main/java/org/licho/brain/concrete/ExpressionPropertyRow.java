@@ -1,9 +1,9 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.Enum38;
-import org.licho.brain.simuApi.IExecutionContext;
-import org.licho.brain.simuApi.IPropertyReaders;
-import org.licho.brain.simuApi.IRepeatingPropertyReader;
+import org.licho.brain.brainApi.IExecutionContext;
+import org.licho.brain.brainApi.IPropertyReaders;
+import org.licho.brain.brainApi.IRepeatingPropertyReader;
 import org.licho.brain.utils.simu.IListeners;
 
 import java.util.List;

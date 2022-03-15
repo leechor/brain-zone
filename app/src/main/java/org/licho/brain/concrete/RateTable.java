@@ -9,10 +9,10 @@ import org.licho.brain.enu.UnitType;
 import org.licho.brain.resource.Image;
 import org.licho.brain.utils.simu.IListData;
 import org.licho.brain.utils.simu.system.IBindingList;
-import org.licho.brain.simuApi.IRateTable;
-import org.licho.brain.simuApi.IRateTableInterval;
-import org.licho.brain.simuApi.IRateTableIntervals;
-import org.licho.brain.simuApi.enu.TimeUnit;
+import org.licho.brain.brainApi.IRateTable;
+import org.licho.brain.brainApi.IRateTableInterval;
+import org.licho.brain.brainApi.IRateTableIntervals;
+import org.licho.brain.brainApi.enu.TimeUnit;
 
 import java.util.Iterator;
 import java.util.Objects;

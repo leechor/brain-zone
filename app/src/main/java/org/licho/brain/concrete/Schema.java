@@ -3,8 +3,8 @@ package org.licho.brain.concrete;
 import org.licho.brain.IFunction.Action;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
-import org.licho.brain.simuApi.ITableColumn;
-import org.licho.brain.simuApi.ITableColumns;
+import org.licho.brain.brainApi.ITableColumn;
+import org.licho.brain.brainApi.ITableColumns;
 import org.licho.brain.utils.simu.IReferencedObjects;
 
 import java.util.Iterator;

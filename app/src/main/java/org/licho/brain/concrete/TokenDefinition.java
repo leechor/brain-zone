@@ -11,7 +11,7 @@ import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.ExpressionValue;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.resource.Image;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.utils.simu.IListData;
 import org.licho.brain.utils.simu.system.IBindingList;
 

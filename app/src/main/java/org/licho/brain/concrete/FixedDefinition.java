@@ -7,9 +7,9 @@ import org.licho.brain.concrete.fixed.Fixed;
 import org.licho.brain.enu.FixedInterfaceProcess;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.simioEnums.ElementScope;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
-import org.licho.brain.simioEnums.TransferConstraintsType;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.TransferConstraintsType;
 import org.licho.brain.utils.simu.IEntityProcess;
 
 import java.util.Collection;

@@ -6,8 +6,8 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.resource.Image;
 import org.licho.brain.utils.simu.IListData;
 import org.licho.brain.utils.simu.system.IBindingList;
-import org.licho.brain.simuApi.IFunctionTable;
-import org.licho.brain.simuApi.IFunctionTableEntries;
+import org.licho.brain.brainApi.IFunctionTable;
+import org.licho.brain.brainApi.IFunctionTableEntries;
 
 import java.util.Iterator;
 import java.util.Objects;

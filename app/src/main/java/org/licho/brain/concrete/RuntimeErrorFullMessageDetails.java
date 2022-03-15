@@ -6,7 +6,7 @@ import org.licho.brain.concrete.exception.SimioRuntimeException;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simuApi.enu.TimeUnit;
+import org.licho.brain.brainApi.enu.TimeUnit;
 
 /**
  *

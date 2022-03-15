@@ -10,7 +10,7 @@ import org.licho.brain.concrete.ExpressionPropertyDefinition;
 import org.licho.brain.concrete.PropertyDefinitions;
 import org.licho.brain.concrete.Resources;
 import org.licho.brain.concrete.entity.EnumPropertyDefinition;
-import org.licho.brain.simioEnums.CreateType;
+import org.licho.brain.brainEnums.CreateType;
 
 @StepCategory(category = "Common Steps", pairedStep = DestroyStepDefinition.class)
 public class CreateStepDefinition extends AbsBaseStepDefinition<CreateStepDefinition> {

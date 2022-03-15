@@ -7,14 +7,14 @@ import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.EntityAlignment;
 import org.licho.brain.utils.simu.LinkAutoAlignCellsOption;
 import org.licho.brain.utils.simu.LinkCellSpacingType;
 import org.licho.brain.utils.simu.LinkCrossSectionShape;
 import org.licho.brain.utils.simu.LinkType;
 import org.licho.brain.utils.simu.TrafficDirectionRule;
-import org.licho.brain.simioEnums.QueueRanking;
+import org.licho.brain.brainEnums.QueueRanking;
 
 /**
  *

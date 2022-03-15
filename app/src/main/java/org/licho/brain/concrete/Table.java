@@ -5,8 +5,8 @@ import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
 import org.licho.brain.resource.Image;
-import org.licho.brain.simuApi.IRows;
-import org.licho.brain.simuApi.ITable;
+import org.licho.brain.brainApi.IRows;
+import org.licho.brain.brainApi.ITable;
 import org.licho.brain.utils.simu.IReferencedObjects;
 
 import java.text.MessageFormat;

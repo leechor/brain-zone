@@ -7,7 +7,7 @@ import org.licho.brain.concrete.ElementPropertyDefinition;
 import org.licho.brain.concrete.Resources;
 import org.licho.brain.concrete.entity.EnumPropertyDefinition;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.simioEnums.TransferObjectType;
+import org.licho.brain.brainEnums.TransferObjectType;
 
 @StepCategory(category = "Common Steps")
 public class EndTransferStepDefinition extends AbsBaseStepDefinition<EndTransferStepDefinition> {

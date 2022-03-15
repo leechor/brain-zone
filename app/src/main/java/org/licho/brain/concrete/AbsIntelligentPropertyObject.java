@@ -9,7 +9,7 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum34;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.resource.Image;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 
 import java.util.ArrayList;
 import java.util.HashMap;

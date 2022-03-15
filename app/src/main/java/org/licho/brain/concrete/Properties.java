@@ -8,11 +8,11 @@ import org.licho.brain.concrete.fake.XmlWriter;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.event.EventHandler;
 import org.licho.brain.event.IEvent;
-import org.licho.brain.simuApi.IProperties;
-import org.licho.brain.simuApi.IProperty;
-import org.licho.brain.simuApi.IPropertyReader;
-import org.licho.brain.simuApi.IPropertyReaders;
-import org.licho.brain.simuApi.IRow;
+import org.licho.brain.brainApi.IProperties;
+import org.licho.brain.brainApi.IProperty;
+import org.licho.brain.brainApi.IPropertyReader;
+import org.licho.brain.brainApi.IPropertyReaders;
+import org.licho.brain.brainApi.IRow;
 import org.licho.brain.utils.simu.system.IDataErrorInfo;
 import org.licho.brain.utils.simu.system.PropertyChangedEventArgs;
 

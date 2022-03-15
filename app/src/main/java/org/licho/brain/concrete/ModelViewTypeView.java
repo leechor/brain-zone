@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.ItemTypeEnum;
-import org.licho.brain.simioEnums.ModelViewType;
+import org.licho.brain.brainEnums.ModelViewType;
 
 /**
  *

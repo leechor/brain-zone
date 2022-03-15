@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.simioEnums.StateReferenceType;
+import org.licho.brain.brainEnums.StateReferenceType;
 
 /**
  *

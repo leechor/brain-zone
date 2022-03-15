@@ -2,8 +2,8 @@ package org.licho.brain.concrete;
 
 
 import org.licho.brain.IFunction.Action;
-import org.licho.brain.simioEnums.TransferFromType;
-import org.licho.brain.simioEnums.TransferToType;
+import org.licho.brain.brainEnums.TransferFromType;
+import org.licho.brain.brainEnums.TransferToType;
 
 /**
  *

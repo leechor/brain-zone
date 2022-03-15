@@ -2,9 +2,9 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.entity.EnumPropertyDefinition;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.simioEnums.ElementScope;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
-import org.licho.brain.simioEnums.TallyValueType;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.TallyValueType;
 import org.licho.brain.utils.simu.system.Color;
 
 /**

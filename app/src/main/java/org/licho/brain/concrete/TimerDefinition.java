@@ -5,7 +5,7 @@ import org.licho.brain.concrete.entity.EnumPropertyDefinition;
 import org.licho.brain.enu.BooleanType;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.simioEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.TimerIntervalType;
 
 /**

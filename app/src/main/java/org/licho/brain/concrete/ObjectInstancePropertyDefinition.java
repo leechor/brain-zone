@@ -4,7 +4,7 @@ import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.DataFormat;
 import org.licho.brain.enu.PropertyGridFeel;
-import org.licho.brain.simioEnums.ValidObjectType;
+import org.licho.brain.brainEnums.ValidObjectType;
 
 @PropertyDefinitionName("ObjectInstanceProperty")
 public class ObjectInstancePropertyDefinition extends StringPropertyDefinition {

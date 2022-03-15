@@ -7,8 +7,8 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.resource.Image;
 import org.licho.brain.utils.simu.IField;
 import org.licho.brain.utils.simu.IValidate;
-import org.licho.brain.simuApi.IDayPattern;
-import org.licho.brain.simuApi.IWorkPeriods;
+import org.licho.brain.brainApi.IDayPattern;
+import org.licho.brain.brainApi.IWorkPeriods;
 
 import java.util.Objects;
 

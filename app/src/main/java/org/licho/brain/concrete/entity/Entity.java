@@ -23,7 +23,7 @@ import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.enu.EntityType;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.PropertyGridFeel;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 
 import java.util.Map;
 

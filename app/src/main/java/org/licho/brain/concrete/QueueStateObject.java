@@ -8,7 +8,7 @@ import org.licho.brain.concrete.property.ExpressionValue;
 import org.licho.brain.enu.IEnumMask;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.QueueRanking;
+import org.licho.brain.brainEnums.QueueRanking;
 
 /**
  *

@@ -9,7 +9,7 @@ import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.TokenProcessingAction;
 import org.licho.brain.event.EventArgs;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 
 /**
  *

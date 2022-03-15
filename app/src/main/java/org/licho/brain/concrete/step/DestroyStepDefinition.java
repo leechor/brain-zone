@@ -6,7 +6,7 @@ import org.licho.brain.concrete.ElementPropertyDefinition;
 import org.licho.brain.concrete.ExitPointPropertyDefinition;
 import org.licho.brain.concrete.Resources;
 import org.licho.brain.concrete.entity.EnumPropertyDefinition;
-import org.licho.brain.simioEnums.DestroyType;
+import org.licho.brain.brainEnums.DestroyType;
 
 /**
  *

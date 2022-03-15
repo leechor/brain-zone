@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
-import org.licho.brain.simioEnums.ValidObjectType;
+import org.licho.brain.brainEnums.ValidObjectType;
 
 @PropertyDefinitionName("LinkProperty")
 public class LinkPropertyDefinition extends ObjectInstancePropertyDefinition {

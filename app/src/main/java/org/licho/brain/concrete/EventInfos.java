@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.simuApi.IEventDefinition;
+import org.licho.brain.brainApi.IEventDefinition;
 
 import java.util.ArrayList;
 

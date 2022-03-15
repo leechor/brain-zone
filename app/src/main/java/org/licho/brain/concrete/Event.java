@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.simuApi.IEvent;
+import org.licho.brain.brainApi.IEvent;
 
 
 public class Event implements IEvent {

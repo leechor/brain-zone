@@ -1,9 +1,9 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
-import org.licho.brain.simuApi.IStateDefinition;
-import org.licho.brain.simuApi.IStateDefinitions;
-import org.licho.brain.simuApi.enu.SimioUnitType;
+import org.licho.brain.brainApi.IStateDefinition;
+import org.licho.brain.brainApi.IStateDefinitions;
+import org.licho.brain.brainApi.enu.SimioUnitType;
 
 import java.util.Iterator;
 import java.util.List;

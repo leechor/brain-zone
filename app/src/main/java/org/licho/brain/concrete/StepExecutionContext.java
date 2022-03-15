@@ -1,10 +1,10 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.property.AbsBaseStepProperty;
-import org.licho.brain.simuApi.IElementData;
-import org.licho.brain.simuApi.IExecutionContext;
-import org.licho.brain.simuApi.IStepExecutionContext;
-import org.licho.brain.simuApi.enu.ExitType;
+import org.licho.brain.brainApi.IElementData;
+import org.licho.brain.brainApi.IExecutionContext;
+import org.licho.brain.brainApi.IStepExecutionContext;
+import org.licho.brain.brainApi.enu.ExitType;
 
 /**
  *

@@ -7,9 +7,9 @@ import org.licho.brain.enu.IconIndex;
 import org.licho.brain.resource.Image;
 import org.licho.brain.utils.simu.IListData;
 import org.licho.brain.utils.simu.system.IBindingList;
-import org.licho.brain.simuApi.INamedList;
-import org.licho.brain.simuApi.IRows;
-import org.licho.brain.simuApi.enu.ListType;
+import org.licho.brain.brainApi.INamedList;
+import org.licho.brain.brainApi.IRows;
+import org.licho.brain.brainApi.enu.ListType;
 
 /**
  *

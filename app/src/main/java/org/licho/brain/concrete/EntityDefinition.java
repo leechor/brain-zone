@@ -20,10 +20,10 @@ import org.licho.brain.enu.NetworkTurnaroundMethod;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.utils.simu.IEntityProcess;
 import org.licho.brain.utils.simu.IVisitRequest;
-import org.licho.brain.simioEnums.QueueRanking;
+import org.licho.brain.brainEnums.QueueRanking;
 
 import java.util.ArrayList;
 import java.util.Collection;

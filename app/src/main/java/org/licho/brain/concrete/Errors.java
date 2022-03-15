@@ -1,8 +1,8 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.utils.simu.IGridObjectOperator;
-import org.licho.brain.simuApi.IError;
-import org.licho.brain.simuApi.IErrors;
+import org.licho.brain.brainApi.IError;
+import org.licho.brain.brainApi.IErrors;
 
 import java.util.Iterator;
 

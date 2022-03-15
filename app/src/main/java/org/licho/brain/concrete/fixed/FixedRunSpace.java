@@ -4,7 +4,7 @@ import org.licho.brain.concrete.TokenRunSpace;
 import org.licho.brain.concrete.IntelligentObject;
 import org.licho.brain.concrete.IntelligentObjectRunSpace;
 import org.licho.brain.concrete.MayApplication;
-import org.licho.brain.simioEnums.TransferConstraintsType;
+import org.licho.brain.brainEnums.TransferConstraintsType;
 
 /**
  *

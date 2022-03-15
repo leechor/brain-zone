@@ -3,7 +3,7 @@ package org.licho.brain.concrete;
 import org.licho.brain.annotations.DefaultValue;
 import org.licho.brain.annotations.Description;
 import org.licho.brain.annotations.DisplayName;
-import org.licho.brain.simuApi.IRateTableInterval;
+import org.licho.brain.brainApi.IRateTableInterval;
 
 /**
  *

@@ -3,7 +3,7 @@ package org.licho.brain.concrete.entity;
 import org.licho.brain.concrete.GridObjectDefinition;
 import org.licho.brain.element.Network;
 import org.licho.brain.enu.EntityTravelMode;
-import org.licho.brain.simioEnums.ElementScope;
+import org.licho.brain.brainEnums.ElementScope;
 import lombok.Data;
 
 import java.util.function.Function;

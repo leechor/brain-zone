@@ -2,8 +2,8 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.TimeSpan;
 import org.licho.brain.concrete.fake.XmlReader;
-import org.licho.brain.simuApi.IWorkPeriod;
-import org.licho.brain.simuApi.IWorkPeriods;
+import org.licho.brain.brainApi.IWorkPeriod;
+import org.licho.brain.brainApi.IWorkPeriods;
 import org.licho.brain.utils.simu.system.ListChangedEventArgs;
 
 import java.util.Iterator;

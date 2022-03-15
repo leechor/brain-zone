@@ -10,7 +10,7 @@ import org.licho.brain.event.EventHandler;
 import org.licho.brain.event.IEvent;
 import org.licho.brain.utils.simu.IReferencedObjects;
 import org.licho.brain.utils.simu.system.PropertyChangedEventArgs;
-import org.licho.brain.simioEnums.ExpressionDataFormat;
+import org.licho.brain.brainEnums.ExpressionDataFormat;
 
 import java.util.Objects;
 

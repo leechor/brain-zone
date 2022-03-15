@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.AbsBaseStepProperty;
-import org.licho.brain.simuApi.enu.ExitType;
+import org.licho.brain.brainApi.enu.ExitType;
 import org.licho.brain.utils.simu.IBreakpoint;
 
 import java.io.StringReader;
