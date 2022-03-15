@@ -7,7 +7,7 @@ import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.fake.XmlWriter;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.resource.Image;
-import org.licho.brain.brainApi.NodeShapeType;
+import org.licho.brain.api.NodeShapeType;
 import org.licho.brain.utils.simu.system.Color;
 import org.licho.brain.utils.simu.system.DateTime;
 import org.licho.brain.utils.simu.system.IDisposable;

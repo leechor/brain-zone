@@ -8,7 +8,7 @@ import org.licho.brain.concrete.fake.XmlWriter;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.ElementReferenceType;
 import org.licho.brain.enu.PropertyGroupClass;
-import org.licho.brain.brainApi.IPropertyDefinition;
+import org.licho.brain.api.IPropertyDefinition;
 import org.licho.brain.utils.simu.system.IDisposable;
 import org.licho.brain.utils.simu.system.ListChangedEventArgs;
 import org.licho.brain.utils.simu.system.ListChangedType;

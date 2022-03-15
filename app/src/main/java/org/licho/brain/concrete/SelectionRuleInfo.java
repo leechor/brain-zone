@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.brainApi.extensions.ISelectionRule;
+import org.licho.brain.api.extensions.ISelectionRule;
 
 /**
  *

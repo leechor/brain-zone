@@ -11,7 +11,7 @@ import org.licho.brain.enu.Enum38;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.resource.Image;
-import org.licho.brain.brainApi.IStateDefinition;
+import org.licho.brain.api.IStateDefinition;
 import org.licho.brain.utils.simu.IReferencedObjects;
 import org.licho.brain.utils.simu.system.DateTime;
 import org.slf4j.Logger;

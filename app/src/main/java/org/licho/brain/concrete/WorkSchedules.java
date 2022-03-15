@@ -2,8 +2,8 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.fake.TypeDescriptor;
-import org.licho.brain.brainApi.IWorkSchedule;
-import org.licho.brain.brainApi.IWorkSchedules;
+import org.licho.brain.api.IWorkSchedule;
+import org.licho.brain.api.IWorkSchedules;
 import org.licho.brain.utils.simu.IValues;
 import org.licho.brain.utils.simu.system.ListChangedEventArgs;
 import org.licho.brain.utils.simu.system.PropertyDescriptor;

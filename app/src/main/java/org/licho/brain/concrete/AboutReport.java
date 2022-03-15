@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.brainApi.IScenario;
+import org.licho.brain.api.IScenario;
 import org.licho.brain.utils.simu.Enum60;
 import org.licho.brain.utils.simu.IAboutReport;
 import org.licho.brain.utils.simu.IStatisticsDataSource;

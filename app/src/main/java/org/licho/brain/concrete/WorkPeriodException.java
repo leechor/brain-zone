@@ -4,7 +4,7 @@ import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.utils.simu.system.DateTime;
 import org.licho.brain.utils.simu.system.IDataErrorInfo;
-import org.licho.brain.brainApi.IWorkPeriodException;
+import org.licho.brain.api.IWorkPeriodException;
 
 import java.util.Objects;
 

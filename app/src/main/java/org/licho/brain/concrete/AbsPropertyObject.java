@@ -5,7 +5,7 @@ import org.licho.brain.annotations.Browsable;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.PropertyGroupClass;
-import org.licho.brain.brainApi.IPropertyObject;
+import org.licho.brain.api.IPropertyObject;
 
 import java.util.Objects;
 

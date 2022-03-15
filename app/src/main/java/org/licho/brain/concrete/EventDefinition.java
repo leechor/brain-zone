@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.resource.Image;
-import org.licho.brain.brainApi.IEventDefinition;
+import org.licho.brain.api.IEventDefinition;
 
 import java.util.Objects;
 

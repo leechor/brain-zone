@@ -1,8 +1,8 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
-import org.licho.brain.brainApi.IDayPattern;
-import org.licho.brain.brainApi.IDayPatterns;
+import org.licho.brain.api.IDayPattern;
+import org.licho.brain.api.IDayPatterns;
 
 import java.util.Iterator;
 import java.util.List;

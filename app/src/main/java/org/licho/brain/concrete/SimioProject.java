@@ -5,7 +5,7 @@ import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.event.EventArgs;
 import org.licho.brain.event.EventHandler;
 import org.licho.brain.resource.Image;
-import org.licho.brain.brainApi.IModel;
+import org.licho.brain.api.IModel;
 import org.licho.brain.utils.simu.system.IDisposable;
 import javassist.compiler.ast.Symbol;
 

@@ -5,7 +5,7 @@ import org.licho.brain.annotations.Browsable;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.enu.Enum53;
-import org.licho.brain.brainApi.containers.SpecialEditor;
+import org.licho.brain.api.containers.SpecialEditor;
 
 import java.util.Objects;
 

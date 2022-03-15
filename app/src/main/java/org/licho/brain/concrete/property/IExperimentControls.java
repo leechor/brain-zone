@@ -1,7 +1,7 @@
 package org.licho.brain.concrete.property;
 
-import org.licho.brain.brainApi.IExperimentControl;
-import org.licho.brain.brainApi.INamedSimioCollection;
+import org.licho.brain.api.IExperimentControl;
+import org.licho.brain.api.INamedSimioCollection;
 
 /**
  * The collection of controls on a Simio experiment.

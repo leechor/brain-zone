@@ -2,11 +2,11 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum38;
-import org.licho.brain.brainApi.IExperiment;
-import org.licho.brain.brainApi.IExperimentParameter;
-import org.licho.brain.brainApi.IExperimentParameters;
-import org.licho.brain.brainApi.IExperimentResponse;
-import org.licho.brain.brainApi.enu.ResponseObjective;
+import org.licho.brain.api.IExperiment;
+import org.licho.brain.api.IExperimentParameter;
+import org.licho.brain.api.IExperimentParameters;
+import org.licho.brain.api.IExperimentResponse;
+import org.licho.brain.api.enu.ResponseObjective;
 import org.licho.brain.utils.simu.IReferencedObjects;
 
 import java.util.Iterator;

@@ -12,9 +12,9 @@ import org.licho.brain.enu.CapacityType;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.PropertyGroupClass;
 import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainApi.FacilityLocation;
-import org.licho.brain.brainApi.FacilitySize;
-import org.licho.brain.brainApi.IIntelligentObject;
+import org.licho.brain.api.FacilityLocation;
+import org.licho.brain.api.FacilitySize;
+import org.licho.brain.api.IIntelligentObject;
 import org.licho.brain.utils.simu.ICaption;
 import org.licho.brain.utils.simu.IField;
 

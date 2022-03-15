@@ -1,7 +1,7 @@
 package org.licho.brain.utils.simu;
 
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.brainApi.IScenario;
+import org.licho.brain.api.IScenario;
 
 /**
  *

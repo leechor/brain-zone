@@ -4,7 +4,7 @@ import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.AbsBaseStepProperty;
 import org.licho.brain.concrete.property.MissingBranchedStepDefinition;
 import org.licho.brain.enu.ProductComplexityLevel;
-import org.licho.brain.brainApi.extensions.IStepDefinition;
+import org.licho.brain.api.extensions.IStepDefinition;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;

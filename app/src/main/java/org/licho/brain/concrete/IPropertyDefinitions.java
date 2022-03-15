@@ -1,8 +1,8 @@
 package org.licho.brain.concrete;
 
 
-import org.licho.brain.brainApi.INamedSimioCollection;
-import org.licho.brain.brainApi.IPropertyDefinition;
+import org.licho.brain.api.INamedSimioCollection;
+import org.licho.brain.api.IPropertyDefinition;
 
 import java.util.UUID;
 

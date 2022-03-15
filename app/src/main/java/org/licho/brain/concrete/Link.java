@@ -10,12 +10,12 @@ import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.element.Network;
 import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainApi.FacilityLocation;
-import org.licho.brain.brainApi.ILinkNetworks;
-import org.licho.brain.brainApi.ILinkObject;
-import org.licho.brain.brainApi.ILinkVertices;
-import org.licho.brain.brainApi.INetworkElementObject;
-import org.licho.brain.brainApi.INodeObject;
+import org.licho.brain.api.FacilityLocation;
+import org.licho.brain.api.ILinkNetworks;
+import org.licho.brain.api.ILinkObject;
+import org.licho.brain.api.ILinkVertices;
+import org.licho.brain.api.INetworkElementObject;
+import org.licho.brain.api.INodeObject;
 import org.licho.brain.utils.simu.IReselect;
 import org.licho.brain.utils.simu.LinkType;
 

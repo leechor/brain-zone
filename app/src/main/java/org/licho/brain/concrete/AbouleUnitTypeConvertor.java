@@ -21,17 +21,13 @@ public class AbouleUnitTypeConvertor {
     }
 
     public static UnitType smethod_1(UnitType unitType) {
-        switch (unitType) {
-            case Length:
-                return UnitType.TravelRate;
-            case Currency:
-                return UnitType.CurrencyPerTimeUnit;
-            case Volume:
-                return UnitType.VolumeFlowRate;
-            case Weight:
-                return UnitType.WeightFlowRate;
-        }
-        return UnitType.Unspecified;
+        return switch (unitType) {
+            case Length -> UnitType.TravelRate;
+            case Currency -> UnitType.CurrencyPerTimeUnit;
+            case Volume -> UnitType.VolumeFlowRate;
+            case Weight -> UnitType.WeightFlowRate;
+            default -> UnitType.Unspecified;
+        };
     }
 
     public static UnitType smethod_2(UnitType unitType) {

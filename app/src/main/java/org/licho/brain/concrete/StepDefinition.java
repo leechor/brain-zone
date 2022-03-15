@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.brainApi.extensions.IStepDefinition;
+import org.licho.brain.api.extensions.IStepDefinition;
 
 import java.util.HashMap;
 import java.util.Map;

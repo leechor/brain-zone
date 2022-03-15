@@ -6,9 +6,9 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum53;
 import org.licho.brain.utils.simu.system.DateTime;
 import org.licho.brain.utils.simu.system.IDataErrorInfo;
-import org.licho.brain.brainApi.IDayPattern;
-import org.licho.brain.brainApi.IWorkDayException;
-import org.licho.brain.brainApi.containers.SpecialEditor;
+import org.licho.brain.api.IDayPattern;
+import org.licho.brain.api.IWorkDayException;
+import org.licho.brain.api.containers.SpecialEditor;
 
 import java.util.Objects;
 

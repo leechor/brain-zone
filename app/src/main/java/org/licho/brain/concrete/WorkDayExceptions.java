@@ -3,8 +3,8 @@ package org.licho.brain.concrete;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.utils.simu.IValues;
 import org.licho.brain.utils.simu.system.ITypedList;
-import org.licho.brain.brainApi.IWorkDayException;
-import org.licho.brain.brainApi.IWorkDayExceptions;
+import org.licho.brain.api.IWorkDayException;
+import org.licho.brain.api.IWorkDayExceptions;
 
 import java.beans.PropertyDescriptor;
 import java.util.Iterator;

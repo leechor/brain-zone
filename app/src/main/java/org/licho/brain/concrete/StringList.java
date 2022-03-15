@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.IconIndex;
-import org.licho.brain.brainApi.enu.ListType;
+import org.licho.brain.api.enu.ListType;
 
 /**
  *

@@ -13,7 +13,7 @@ import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.PropertyGridFeel;
 import org.licho.brain.resource.Image;
 import org.licho.brain.brainEnums.SwitchNumericConditions;
-import org.licho.brain.brainApi.IPropertyDefinition;
+import org.licho.brain.api.IPropertyDefinition;
 import org.licho.brain.utils.simu.IReferencedObjects;
 import org.licho.brain.utils.simu.NameDefinitionFunctionOperator;
 import javassist.CannotCompileException;

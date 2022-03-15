@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.annotations.SubDisplayName;
 import org.licho.brain.enu.Enum53;
-import org.licho.brain.brainApi.containers.SpecialEditor;
+import org.licho.brain.api.containers.SpecialEditor;
 import org.licho.brain.utils.simu.system.PropertyDescriptor;
 
 import java.beans.IntrospectionException;

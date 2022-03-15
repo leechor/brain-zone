@@ -19,8 +19,8 @@ import org.licho.brain.concrete.entity.EnumPropertyRow;
 import org.licho.brain.concrete.node.Node;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainApi.ILinkNetworks;
-import org.licho.brain.brainApi.INetworkElementObject;
+import org.licho.brain.api.ILinkNetworks;
+import org.licho.brain.api.INetworkElementObject;
 import lombok.Getter;
 import lombok.Setter;
 

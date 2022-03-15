@@ -1,8 +1,8 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
-import org.licho.brain.brainApi.INamedList;
-import org.licho.brain.brainApi.INamedLists;
+import org.licho.brain.api.INamedList;
+import org.licho.brain.api.INamedLists;
 
 import java.util.Iterator;
 

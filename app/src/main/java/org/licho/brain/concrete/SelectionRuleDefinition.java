@@ -2,7 +2,7 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.rule.ISelectionRuleDefinition;
-import org.licho.brain.brainApi.extensions.ISelectionRule;
+import org.licho.brain.api.extensions.ISelectionRule;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,11 +1,11 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.brainApi.CalendarEventHandler;
-import org.licho.brain.brainApi.IBooleanTableStateColumn;
-import org.licho.brain.brainApi.ICalendar;
-import org.licho.brain.brainApi.IExecutionContext;
-import org.licho.brain.brainApi.IExecutionInformation;
-import org.licho.brain.brainApi.IRandom;
+import org.licho.brain.api.CalendarEventHandler;
+import org.licho.brain.api.IBooleanTableStateColumn;
+import org.licho.brain.api.ICalendar;
+import org.licho.brain.api.IExecutionContext;
+import org.licho.brain.api.IExecutionInformation;
+import org.licho.brain.api.IRandom;
 import org.licho.brain.utils.simu.ITrace;
 
 /**

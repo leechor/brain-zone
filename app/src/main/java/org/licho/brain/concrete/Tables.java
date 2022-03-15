@@ -1,8 +1,8 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.fake.XmlReader;
-import org.licho.brain.brainApi.ITable;
-import org.licho.brain.brainApi.ITables;
+import org.licho.brain.api.ITable;
+import org.licho.brain.api.ITables;
 
 import java.util.Iterator;
 

@@ -4,12 +4,12 @@ import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.entity.EntityRunSpace;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
-import org.licho.brain.brainApi.IExecutionContext;
-import org.licho.brain.brainApi.IProperties;
-import org.licho.brain.brainApi.IPropertyReaders;
-import org.licho.brain.brainApi.IRepeatingProperty;
-import org.licho.brain.brainApi.IRepeatingPropertyReader;
-import org.licho.brain.brainApi.IRows;
+import org.licho.brain.api.IExecutionContext;
+import org.licho.brain.api.IProperties;
+import org.licho.brain.api.IPropertyReaders;
+import org.licho.brain.api.IRepeatingProperty;
+import org.licho.brain.api.IRepeatingPropertyReader;
+import org.licho.brain.api.IRows;
 import org.licho.brain.utils.simu.IListData;
 import org.licho.brain.utils.simu.system.IBindingList;
 

@@ -3,9 +3,9 @@ package org.licho.brain.concrete;
 import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.enu.Enum38;
 import org.licho.brain.enu.UnitType;
-import org.licho.brain.brainApi.IExecutionContext;
-import org.licho.brain.brainApi.IState;
-import org.licho.brain.brainApi.IStateProperty;
+import org.licho.brain.api.IExecutionContext;
+import org.licho.brain.api.IState;
+import org.licho.brain.api.IStateProperty;
 import org.licho.brain.utils.simu.IListeners;
 
 import java.util.List;

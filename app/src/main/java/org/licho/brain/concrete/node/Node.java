@@ -13,11 +13,11 @@ import org.licho.brain.concrete.entity.Entity;
 import org.licho.brain.concrete.entity.EnumPropertyRow;
 import org.licho.brain.concrete.fixed.Fixed;
 import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainApi.FacilitySize;
-import org.licho.brain.brainApi.IFixedObject;
-import org.licho.brain.brainApi.ILinkObject;
-import org.licho.brain.brainApi.ILinkObjects;
-import org.licho.brain.brainApi.INodeObject;
+import org.licho.brain.api.FacilitySize;
+import org.licho.brain.api.IFixedObject;
+import org.licho.brain.api.ILinkObject;
+import org.licho.brain.api.ILinkObjects;
+import org.licho.brain.api.INodeObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;

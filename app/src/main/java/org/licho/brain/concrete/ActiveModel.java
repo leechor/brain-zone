@@ -18,7 +18,7 @@ import org.licho.brain.event.EventHandler;
 import org.licho.brain.event.IEvent;
 import org.licho.brain.resource.Image;
 import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainApi.IItemDescriptor;
+import org.licho.brain.api.IItemDescriptor;
 import org.licho.brain.utils.simu.IReselect;
 import org.licho.brain.utils.simu.IUnit;
 import org.licho.brain.utils.simu.system.Color;

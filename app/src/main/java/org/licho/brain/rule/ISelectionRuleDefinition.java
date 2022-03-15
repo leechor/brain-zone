@@ -3,8 +3,8 @@ package org.licho.brain.rule;
 import org.licho.brain.concrete.Guid;
 import org.licho.brain.concrete.IPropertyDefinitions;
 import org.licho.brain.resource.Image;
-import org.licho.brain.brainApi.IPropertyReaders;
-import org.licho.brain.brainApi.extensions.ISelectionRule;
+import org.licho.brain.api.IPropertyReaders;
+import org.licho.brain.api.extensions.ISelectionRule;
 
 /**
  *

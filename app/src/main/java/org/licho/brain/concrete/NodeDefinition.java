@@ -23,7 +23,7 @@ import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.IEntityProcess;
 import org.licho.brain.utils.simu.system.Color;
-import org.licho.brain.brainApi.NodeShapeType;
+import org.licho.brain.api.NodeShapeType;
 import org.licho.brain.brainEnums.NodeOutputFlowStrategy;
 import org.licho.brain.brainEnums.NodeSplitAllocationRule;
 import org.licho.brain.brainEnums.QueueRanking;
