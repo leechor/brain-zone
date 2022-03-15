@@ -248,9 +248,9 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                      boolean isFastForward) {
         this.normalRun = runStatus == RunStatus.NormalRun;
         if (this.canModify()) {
-            if (this.normalRun && !this.haveAboutRunOperator()) {
+            if (this.normalRun && !this.haveCalendarItem()) {
                 this.method_144();
-            } else if (!this.normalRun && this.haveAboutRunOperator()) {
+            } else if (!this.normalRun && this.haveCalendarItem()) {
                 this.method_146();
             }
         }
@@ -386,14 +386,19 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     private void method_144() {
-        // TODO: 2022/2/7
+//        if (this.calendarItem == null) {
+//            this.calendarItem = this.application.getRunOperatorWrapper().createCalendarItem(false);
+//            this.calendarItem.bool_1 = false;
+//			CalendarItem runOperator = this.calendarItem;
+//
+//        }
     }
 
     private void method_146() {
         // TODO: 2022/2/7
     }
 
-    private boolean haveAboutRunOperator() {
+    private boolean haveCalendarItem() {
         return this.calendarItem != null;
     }
 
@@ -513,24 +518,16 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     public void reRegisterEventByType(IntelligentObjectDefinition intelligentObjectDefinition,
                                       ObjectClass objectClass, String name, boolean visible) {
         switch (objectClass) {
-            case Fixed:
-                this.reRegisterEvent(new FixedDefinition(name, this, intelligentObjectDefinition));
-                break;
-            case Entity:
-                this.reRegisterEvent(new EntityDefinition(name, this, intelligentObjectDefinition));
-                break;
-            case Transporter:
-                this.reRegisterEvent(new TransporterDefinition(name, this, intelligentObjectDefinition));
-                break;
-            case Link:
-                this.reRegisterEvent(new LinkDefinition(name, this, (LinkDefinition) intelligentObjectDefinition));
-                break;
-            case Agent:
-                this.reRegisterEvent(new AgentDefinition(name, this, intelligentObjectDefinition));
-                break;
-            case Node:
-                this.reRegisterEvent(new NodeDefinition(name, this, intelligentObjectDefinition));
-                break;
+            case Object -> {
+            }
+            case Fixed -> this.reRegisterEvent(new FixedDefinition(name, this, intelligentObjectDefinition));
+            case Entity -> this.reRegisterEvent(new EntityDefinition(name, this, intelligentObjectDefinition));
+            case Transporter -> this.reRegisterEvent(new TransporterDefinition(name, this,
+                    intelligentObjectDefinition));
+            case Link -> this.reRegisterEvent(new LinkDefinition(name, this,
+                    (LinkDefinition) intelligentObjectDefinition));
+            case Agent -> this.reRegisterEvent(new AgentDefinition(name, this, intelligentObjectDefinition));
+            case Node -> this.reRegisterEvent(new NodeDefinition(name, this, intelligentObjectDefinition));
         }
         this.getIntelligentObjectDefinition().resetNameCollections();
         String userName = "licho";
@@ -961,38 +958,38 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     @Override
-    public String getGroup() {
-        return null;
+    public String Group() {
+        return this.getIntelligentObjectDefinition().ObjectClass().toString();
     }
 
     @Override
-    public int getGroupImportance() {
+    public int GroupImportance() {
         return 0;
     }
 
     @Override
-    public String getDisplayName() {
+    public String DisplayName() {
         return null;
     }
 
     @Override
-    public String getObjectType() {
+    public String ObjectType() {
         return null;
     }
 
     @Override
-    public String getCategory() {
+    public String Category() {
         return null;
     }
 
     @Override
-    public int getIconIndex() {
-        return 0;
+    public int IconIndex() {
+        return -1;
     }
 
     @Override
-    public int getSateIconIndex() {
-        return 0;
+    public int SateIconIndex() {
+        return -1;
     }
 
     @Override
@@ -1006,8 +1003,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     @Override
-    public void rename(String newName) {
-
+    public void Rename(String newName) {
+        this.Name(newName);
     }
 
     @Override
@@ -1079,8 +1076,38 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
     @Override
     public int GetUnitsFor(UnitType unitType) {
-        return 0;
+        final RunSetup runSetup = this.getRunSetup();
+        return switch (unitType) {
+            case Time -> runSetup.getTimeLevel();
+            case TravelRate -> runSetup.getTravelRateLevel();
+            case Length -> runSetup.getLength();
+            case Currency -> this.getIntelligentObjectDefinition().UnitFilter().CurrencyFilter().getUnitTypeIndex();
+            case CurrencyPerTimeUnit -> AboutUnit.getUnitTypeIndex(this.getIntelligentObjectDefinition()
+                    .UnitFilter().CurrencyFilter().getUnitTypeIndex(), runSetup.getTimeLevel());
+            case Volume -> runSetup.getVolumeLevel();
+            case Weight -> runSetup.getWeightLevel();
+            case VolumeFlowRate -> runSetup.getVolumeFlowRateLevel();
+            case WeightFlowRate -> runSetup.getWeightFlowRateLevel();
+            case TravelAcceleration -> ActiveModel.getUnitTypeByLevel(runSetup.getTravelRateLevel());
+            default -> 0;
+        };
     }
+
+    private static int getUnitTypeByLevel(int level) {
+        return switch (level) {
+            case 0 -> AboutUnit.getUnitTypeIndex(0, 0);
+            case 1 -> AboutUnit.getUnitTypeIndex(0, 2);
+            case 2 -> AboutUnit.getUnitTypeIndex(1, 0);
+            case 3 -> AboutUnit.getUnitTypeIndex(4, 2);
+            case 4 -> AboutUnit.getUnitTypeIndex(4, 1);
+            case 5 -> AboutUnit.getUnitTypeIndex(6, 0);
+            case 6 -> AboutUnit.getUnitTypeIndex(0, 1);
+            case 7 -> AboutUnit.getUnitTypeIndex(4, 0);
+            case 8 -> AboutUnit.getUnitTypeIndex(7, 0);
+            default -> 0;
+        };
+    }
+
 
     @Override
     public StatisticConfidenceIntervalType ConfidenceLevel() {
@@ -1102,12 +1129,27 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public Image Icon() {
-        // TODO: 2022/1/28
+        if (this.icon == null && this.getIntelligentObjectDefinition() != null) {
+            return ActiveModel.getImageByObjectType(this.getIntelligentObjectDefinition().ObjectClass());
+        }
         return this.icon;
     }
 
+
     public void Icon(Image value) {
 
+    }
+
+    private static Image getImageByObjectType(ObjectClass objectClass) {
+        return switch (objectClass) {
+            case Fixed -> ActiveModel.fixedImage;
+            case Entity -> ActiveModel.entityImage;
+            case Transporter -> ActiveModel.transporterImage;
+            case Link -> ActiveModel.linkImage;
+            case Agent -> ActiveModel.agentImage;
+            case Node -> ActiveModel.nodeImage;
+            default -> null;
+        };
     }
 
     public boolean Runnable() {

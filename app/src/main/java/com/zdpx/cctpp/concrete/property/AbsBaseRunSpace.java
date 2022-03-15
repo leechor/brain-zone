@@ -1,7 +1,6 @@
 package com.zdpx.cctpp.concrete.property;
 
 import com.google.common.base.Strings;
-import com.zdpx.cctpp.concrete.AboutReport;
 import com.zdpx.cctpp.concrete.AbsBaseTrace;
 import com.zdpx.cctpp.concrete.AbsIntelligentPropertyObject;
 import com.zdpx.cctpp.concrete.AbsPropertyObject;
@@ -19,6 +18,9 @@ import com.zdpx.cctpp.enu.StatisticsDataSourceInfo;
 import com.zdpx.cctpp.enu.UnitType;
 import com.zdpx.cctpp.utils.simu.IAboutReport;
 import com.zdpx.cctpp.utils.simu.IStatisticsDataSource;
+
+import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  *
@@ -139,8 +141,8 @@ public abstract class AbsBaseRunSpace implements IStatisticsDataSource, IRunSpac
     public String getDisplayName() {
         String name = this.Name();
         String displayName = this.DisplayName();
-        if (name != displayName && displayName != null) {
-            return String.format("{0} ({1})", displayName, name);
+        if (!Objects.equals(name, displayName) && displayName != null) {
+            return MessageFormat.format("{0} ({1})", displayName, name);
         }
         return name;
     }
@@ -185,10 +187,9 @@ public abstract class AbsBaseRunSpace implements IStatisticsDataSource, IRunSpac
     public void NotifySizeChanging(double length, double width, double height) {
     }
 
-    public void setApplication(MayApplication mayApplication)
-	{
-		this.mayApplication = mayApplication;
-	}
+    public void setApplication(MayApplication mayApplication) {
+        this.mayApplication = mayApplication;
+    }
 
     public void runtimeErrorHandler(IRunSpace runSpace, AbsPropertyObject absPropertyObject,
                                     IntelligentObjectProperty intelligentObjectProperty, String error) {
@@ -276,26 +277,22 @@ public abstract class AbsBaseRunSpace implements IStatisticsDataSource, IRunSpac
                 param3, param4, param5);
     }
 
-    	public  void GetReportedStatistics(IAboutReport aboutReport)
-	{
-		if (this.ExpressionResultPosive())
-		{
-			for (AbsBaseTrace absBaseTrace : this.absBaseTraces)
-			{
-				if (this.ReportStateStatistics(absBaseTrace))
-				{
-					absBaseTrace.GetReportedStatistics(aboutReport);
-				}
-			}
-		}
-	}
+    public void GetReportedStatistics(IAboutReport aboutReport) {
+        if (this.ExpressionResultPosive()) {
+            for (AbsBaseTrace absBaseTrace : this.absBaseTraces) {
+                if (this.ReportStateStatistics(absBaseTrace)) {
+                    absBaseTrace.GetReportedStatistics(aboutReport);
+                }
+            }
+        }
+    }
 
     private boolean ReportStateStatistics(AbsBaseTrace absBaseTrace) {
         return true;
     }
 
     private boolean ExpressionResultPosive() {
-		return this.myElementInstance.ExpressionResultPosive(this.ParentObjectRunSpace);
+        return this.myElementInstance.ExpressionResultPosive(this.ParentObjectRunSpace);
     }
 
 }

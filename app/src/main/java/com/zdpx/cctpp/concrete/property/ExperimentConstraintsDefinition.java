@@ -143,37 +143,37 @@ public final class ExperimentConstraintsDefinition extends GridObjectDefinition 
     }
 
     @Override
-    public String getGroup() {
+    public String Group() {
         return null;
     }
 
     @Override
-    public int getGroupImportance() {
+    public int GroupImportance() {
         return 0;
     }
 
     @Override
-    public String getDisplayName() {
+    public String DisplayName() {
         return null;
     }
 
     @Override
-    public String getObjectType() {
+    public String ObjectType() {
         return null;
     }
 
     @Override
-    public String getCategory() {
+    public String Category() {
         return null;
     }
 
     @Override
-    public int getIconIndex() {
+    public int IconIndex() {
         return 0;
     }
 
     @Override
-    public int getSateIconIndex() {
+    public int SateIconIndex() {
         return 0;
     }
 
@@ -188,7 +188,7 @@ public final class ExperimentConstraintsDefinition extends GridObjectDefinition 
     }
 
     @Override
-    public void rename(String newName) {
+    public void Rename(String newName) {
 
     }
 

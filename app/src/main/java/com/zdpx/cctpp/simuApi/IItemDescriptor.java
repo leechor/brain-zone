@@ -10,25 +10,25 @@ public interface IItemDescriptor {
 
     String getName();
 
-    String getGroup();
+    String Group();
 
-    int getGroupImportance();
+    int GroupImportance();
 
-    String getDisplayName();
+    String DisplayName();
 
-    String getObjectType();
+    String ObjectType();
 
-    String getCategory();
+    String Category();
 
-    int getIconIndex();
+    int IconIndex();
 
-    int getSateIconIndex();
+    int SateIconIndex();
 
     Image getIcon();
 
     String getSummary();
 
-    void rename(String newName);
+    void Rename(String newName);
 
     // TODO: 2021/11/5
     boolean canRenameTo(String newName, String failureReason);

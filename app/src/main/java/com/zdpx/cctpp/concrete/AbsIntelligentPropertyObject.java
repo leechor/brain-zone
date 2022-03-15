@@ -23,7 +23,7 @@ import java.util.Objects;
 public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject implements IItemDescriptor {
 
     private static final String GROUP_NAME = MemberExpressionUtils.getMemberExpressionMemberName("Group");
-    private static final String  PUBLIC = "public";
+    private static final String PUBLIC = "public";
     protected static String instanceName = "InstanceName";
     private static final String INSTANCE_NAME = "InstanceName";
     public boolean bool_0;
@@ -299,14 +299,14 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
         if (propertyDefinitionInfoForLoad.getOwner() != null
                 && propertyDefinitionInfoForLoad.getOwner().getRepeatingPropertyDefinition() != null) {
-            int index =
-                    propertyDefinitionInfoForLoad.getOwner().getRepeatingPropertyDefinition().getOverRidePropertyIndex();
-            RepeatStringPropertyRow repeatStringPropertyRow =
-                    (RepeatStringPropertyRow) this.properties.values.get(index);
-            int index2 = repeatStringPropertyRow.getPropertyDescriptors().Count() - 1;
-            return repeatStringPropertyRow.getPropertyDescriptors().values.get(index2).values.get(propertyDefinitionInfoForLoad.getOverRidePropertyIndex());
+            RepeatStringPropertyRow repeatStringPropertyRow = (RepeatStringPropertyRow) this.properties.getValues()
+                    .get(propertyDefinitionInfoForLoad.getOwner().getRepeatingPropertyDefinition().getOverRidePropertyIndex());
+            
+            return repeatStringPropertyRow.getPropertyDescriptors().getValues()
+                    .get(repeatStringPropertyRow.getPropertyDescriptors().Count() - 1).getValues()
+                    .get(propertyDefinitionInfoForLoad.getOverRidePropertyIndex());
         }
-        return this.properties.values.get(propertyDefinitionInfoForLoad.getOverRidePropertyIndex());
+        return this.properties.getValues().get(propertyDefinitionInfoForLoad.getOverRidePropertyIndex());
     }
 
     protected String getXmlType() {
@@ -407,7 +407,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
                     Boolean flag = false;
                     String name = attr.GetAttribute("Name");
                     if (((intelligentObjectXml.Mode() == IntelligentObjectXml.ModeType.Two && this.SetInstanceNameOnPaste()) ||
-                            intelligentObjectXml.Mode() != IntelligentObjectXml.ModeType.Two) && 
+                            intelligentObjectXml.Mode() != IntelligentObjectXml.ModeType.Two) &&
                             !Strings.isNullOrEmpty(name) && !StringHelper.equalsLocal(name, this.InstanceName())) {
                         if (intelligentObjectXml.Mode() == IntelligentObjectXml.ModeType.Two && this.Parent() != null) {
                             String uniqueName = this.Parent().GetUniqueName(name, false);
