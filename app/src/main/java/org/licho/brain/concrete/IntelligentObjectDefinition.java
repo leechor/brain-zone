@@ -4,6 +4,40 @@ import com.google.common.base.Strings;
 import org.licho.brain.IFunction.Action;
 import org.licho.brain.annotations.ElementFunctionReferenceReturnType;
 import org.licho.brain.annotations.UnitClass;
+import org.licho.brain.api.FacilityLocation;
+import org.licho.brain.api.IDayPatterns;
+import org.licho.brain.api.IElementObject;
+import org.licho.brain.api.IElementObjects;
+import org.licho.brain.api.IErrors;
+import org.licho.brain.api.IEventDefinition;
+import org.licho.brain.api.IEventDefinitions;
+import org.licho.brain.api.IExperiments;
+import org.licho.brain.api.IExportDataConnectors;
+import org.licho.brain.api.IExternalNodes;
+import org.licho.brain.api.IFacility;
+import org.licho.brain.api.IFunctionTables;
+import org.licho.brain.api.IImportDataConnectors;
+import org.licho.brain.api.IIntelligentObject;
+import org.licho.brain.api.IIntelligentObjects;
+import org.licho.brain.api.IModel;
+import org.licho.brain.api.INamedList;
+import org.licho.brain.api.INodeObject;
+import org.licho.brain.api.IPlan;
+import org.licho.brain.api.IProperties;
+import org.licho.brain.api.IRateTables;
+import org.licho.brain.api.IResourceCapacityLog;
+import org.licho.brain.api.IResourceStateLog;
+import org.licho.brain.api.IRunSetup;
+import org.licho.brain.api.IStateDefinition;
+import org.licho.brain.api.IStateDefinitions;
+import org.licho.brain.api.ITables;
+import org.licho.brain.api.IWorkSchedules;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainEnums.QueueRanking;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
+import org.licho.brain.brainEnums.ValidObjectType;
+import org.licho.brain.brainEnums.ViewNetworksMode;
+import org.licho.brain.brainEnums.WorkPeriodExceptionType;
 import org.licho.brain.concrete.annotation.BaseElementFunction;
 import org.licho.brain.concrete.annotation.ElementFunction;
 import org.licho.brain.concrete.cont.EngineResources;
@@ -36,40 +70,6 @@ import org.licho.brain.enu.UnitType;
 import org.licho.brain.event.EventArgs;
 import org.licho.brain.event.EventHandler;
 import org.licho.brain.event.IEvent;
-import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainEnums.QueueRanking;
-import org.licho.brain.brainEnums.SwitchNumericConditions;
-import org.licho.brain.brainEnums.ValidObjectType;
-import org.licho.brain.brainEnums.ViewNetworksMode;
-import org.licho.brain.brainEnums.WorkPeriodExceptionType;
-import org.licho.brain.api.FacilityLocation;
-import org.licho.brain.api.IDayPatterns;
-import org.licho.brain.api.IElementObject;
-import org.licho.brain.api.IElementObjects;
-import org.licho.brain.api.IErrors;
-import org.licho.brain.api.IEventDefinition;
-import org.licho.brain.api.IEventDefinitions;
-import org.licho.brain.api.IExperiments;
-import org.licho.brain.api.IExportDataConnectors;
-import org.licho.brain.api.IExternalNodes;
-import org.licho.brain.api.IFacility;
-import org.licho.brain.api.IFunctionTables;
-import org.licho.brain.api.IImportDataConnectors;
-import org.licho.brain.api.IIntelligentObject;
-import org.licho.brain.api.IIntelligentObjects;
-import org.licho.brain.api.IModel;
-import org.licho.brain.api.INamedList;
-import org.licho.brain.api.INodeObject;
-import org.licho.brain.api.IPlan;
-import org.licho.brain.api.IProperties;
-import org.licho.brain.api.IRateTables;
-import org.licho.brain.api.IResourceCapacityLog;
-import org.licho.brain.api.IResourceStateLog;
-import org.licho.brain.api.IRunSetup;
-import org.licho.brain.api.IStateDefinition;
-import org.licho.brain.api.IStateDefinitions;
-import org.licho.brain.api.ITables;
-import org.licho.brain.api.IWorkSchedules;
 import org.licho.brain.utils.simu.IAdvancedProperties;
 import org.licho.brain.utils.simu.IConstraintLog;
 import org.licho.brain.utils.simu.IContextBound;
@@ -81,6 +81,7 @@ import org.licho.brain.utils.simu.ITransporterUsageLog;
 import org.licho.brain.utils.simu.system.DateTime;
 import org.licho.brain.utils.simu.system.IDisposable;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -94,8 +95,8 @@ import java.util.stream.Collectors;
 /**
  * general object definition
  */
-public class IntelligentObjectDefinition extends AbsDefinition implements IFacility, IIntelligentObjects,
-        IModel, IRunSetup, IPlan {
+public class IntelligentObjectDefinition extends AbsDefinition
+        implements IFacility, IIntelligentObjects, IModel, IRunSetup, IPlan {
 
     private static final String name = "IntelligentObject";
     protected static Guid classGuid = new Guid("{9990707F-BF75-4dd6-A150-A814B74A0EB0}");
@@ -498,9 +499,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         }
         for (IntelligentObject intelligentObject : definition.getChildrenObject()) {
             this.getChildrenObject().add(intelligentObject);
-            if (intelligentObject instanceof Link) {
-                Link link = (Link) intelligentObject;
-
+            if (intelligentObject instanceof Link link) {
                 this.NetworkProperty.addLink(link);
             }
         }
@@ -1070,7 +1069,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
 
     public boolean isDuplicateIdentifier(String identifier, StringBuffer error) {
         if (this.getInternalReference().getIntelligentObjectDefinition(identifier) != null || identifier.equals(this.Name())) {
-            error.append(String.format(EngineResources.ErrorDuplicateIdentifier, identifier, "Object class"));
+            error.append(MessageFormat.format(EngineResources.ErrorDuplicateIdentifier, identifier, "Object class"));
             return false;
         }
         return true;
@@ -1098,6 +1097,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         parentCostCenter.RequiredValue(false);
         parentCostCenter.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(parentCostCenter);
+
         ExpressionPropertyDefinition initialCost = new ExpressionPropertyDefinition("InitialCost");
         initialCost.DisplayName(EngineResources.IntelligentObject_InitialCost_DisplayName);
         initialCost.Description(EngineResources.IntelligentObject_InitialCost_Description);
@@ -1106,6 +1106,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         initialCost.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.Currency);
         initialCost.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(initialCost);
+
         ExpressionPropertyDefinition initialCostRate = new ExpressionPropertyDefinition("InitialCostRate");
         initialCostRate.DisplayName(EngineResources.IntelligentObject_InitialCostRate_DisplayName);
         initialCostRate.Description(EngineResources.IntelligentObject_InitialCostRate_Description);
@@ -1114,6 +1115,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         initialCostRate.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.CurrencyPerTimeUnit);
         initialCostRate.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(initialCostRate);
+
         ExpressionPropertyDefinition resourceIdleCostRate = new ExpressionPropertyDefinition("ResourceIdleCostRate");
         resourceIdleCostRate.DisplayName(EngineResources.IntelligentObject_ResourceIdleCostRate_DisplayName);
         resourceIdleCostRate.Description(EngineResources.IntelligentObject_ResourceIdleCostRate_Description);
@@ -1121,6 +1123,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         resourceIdleCostRate.CategoryName(EngineResources.CategoryName_FinancialsResourceCosts);
         resourceIdleCostRate.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.CurrencyPerTimeUnit);
         resourceIdleCostRate.ComplexityLevel(ProductComplexityLevel.Advanced);
+
         super.getPropertyDefinitions().Add(resourceIdleCostRate);
         ExpressionPropertyDefinition resourceCostPerUse = new ExpressionPropertyDefinition("ResourceCostPerUse");
         resourceCostPerUse.DisplayName(EngineResources.IntelligentObject_ResourceCostPerUse_DisplayName);
@@ -1130,6 +1133,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         resourceCostPerUse.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.Currency);
         resourceCostPerUse.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(resourceCostPerUse);
+
         ExpressionPropertyDefinition resourceUsageCostRate = new ExpressionPropertyDefinition("ResourceUsageCostRate");
         resourceUsageCostRate.DisplayName(EngineResources.IntelligentObject_ResourceUsageCostRate_DisplayName);
         resourceUsageCostRate.Description(EngineResources.IntelligentObject_ResourceUsageCostRate_Description);
@@ -1138,6 +1142,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         resourceUsageCostRate.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.CurrencyPerTimeUnit);
         resourceUsageCostRate.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(resourceUsageCostRate);
+
         BooleanPropertyDefinition logResourceUsage = new BooleanPropertyDefinition("LogResourceUsage");
         logResourceUsage.DisplayName(EngineResources.IntelligentObject_LogResourceUsage_DisplayName);
         logResourceUsage.Description(EngineResources.IntelligentObject_LogResourceUsage_Description);
@@ -1146,6 +1151,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         logResourceUsage.CanReferenceParent(false);
         logResourceUsage.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(logResourceUsage);
+
         ExpressionPropertyDefinition displayName = new ExpressionPropertyDefinition("DisplayName");
         displayName.DisplayName(EngineResources.IntelligentObject_DisplayName_DisplayName);
         displayName.Description(EngineResources.IntelligentObject_DisplayName_Description);
@@ -1154,6 +1160,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         displayName.RequiredValue(false);
         displayName.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(displayName);
+
         StringPropertyDefinition displayCategory = new StringPropertyDefinition("DisplayCategory");
         displayCategory.DisplayName(EngineResources.IntelligentObject_DisplayCategory_DisplayName);
         displayCategory.Description(EngineResources.IntelligentObject_DisplayCategory_Description);
@@ -1166,6 +1173,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         displayCategory.CanReferenceParent(false);
         displayCategory.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(displayCategory);
+
         ColorPropertyDefinition displayColor = new ColorPropertyDefinition("DisplayColor");
         displayColor.DisplayName(EngineResources.IntelligentObject_DisplayColor_DisplayName);
         displayColor.Description(EngineResources.IntelligentObject_DisplayColor_Description);
@@ -1177,6 +1185,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         displayColor.SwitchNumericCondition(SwitchNumericConditions.Equal);
         displayColor.ComplexityLevel(ProductComplexityLevel.Advanced);
         super.getPropertyDefinitions().Add(displayColor);
+
         EnumPropertyDefinition capacityType = new EnumPropertyDefinition("CapacityType",
                 CapacityType.class);
         capacityType.Description(EngineResources.IntelligentObject_CapacityType_Description);
@@ -1185,6 +1194,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         capacityType.DefaultString(CapacityType.Fixed.toString());
         capacityType.ComplexityLevel(ProductComplexityLevel.Basic);
         super.getPropertyDefinitions().Add(capacityType);
+
         SchedulePropertyDefinition workSchedule = new SchedulePropertyDefinition("WorkSchedule",
                 ScheduleType.CapacitySchedule);
         workSchedule.Description(EngineResources.IntelligentObject_WorkSchedule_Description);
@@ -1197,6 +1207,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         workSchedule.SwitchNumericCondition(SwitchNumericConditions.Equal);
         workSchedule.ComplexityLevel(ProductComplexityLevel.Basic);
         super.getPropertyDefinitions().Add(workSchedule);
+
         RepeatingPropertyDefinition workDayExceptions = new RepeatingPropertyDefinition("WorkDayExceptions", this);
         workDayExceptions.DisplayName(EngineResources.IntelligentObject_WorkDayExceptions_DisplayName);
         workDayExceptions.Description(EngineResources.IntelligentObject_WorkDayExceptions_Description);
@@ -1228,6 +1239,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         workDayExceptions.propertyDefinitions.add(WorkDayExceptionsDayPattern);
         workDayExceptions.propertyDefinitions.add(WorkDayExceptionsDescription);
         super.getPropertyDefinitions().Add(workDayExceptions);
+
         RepeatingPropertyDefinition workPeriodExceptions = new RepeatingPropertyDefinition("WorkPeriodExceptions",
                 this);
         workPeriodExceptions.DisplayName(EngineResources.IntelligentObject_WorkPeriodExceptions_DisplayName);
@@ -1270,8 +1282,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         workPeriodExceptionsValue.setException(WorkPeriodExceptionType.GeneralException.toString());
         workPeriodExceptionsValue.ComplexityLevel(ProductComplexityLevel.Advanced);
         NumericDataPropertyDefinition workPeriodExceptionsCostMultiplier
-                = new ExpressionPropertyDefinition(
-                "WorkPeriodExceptionsCostMultiplier");
+                = new ExpressionPropertyDefinition("WorkPeriodExceptionsCostMultiplier");
         workPeriodExceptionsCostMultiplier.DefaultString("1.0");
         workPeriodExceptionsCostMultiplier.DisplayName(EngineResources.IntelligentObject_WorkPeriodExceptions_WorkPeriodExceptionsCostMultiplier_DisplayName);
         workPeriodExceptionsCostMultiplier.Description(EngineResources.IntelligentObject_WorkPeriodExceptions_WorkPeriodExceptionsCostMultiplier_Description);
@@ -1309,13 +1320,12 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         rankingRule.Description(EngineResources.IntelligentObject_RankingRule_Description);
         rankingRule.DisplayName(EngineResources.IntelligentObject_RankingRule_DisplayName);
         rankingRule.CategoryName(EngineResources.CategoryName_ProcessLogic);
-        rankingRule.stringValues = new String[]
-                {
-                        "First In First Out",
-                        "Last In First Out",
-                        "Smallest Value First",
-                        "Largest Value First"
-                };
+        rankingRule.stringValues = new String[]{
+                "First In First Out",
+                "Last In First Out",
+                "Smallest Value First",
+                "Largest Value First"
+        };
         rankingRule.DefaultString("First In First Out");
         rankingRule.ComplexityLevel(ProductComplexityLevel.Basic);
         super.getPropertyDefinitions().Add(rankingRule);
@@ -1602,7 +1612,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.HierarchicalDisplayName(), "Capacity.AllocatedTo"));
         }
         return owner.getAllocatedTo(intelligentObjectRunSpace);
@@ -1829,7 +1839,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         try {
             num = expressionValues[0].toInt();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.HierarchicalDisplayName(), "ResourceOwners.ItemAtIndex"));
         }
         if (intelligentObjectRunSpace.getRunSpaceWrapper() == null || intelligentObjectRunSpace.getRunSpaceWrapper().ResourceOwnersNumberItems().size() < num || num < 1) {
@@ -1851,7 +1861,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         }
 
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.HierarchicalDisplayName(), "ResourceOwners.IndexOfItem"));
         }
         if (intelligentObjectRunSpace.getRunSpaceWrapper() != null) {
@@ -1873,7 +1883,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         }
 
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.HierarchicalDisplayName(), "ResourceOwners.Contains"));
         }
         if (intelligentObjectRunSpace.getRunSpaceWrapper() == null) {
@@ -1945,7 +1955,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         try {
             num = expressionValues[0].toInt();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "SeizedResources.ItemAtIndex"));
         }
         if (intelligentObjectRunSpace.SeizedResourcesNumberItems() == null || intelligentObjectRunSpace.SeizedResourcesNumberItems().size() < num || num < 1) {
@@ -1964,7 +1974,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "SeizedResources.IndexOfItem"));
         }
         if (intelligentObjectRunSpace.SeizedResourcesNumberItems() != null) {
@@ -1983,7 +1993,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "SeizedResources.Contains"));
         }
         if (intelligentObjectRunSpace.SeizedResourcesNumberItems() == null) {
@@ -2006,7 +2016,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.
                             Name(), "SeizedResources.CapacityOwnedOf"));
         }
@@ -2055,7 +2065,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (owner == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.
                             HierarchicalDisplayName(), "DirectDistanceTo.Object"));
         }
@@ -2077,7 +2087,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
             y = expressionValues[1].toInt();
             z = expressionValues[2].toInt();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.
                             Name(), "DirectDistanceTo.Location"));
         }
@@ -2130,7 +2140,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         try {
             num = expressionValues[0].toInt();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.
                             Name(), "Elements.ItemAtIndex"));
         }
@@ -2154,7 +2164,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (element == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "Elements.IndexOfItem"));
         }
         if (intelligentObjectRunSpace.AbsBaseRunSpaces != null) {
@@ -2177,7 +2187,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         } catch (Exception ignored) {
         }
         if (element == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "Elements.Contains"));
         }
         if (intelligentObjectRunSpace.AbsBaseRunSpaces != null && Arrays.asList(intelligentObjectRunSpace.AbsBaseRunSpaces).contains(element)) {
@@ -2298,7 +2308,7 @@ public class IntelligentObjectDefinition extends AbsDefinition implements IFacil
         try {
             expressionValues[0].toDouble();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "SeizedObjects.CapacityUnitsOwned"));
         }
         return intelligentObjectRunSpace.getAllocatedTo(expressionValues[0].toInt());

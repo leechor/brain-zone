@@ -41,7 +41,7 @@ public abstract class AbsTrace_2<T, TRAITS extends IExpressionConverter<T>> exte
                 this.CapacityBucket.method_0(baseTrace.CapacityBucket);
                 return;
             }
-            this.CapacityBucket = new CapacityBucket<T>(baseTrace.CapacityBucket);
+            this.CapacityBucket = new CapacityBucket<>(baseTrace.CapacityBucket);
         }
     }
 

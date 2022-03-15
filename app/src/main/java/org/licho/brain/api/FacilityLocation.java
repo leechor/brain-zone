@@ -28,7 +28,4 @@ public class FacilityLocation {
         Y = y;
         Z = z;
     }
-
-
-
 }

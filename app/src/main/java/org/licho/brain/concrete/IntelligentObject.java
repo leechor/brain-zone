@@ -226,11 +226,9 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     public void LoadOldDefaultValuesForLoadFrom(IntelligentObjectXml intelligentObjectXml) {
         if (intelligentObjectXml.FileVersion() < 53) {
             for (IntelligentObjectProperty objectProperty : this.getProperties().values) {
-                if (!(objectProperty.getStringPropertyDefinitionInfo() instanceof ElementPropertyDefinition)) {
+                if (!(objectProperty.getStringPropertyDefinitionInfo() instanceof ElementPropertyDefinition definitionInfo)) {
                     continue;
                 }
-                ElementPropertyDefinition definitionInfo =
-                        (ElementPropertyDefinition) objectProperty.getStringPropertyDefinitionInfo();
                 if (definitionInfo.getType() == NetworkProperty.class
                         && Strings.isNullOrEmpty(definitionInfo.DefaultString())
                         || definitionInfo.DefaultString().equalsIgnoreCase("null")) {
@@ -274,8 +272,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     @Override
     public String getCaptionFor(String name) {
         var tmp = this.objectDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
-        if (tmp instanceof RepeatingPropertyDefinition) {
-            RepeatingPropertyDefinition stringPropertyDefinitionInfoByName = (RepeatingPropertyDefinition) tmp;
+        if (tmp instanceof RepeatingPropertyDefinition stringPropertyDefinitionInfoByName) {
             IntelligentObjectProperty intelligentObjectProperty =
                     this.properties.get(stringPropertyDefinitionInfoByName.overRidePropertyIndex);
             if (intelligentObjectProperty != null && intelligentObjectProperty.IsAReference()) {
