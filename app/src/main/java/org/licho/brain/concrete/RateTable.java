@@ -157,7 +157,7 @@ public class RateTable implements INotifyPropertyChanged, IGridObject, IOwner, I
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties param0, GridObjectDefinition param1) {
+    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
         return null;
     }
 

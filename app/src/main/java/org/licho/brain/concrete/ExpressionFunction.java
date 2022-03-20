@@ -134,7 +134,7 @@ public class ExpressionFunction implements INotifyPropertyChanged, IGridObject, 
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties param0, GridObjectDefinition param1) {
+    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
         return null;
     }
 

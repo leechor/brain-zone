@@ -68,7 +68,7 @@ public abstract class AbsListProperty extends AbsPropertyObject implements IItem
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties param0, GridObjectDefinition param1) {
+    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
         return null;
     }
 

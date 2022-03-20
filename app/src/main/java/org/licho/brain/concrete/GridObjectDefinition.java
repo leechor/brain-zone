@@ -19,10 +19,17 @@ import java.util.Map;
  */
 public abstract class GridObjectDefinition implements IGridObject, IAutoComplete {
     protected Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * object name
+     */
     private String name;
+    /**
+     * description
+     */
     private String description;
+
     protected PropertyDefinitions propertyDefinitions;
-    private List<AbsPropertyObject> AssociatedInstances;
+    private final List<AbsPropertyObject> AssociatedInstances;
     private int count;
     public PropertyDefinitions owner;
     private EventHandler<PropertyChangedEventArgs> propertyDescriptionChangedEventHandler;

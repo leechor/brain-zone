@@ -83,7 +83,7 @@ public class UserFunction implements INotifyPropertyChanged, IGridObject, IOwner
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties param0, GridObjectDefinition param1) {
+    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
         return null;
     }
 
