@@ -28,7 +28,7 @@ public class ColorPropertyRow extends NumericDataPropertyRow {
         this.color = Color.Empty;
         String name = super.formatName(super.getObjectNameMaybe());
         if (super.isInvalidObjectNameValue(null)) {
-            if (super.getStringPropertyDefinitionInfo().RequiredValue()) {
+            if (super.getStringPropertyDefinition().RequiredValue()) {
                 return EngineResources.ErrorRequiredValueNotSpecified;
             }
             return null;
@@ -83,12 +83,12 @@ public class ColorPropertyRow extends NumericDataPropertyRow {
 
     @Override
     public GridItemProperty GetGridItemProperty(PropertyDefinitions definitions) {
-        return new GridItemProperty(super.getStringPropertyDefinitionInfo().Name(),
-                super.getStringPropertyDefinitionInfo().GetCategoryName(definitions),
-                super.getStringPropertyDefinitionInfo().overRidePropertyIndex + 1000, this.StringValue(),
+        return new GridItemProperty(super.getStringPropertyDefinition().Name(),
+                super.getStringPropertyDefinition().GetCategoryName(definitions),
+                super.getStringPropertyDefinition().overRidePropertyIndex + 1000, this.StringValue(),
                 super.getDefaultName(definitions), PropertyGridFeel.editlist,
-                super.getStringPropertyDefinitionInfo().GetDisplayName(definitions),
-                super.getStringPropertyDefinitionInfo().GetDescription(definitions),
+                super.getStringPropertyDefinition().GetDisplayName(definitions),
+                super.getStringPropertyDefinition().GetDescription(definitions),
                 new SubPropertyOperator_0<>(String.class, this, this::StringValue,
                         this::StringValue, null, this::GetCandidatePropertyReferences));
     }

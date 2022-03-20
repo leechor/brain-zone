@@ -65,7 +65,7 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
 
     IntelligentObjectProperty findByName(String name) {
         IntelligentObjectProperty intelligentObjectProperty =
-                this.search((IntelligentObjectProperty t) -> Objects.equals(t.getStringPropertyDefinitionInfo().Name(), name));
+                this.search((IntelligentObjectProperty t) -> Objects.equals(t.getStringPropertyDefinition().Name(), name));
         if (intelligentObjectProperty == null) {
             throw new IllegalArgumentException("No property of that name exists on this object.");
         }
@@ -91,8 +91,7 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
 
     public boolean readXmlProperties(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         xmlReader.MoveToContent();
-        return SomeXmlOperator.xmlReaderElementAll(xmlReader, "Properties", null, (XmlReader beforeRead) ->
-        {
+        return SomeXmlOperator.xmlReaderElementAll(xmlReader, "Properties", null, (XmlReader beforeRead) ->        {
             if (this.AbsPropertyObject != null) {
                 this.AbsPropertyObject.LoadOldDefaultValuesForLoadFrom(intelligentObjectXml);
             }
@@ -301,7 +300,7 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
         }
 
         EventHandler.fire(this.propertyChangedEventHandler, this,
-                new PropertyChangedEventArgs(intelligentObjectProperty.getStringPropertyDefinitionInfo().Name()));
+                new PropertyChangedEventArgs(intelligentObjectProperty.getStringPropertyDefinition().Name()));
         return result;
     }
 
@@ -349,9 +348,9 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
         }
         super.Insert(index, intelligentObjectProperty);
         IntelligentObjectProperty objectProperty = super.get(index);
-        if (objectProperty.getStringPropertyDefinitionInfo().RequiredValue() &&
-                (Strings.isNullOrEmpty(objectProperty.getStringPropertyDefinitionInfo().DefaultString()) ||
-                        Objects.equals(objectProperty.getStringPropertyDefinitionInfo().DefaultString(), "null"))) {
+        if (objectProperty.getStringPropertyDefinition().RequiredValue() &&
+                (Strings.isNullOrEmpty(objectProperty.getStringPropertyDefinition().DefaultString()) ||
+                        Objects.equals(objectProperty.getStringPropertyDefinition().DefaultString(), "null"))) {
             objectProperty.processPropertyChange();
             return;
         }

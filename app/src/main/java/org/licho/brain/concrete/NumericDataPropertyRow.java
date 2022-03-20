@@ -16,7 +16,7 @@ public class NumericDataPropertyRow extends IntelligentObjectProperty {
 
     @Override
     public Object GetNativeObject() {
-        var definitionInfo = super.getStringPropertyDefinitionInfo();
+        var definitionInfo = super.getStringPropertyDefinition();
         if (definitionInfo instanceof NumericDataPropertyDefinition &&
                 ((NumericDataPropertyDefinition) definitionInfo).DataType() != NumericDataType.Integer) {
             return this.value;

@@ -37,7 +37,7 @@ public class PropertyDescriptors extends BindingList<Properties> implements ITyp
     	private void onListChanged(Object sender, ListChangedEventArgs e)
 	{
 		PropertyDefinitions propertyDefinitions =
-                ((RepeatingPropertyDefinition)(this.repeatStringPropertyRow.getStringPropertyDefinitionInfo())).propertyDefinitions;
+                ((RepeatingPropertyDefinition)(this.repeatStringPropertyRow.getStringPropertyDefinition())).propertyDefinitions;
 		switch (e.ListChangedType())
 		{
 		case ItemAdded:

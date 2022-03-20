@@ -17,14 +17,14 @@ public class StringPropertyRow extends IntelligentObjectProperty {
 
     @Override
     public GridItemProperty GetGridItemProperty(PropertyDefinitions definitions) {
-        return new GridItemProperty(super.getStringPropertyDefinitionInfo().Name(),
-                super.getStringPropertyDefinitionInfo().GetCategoryName(definitions),
-                super.getStringPropertyDefinitionInfo().overRidePropertyIndex + 1000,
+        return new GridItemProperty(super.getStringPropertyDefinition().Name(),
+                super.getStringPropertyDefinition().GetCategoryName(definitions),
+                super.getStringPropertyDefinition().overRidePropertyIndex + 1000,
                 this.StringValue(),
                 super.getDefaultName(definitions),
                 PropertyGridFeel.editlist,
-                super.getStringPropertyDefinitionInfo().GetDisplayName(definitions),
-                super.getStringPropertyDefinitionInfo().GetDescription(definitions),
+                super.getStringPropertyDefinition().GetDisplayName(definitions),
+                super.getStringPropertyDefinition().GetDescription(definitions),
                 new SubPropertyOperator_0<>(String.class, this,
                         this::StringValue, this::StringValue, null,
                         this::GetCandidatePropertyReferences));
@@ -37,7 +37,7 @@ public class StringPropertyRow extends IntelligentObjectProperty {
         this.rateTable = null;
         String text = super.formatName(super.getObjectName());
         if (super.isInvalidObjectValue(null)) {
-            if (super.getStringPropertyDefinitionInfo().RequiredValue()) {
+            if (super.getStringPropertyDefinition().RequiredValue()) {
                 return EngineResources.ErrorRequiredValueNotSpecified;
             }
             return null;

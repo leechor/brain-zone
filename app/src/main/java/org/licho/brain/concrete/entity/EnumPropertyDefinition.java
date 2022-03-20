@@ -1,6 +1,8 @@
 package org.licho.brain.concrete.entity;
 
 import com.google.common.base.Strings;
+import org.licho.brain.brainEnums.PropertyEnumTypes;
+import org.licho.brain.brainEnums.QueueRanking;
 import org.licho.brain.concrete.GridItemProperty;
 import org.licho.brain.concrete.IIdentityName;
 import org.licho.brain.concrete.IValueProvider;
@@ -15,8 +17,6 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.DataFormat;
 import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.PropertyGridFeel;
-import org.licho.brain.brainEnums.PropertyEnumTypes;
-import org.licho.brain.brainEnums.QueueRanking;
 import org.reflections.Reflections;
 
 import java.util.Arrays;
@@ -125,35 +125,30 @@ public class EnumPropertyDefinition extends NumericDataPropertyDefinition {
     protected boolean ReadXmlBody(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
                                   IIdentityName identityName) {
         return super.ReadXmlBody(xmlReader, intelligentObjectXml, identityName) ||
-                SomeXmlOperator.xmlReaderElementOperator(xmlReader, "Captions", null, (t) -> {
-                    return SomeXmlOperator.xmlReaderElementOperator(t, "Caption",
-                            r -> {
-
-                                String value = r.GetAttribute("Value");
-                                String display = r.GetAttribute("Display");
-                                String visible = r.GetAttribute("Visible");
-                                if (!Strings.isNullOrEmpty(value) &&
-                                        Arrays.stream(this.type.getEnumConstants()).anyMatch(v -> v.name().equals(value))) {
-                                    String[] names =
-                                            Arrays.stream(this.type.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-                                    int num = -1;
-                                    for (int i = 0; i < names.length; i++) {
-                                        if (names[i].equalsIgnoreCase(value)) {
-                                            num = i;
-                                            break;
-                                        }
-                                    }
-                                    if (display != null && num >= 0) {
-                                        this.stringValues[num] = display;
-                                    }
-                                    if (visible.equalsIgnoreCase("False")) {
-                                        this.visibles[num] = false;
+                SomeXmlOperator.xmlReaderElementOperator(xmlReader, "Captions", null,
+                        t -> SomeXmlOperator.xmlReaderElementOperator(t, "Caption", r -> {
+                            String value = r.GetAttribute("Value");
+                            String display = r.GetAttribute("Display");
+                            String visible = r.GetAttribute("Visible");
+                            if (!Strings.isNullOrEmpty(value) &&
+                                    Arrays.stream(this.type.getEnumConstants()).anyMatch(v -> v.name().equals(value))) {
+                                String[] names =
+                                        Arrays.stream(this.type.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+                                int num = -1;
+                                for (int i = 0; i < names.length; i++) {
+                                    if (names[i].equalsIgnoreCase(value)) {
+                                        num = i;
+                                        break;
                                     }
                                 }
-
-                            }, null);
-
-                });
+                                if (display != null && num >= 0) {
+                                    this.stringValues[num] = display;
+                                }
+                                if (visible.equalsIgnoreCase("False")) {
+                                    this.visibles[num] = false;
+                                }
+                            }
+                        }, null));
     }
 
 }

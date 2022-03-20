@@ -36,7 +36,7 @@ public class NodeClassPropertyRow extends IntelligentObjectProperty {
 
     @Override
     public GridItemProperty GetGridItemProperty(PropertyDefinitions definitions) {
-        StringPropertyDefinition definitionInfo = super.getStringPropertyDefinitionInfo();
+        StringPropertyDefinition definitionInfo = super.getStringPropertyDefinition();
 //        return new GridItemProperty(definitionInfo.Name(),
 //                definitionInfo.GetCategory(definitions),
 //                definitionInfo.propertyIndex + 1000, StringValue(),

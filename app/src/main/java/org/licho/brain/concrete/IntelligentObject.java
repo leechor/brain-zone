@@ -38,7 +38,7 @@ import java.util.Objects;
 
 public class IntelligentObject extends AbsIntelligentPropertyObject implements IIntelligentObject, IField, ICaption {
 
-    private static final String defaultName = "DefinitionName";
+    private static final String DEFINITION_NAME = "DefinitionName";
     public List<Node> nodes;
     private boolean setSizing;
 
@@ -226,7 +226,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     public void LoadOldDefaultValuesForLoadFrom(IntelligentObjectXml intelligentObjectXml) {
         if (intelligentObjectXml.FileVersion() < 53) {
             for (IntelligentObjectProperty objectProperty : this.getProperties().values) {
-                if (!(objectProperty.getStringPropertyDefinitionInfo() instanceof ElementPropertyDefinition definitionInfo)) {
+                if (!(objectProperty.getStringPropertyDefinition() instanceof ElementPropertyDefinition definitionInfo)) {
                     continue;
                 }
                 if (definitionInfo.getType() == NetworkProperty.class
@@ -423,7 +423,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
 
     @Override
     public String GetNameForKey(Object target) {
-        if (target == IntelligentObject.defaultName) {
+        if (target == IntelligentObject.DEFINITION_NAME) {
             return "DefinitionName";
         }
         return super.GetNameForKey(target);
@@ -431,7 +431,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
 
     @Override
     public String GetDisplayNameForKey(Object target) {
-        if (target == IntelligentObject.defaultName) {
+        if (target == IntelligentObject.DEFINITION_NAME) {
             return "Definition Name";
         }
         return super.GetDisplayNameForKey(target);
@@ -439,7 +439,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
 
     @Override
     public String SearchableValueFor(Object target) {
-        if (target == IntelligentObject.defaultName) {
+        if (target == IntelligentObject.DEFINITION_NAME) {
             return super.ObjectType();
         }
         return super.SearchableValueFor(target);
@@ -448,7 +448,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     @Override
     public void SubmitToSearch(ItemEditPolicy itemEditPolicy, ActiveModel activeModel) {
         super.SubmitToSearch(itemEditPolicy, activeModel);
-        itemEditPolicy.method_0(this, IntelligentObject.defaultName, activeModel);
+        itemEditPolicy.method_0(this, IntelligentObject.DEFINITION_NAME, activeModel);
     }
 
     public boolean sameGuid(IntelligentObject intelligentObject) {

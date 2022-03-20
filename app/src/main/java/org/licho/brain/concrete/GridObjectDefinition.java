@@ -68,7 +68,8 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
         if (this.propertyDescriptionChangedEventHandler != null) {
             this.propertyDescriptionChangedEventHandler.fire(this, new PropertyChangedEventArgs(description));
         }
-        if (this.owner != null && this.owner.TargetObject != null && this.owner.TargetObject instanceof IntelligentObjectDefinition) {
+        if (this.owner != null && this.owner.TargetObject != null &&
+                this.owner.TargetObject instanceof IntelligentObjectDefinition) {
             ((IntelligentObjectDefinition) this.owner.TargetObject).resetTable(255);
         }
     }

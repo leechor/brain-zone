@@ -38,7 +38,7 @@ public class IntelligentObjectXml {
     private final Map<String, IntelligentObjectDefinition> allIntelligentObjectDefinitionNameMap = new HashMap<>();
     private final Map<GuidRevision, String> definitionXmlMap = new HashMap<>();
     private int modelCount;
-    private List<IntelligentObjectXml.OutXml> runnableInstanceXml = new ArrayList<>();
+    private List<RunnableInstanceOutXml> runnableInstanceXml = new ArrayList<>();
     private Map<ActiveModel, List<Warning>> activeModelWarning = new HashMap<>();
     private List<IntelligentObjectXml.InnerExperimentConstraint> experimentConstraints = new ArrayList<>();
     private Stack<IntelligentObjectDefinition> objectDefinitionStack = new Stack<>();
@@ -313,7 +313,7 @@ public class IntelligentObjectXml {
     }
 
     public void RunnableInstance(String runnableInstanceXml, ActiveModel activeModel) {
-        this.runnableInstanceXml.add(new OutXml(runnableInstanceXml, activeModel));
+        this.runnableInstanceXml.add(new RunnableInstanceOutXml(runnableInstanceXml, activeModel));
     }
 
     public void addWarning(ActiveModel activeModel, Warning warning) {
@@ -355,8 +355,8 @@ public class IntelligentObjectXml {
     }
 
     private void readRunnableInstanceXml() {
-        this.runnableInstanceXml.forEach(outXml -> {
-            IntelligentObject intelligentObject = outXml.ActiveModel.getIntelligentObjectDefinition().IntelligentObject;
+        this.runnableInstanceXml.forEach(runnableInstanceOutXml -> {
+            IntelligentObject intelligentObject = runnableInstanceOutXml.ActiveModel.getIntelligentObjectDefinition().IntelligentObject;
             intelligentObject.properties.values.forEach(p -> {
                 p.SetStringValue(p.getDefaultName(intelligentObject.objectDefinition.getPropertyDefinitions()), null,
                         IntelligentObjectProperty.ValueVersion.userVersion(this.FileVersion()));
@@ -541,11 +541,11 @@ public class IntelligentObjectXml {
         }
     }
 
-    private class OutXml {
+    private class RunnableInstanceOutXml {
         public String outXml;
         public ActiveModel ActiveModel;
 
-        public OutXml(String runnableInstanceXml, ActiveModel activeModel) {
+        public RunnableInstanceOutXml(String runnableInstanceXml, ActiveModel activeModel) {
             this.outXml = runnableInstanceXml;
             this.ActiveModel = activeModel;
         }

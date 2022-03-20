@@ -99,7 +99,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         this.error = null;
         this.properties = properties;
         if (this.CopyInDefaultValue()) {
-            this.setObjectValue(this.getDefaultName(this.getStringPropertyDefinitionInfo().GetDefaultStringBy(properties.PropertyDefinitions)));
+            this.setObjectValue(this.getDefaultName(this.getStringPropertyDefinition().GetDefaultStringBy(properties.PropertyDefinitions)));
         }
         this.clear();
     }
@@ -153,7 +153,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     private String processValue(IntelligentObjectXml intelligentObjectXml, String value) {
-        value = this.getStringPropertyDefinitionInfo().GetPropertyValueFixup(intelligentObjectXml, value);
+        value = this.getStringPropertyDefinition().GetPropertyValueFixup(intelligentObjectXml, value);
         if (this.getExperimentConstraintsIntelligentObjectDefinition() != null) {
             return this.getExperimentConstraintsIntelligentObjectDefinition().GetPropertyValueFixup(intelligentObjectXml, value);
         }
@@ -231,7 +231,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
 
-    public StringPropertyDefinition getStringPropertyDefinitionInfo() {
+    public StringPropertyDefinition getStringPropertyDefinition() {
         return this.propertyDefinition;
     }
 
@@ -294,7 +294,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     public String DefinitionName() {
-        return this.getStringPropertyDefinitionInfo().Name();
+        return this.getStringPropertyDefinition().Name();
     }
 
     public Object ListData() {
@@ -316,7 +316,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
 
     @Override
     public String Name() {
-        return this.getStringPropertyDefinitionInfo().Name();
+        return this.getStringPropertyDefinition().Name();
     }
 
 
@@ -590,7 +590,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
 
     private Boolean invalidObjectValue(String objectName) {
         String text = ExtensionString.removeSpace(objectName);
-        return Strings.isNullOrEmpty(text) || text.equals(ExtensionString.removeSpace(this.getStringPropertyDefinitionInfo().NullNullString())) || text.equals("null");
+        return Strings.isNullOrEmpty(text) || text.equals(ExtensionString.removeSpace(this.getStringPropertyDefinition().NullNullString())) || text.equals("null");
     }
 
     public void expressionListerHandler(Action<IListener> action) {
@@ -819,12 +819,12 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         }
         PropertyDefinitions propertyDefinitions = (this.getProperties() != null) ?
                 this.getProperties().PropertyDefinitions : null;
-        if (this.getStringPropertyDefinitionInfo().GetSwitchNumericProperty(propertyDefinitions) == null) {
+        if (this.getStringPropertyDefinition().GetSwitchNumericProperty(propertyDefinitions) == null) {
             return true;
         }
         NumericDataPropertyRow numericDataPropertyRow = (this.getProperties() != null) ?
-                (NumericDataPropertyRow) (this.getProperties().search((IntelligentObjectProperty inst) -> inst.getStringPropertyDefinitionInfo() == this.getStringPropertyDefinitionInfo().GetSwitchNumericProperty(propertyDefinitions))) : null;
-        return numericDataPropertyRow != null && numericDataPropertyRow.validProperty() && (numericDataPropertyRow.IsAReference() || this.predicate(numericDataPropertyRow.getValue(), this.getStringPropertyDefinitionInfo().GetSwitchNumericCondition(propertyDefinitions), this.getStringPropertyDefinitionInfo().GetSwitchNumericValues(propertyDefinitions)));
+                (NumericDataPropertyRow) (this.getProperties().search((IntelligentObjectProperty inst) -> inst.getStringPropertyDefinition() == this.getStringPropertyDefinition().GetSwitchNumericProperty(propertyDefinitions))) : null;
+        return numericDataPropertyRow != null && numericDataPropertyRow.validProperty() && (numericDataPropertyRow.IsAReference() || this.predicate(numericDataPropertyRow.getValue(), this.getStringPropertyDefinition().GetSwitchNumericCondition(propertyDefinitions), this.getStringPropertyDefinition().GetSwitchNumericValues(propertyDefinitions)));
     }
 
     private boolean predicate(Double value, SwitchNumericConditions switchNumericConditions,
@@ -872,7 +872,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
 
     public boolean method_31(String ObjectValue, Class<?> type, int enum20) {
         String[] valueSplits = objectValue.split("\\.");
-        if (valueSplits.length == 0 || !this.getStringPropertyDefinitionInfo().CanReferenceParent()) {
+        if (valueSplits.length == 0 || !this.getStringPropertyDefinition().CanReferenceParent()) {
             return false;
         }
         IntelligentObjectDefinition intelligentObjectDefinition = this.getIntelligentObjectDefinition();
@@ -893,7 +893,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
                     StringPropertyDefinition parentDefinition =
                             parentTable.Schema().getPropertiesStringPropertyDefinition(result);
                     if (parentDefinition != null && type.isAssignableFrom(parentDefinition.getClass())) {
-                        if (parentDefinition == this.getStringPropertyDefinitionInfo()) {
+                        if (parentDefinition == this.getStringPropertyDefinition()) {
                             return false;
                         }
                         this.reference = parentDefinition;
@@ -956,7 +956,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         }
 
         if (name == null) {
-            name = this.getStringPropertyDefinitionInfo().GetDefaultStringBy(propertyDefinitions);
+            name = this.getStringPropertyDefinition().GetDefaultStringBy(propertyDefinitions);
         }
         return this.getDefaultName(name);
     }

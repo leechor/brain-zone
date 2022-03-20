@@ -32,7 +32,7 @@ public class SchedulePropertyRow extends NumericDataPropertyRow {
 
     @Override
     public void UpdateForNewPropertyDefinition() {
-        this.StringValue(super.getStringPropertyDefinitionInfo().NullNullString());
+        this.StringValue(super.getStringPropertyDefinition().NullNullString());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SchedulePropertyRow extends NumericDataPropertyRow {
         this.workSchedule = null;
         String name = super.formatName(super.getObjectNameMaybe());
         if (super.isInvalidObjectNameValue(null)) {
-            if (super.getStringPropertyDefinitionInfo().RequiredValue()) {
+            if (super.getStringPropertyDefinition().RequiredValue()) {
                 return EngineResources.ErrorRequiredValueNotSpecified;
             }
             return null;
@@ -55,7 +55,7 @@ public class SchedulePropertyRow extends NumericDataPropertyRow {
                 return null;
             }
             SchedulePropertyDefinition schedulePropertyDefinition =
-                    (SchedulePropertyDefinition) super.getStringPropertyDefinitionInfo();
+                    (SchedulePropertyDefinition) super.getStringPropertyDefinition();
             ScheduleType typeOfSchedule = schedulePropertyDefinition.TypeOfSchedule();
             IntelligentObjectDefinition intelligentObjectDefinition =
                     super.getExperimentConstraintsIntelligentObjectDefinition();
@@ -77,12 +77,12 @@ public class SchedulePropertyRow extends NumericDataPropertyRow {
 
     @Override
     public GridItemProperty GetGridItemProperty(PropertyDefinitions definitions) {
-        return new GridItemProperty(super.getStringPropertyDefinitionInfo().Name(),
-                super.getStringPropertyDefinitionInfo().GetCategoryName(definitions),
-                super.getStringPropertyDefinitionInfo().overRidePropertyIndex + 1000, this.StringValue(),
+        return new GridItemProperty(super.getStringPropertyDefinition().Name(),
+                super.getStringPropertyDefinition().GetCategoryName(definitions),
+                super.getStringPropertyDefinition().overRidePropertyIndex + 1000, this.StringValue(),
                 super.getDefaultName(definitions), PropertyGridFeel.editlist,
-                super.getStringPropertyDefinitionInfo().GetDisplayName(definitions),
-                super.getStringPropertyDefinitionInfo().GetDescription(definitions),
+                super.getStringPropertyDefinition().GetDisplayName(definitions),
+                super.getStringPropertyDefinition().GetDescription(definitions),
                 new SubPropertyOperator_0<>(String.class, this, this::StringValue,
                         this::StringValue, null, this::GetCandidatePropertyReferences));
     }

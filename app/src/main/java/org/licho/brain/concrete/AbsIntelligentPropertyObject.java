@@ -10,6 +10,8 @@ import org.licho.brain.enu.Enum34;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.resource.Image;
 import org.licho.brain.brainEnums.ElementScope;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- *
- */
-public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject implements IItemDescriptor {
 
+public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject implements IItemDescriptor {
+    Logger logger = LoggerFactory.getLogger(AbsIntelligentPropertyObject.class);
     private static final String GROUP_NAME = MemberExpressionUtils.getMemberExpressionMemberName("Group");
     private static final String PUBLIC = "public";
     protected static String instanceName = "InstanceName";
@@ -70,7 +70,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
         try {
             this.booleanPropertyRow = (BooleanPropertyRow) this.getProperties().get(index++);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error binding property");
         }
         return index;
     }

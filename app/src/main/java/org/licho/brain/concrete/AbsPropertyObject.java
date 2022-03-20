@@ -24,7 +24,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
 
     public Properties properties;
 
-    public AbsPropertyObject(GridObjectDefinition definition, String name) {
+    protected AbsPropertyObject(GridObjectDefinition definition, String name) {
         if (name == null) {
             definition.setCount(definition.getCount() + 1);
             name = definition.Name() + definition.getCount();
@@ -70,7 +70,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
 
         IntelligentObjectProperty intelligentObjectProperty = (IntelligentObjectProperty) target;
         if (intelligentObjectProperty != null) {
-            return intelligentObjectProperty.getStringPropertyDefinitionInfo().Name();
+            return intelligentObjectProperty.getStringPropertyDefinition().Name();
         }
 
         return null;
@@ -87,7 +87,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
 
         IntelligentObjectProperty intelligentObjectProperty = (IntelligentObjectProperty) target;
         if (intelligentObjectProperty != null) {
-            return intelligentObjectProperty.getStringPropertyDefinitionInfo()
+            return intelligentObjectProperty.getStringPropertyDefinition()
                     .GetDisplayName(this.objectDefinition.getPropertyDefinitions());
         }
 
@@ -380,7 +380,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
 
         if (key instanceof IntelligentObjectProperty) {
             IntelligentObjectProperty objectProperty = (IntelligentObjectProperty) key;
-            return objectProperty.getStringPropertyDefinitionInfo().Name();
+            return objectProperty.getStringPropertyDefinition().Name();
         }
         return null;
     }
@@ -395,7 +395,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
 
         if (key instanceof IntelligentObjectProperty) {
             IntelligentObjectProperty objectProperty = (IntelligentObjectProperty) key;
-            return objectProperty.getStringPropertyDefinitionInfo().DisplayName();
+            return objectProperty.getStringPropertyDefinition().DisplayName();
         }
         return null;
     }
@@ -559,17 +559,17 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
             GridItemProperty gridItemProperty =
                     propertyInstance.GetGridItemProperty(this.properties.PropertyDefinitions);
             if (gridItemProperty != null) {
-                if (propertyInstance.getStringPropertyDefinitionInfo().ParentPropertyDefinition() != null) {
+                if (propertyInstance.getStringPropertyDefinition().ParentPropertyDefinition() != null) {
                     gridItemProperty.Parent(gridItemProperties.stream().filter((GridItemProperty prop) ->
                                     Objects.equals(prop.name,
-                                            propertyInstance.getStringPropertyDefinitionInfo().ParentPropertyDefinition()
+                                            propertyInstance.getStringPropertyDefinition().ParentPropertyDefinition()
                                                     .Name()))
                             .findFirst().orElse(null));
                 } else {
                     gridItemProperty.Parent(gridItemProperties.getGridItemPropertyByName(gridItemProperty.CategoryName()));
                 }
 
-                gridItemProperty.ComplexityLevel(propertyInstance.getStringPropertyDefinitionInfo()
+                gridItemProperty.ComplexityLevel(propertyInstance.getStringPropertyDefinition()
                         .GetComplexityLevel(this.properties.PropertyDefinitions));
                 gridItemProperties.add(gridItemProperty);
             } else {
@@ -577,16 +577,16 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
                 propertyInstance.AlternateGetGridItemProperties(this.properties.PropertyDefinitions, itemProperties);
                 for (GridItemProperty itemProperty : itemProperties) {
                     if (itemProperty.Parent() == null) {
-                        if (propertyInstance.getStringPropertyDefinitionInfo().ParentPropertyDefinition() != null) {
+                        if (propertyInstance.getStringPropertyDefinition().ParentPropertyDefinition() != null) {
                             itemProperty.Parent(gridItemProperties.stream().filter((GridItemProperty prop) ->
-                                    prop.name == propertyInstance.getStringPropertyDefinitionInfo()
+                                    prop.name == propertyInstance.getStringPropertyDefinition()
                                             .ParentPropertyDefinition().Name()).findFirst().orElse(null));
                         } else {
                             itemProperty.Parent(gridItemProperties.getGridItemPropertyByName(itemProperty.CategoryName()));
                         }
                     }
 
-                    itemProperty.ComplexityLevel(propertyInstance.getStringPropertyDefinitionInfo()
+                    itemProperty.ComplexityLevel(propertyInstance.getStringPropertyDefinition()
                             .GetComplexityLevel(this.properties.PropertyDefinitions));
                     gridItemProperties.add(itemProperty);
                 }
@@ -655,7 +655,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
                 this.Parent().activeModel.getIntelligentObjectDefinition() ==
                         this.Parent() &&
                 this.Parent().activeModel.projectDefinition != null) {
-            ISearch param = intelligentObjectProperty.getStringPropertyDefinitionInfo().IsTableProperty() ?
+            ISearch param = intelligentObjectProperty.getStringPropertyDefinition().IsTableProperty() ?
                     intelligentObjectProperty.getProperties() : this;
             this.Parent().activeModel.projectDefinition.getItemEditPolicy()
                     .method_0(param, intelligentObjectProperty, this.Parent().activeModel);

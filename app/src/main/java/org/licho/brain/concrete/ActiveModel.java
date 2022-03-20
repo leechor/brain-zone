@@ -797,8 +797,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                 }
 
                 if (Objects.equals(xmlReader.Name(), "RunnableInstance")) {
-                    String outerXml = xmlReader.ReadOuterXml();
-                    intelligentObjectXml.RunnableInstance(outerXml, this);
+                    intelligentObjectXml.RunnableInstance(xmlReader.ReadOuterXml(), this);
                     return true;
                 }
 

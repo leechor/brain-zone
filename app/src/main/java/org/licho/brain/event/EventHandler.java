@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  *
  */
-public class EventHandler<TEventArgs> {
+public class EventHandler<TEventArgs> implements IEventHandler {
     private List<IEvent<TEventArgs>> eventDeleteArray = new CopyOnWriteArrayList<>();
 
     public void subscribe(IEvent<TEventArgs> method) {

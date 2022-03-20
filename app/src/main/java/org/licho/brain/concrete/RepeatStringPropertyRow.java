@@ -31,7 +31,7 @@ public class RepeatStringPropertyRow extends IntelligentObjectProperty implement
     }
 
     private String validRepeatGroup() {
-        if (super.getStringPropertyDefinitionInfo().RequiredValue() && this.PropertyDescriptors.size() == 0) {
+        if (super.getStringPropertyDefinition().RequiredValue() && this.PropertyDescriptors.size() == 0) {
             return EngineResources.Error_RepeatGroup_RequiredButEmpty;
         }
         for (Properties p : this.PropertyDescriptors.values) {
