@@ -5,7 +5,7 @@ import org.licho.brain.concrete.property.AbsBaseRunSpace;
 /**
  *
  */
-public class AbsBaseRunSpaceTrace extends AbsTrace_2<org.licho.brain.concrete.property.AbsBaseRunSpace, AbsBaseRunSpaceExpressionConverter> {
+public class AbsBaseRunSpaceTrace extends AbsTrace_2<AbsBaseRunSpace, AbsBaseRunSpaceExpressionConverter> {
     public AbsBaseRunSpaceTrace(ElementReferenceStateGridItemPropertyObject elementReferenceStateGridItemProperties,
                                 AbsBaseRunSpace absBaseRunSpace) {
         super(elementReferenceStateGridItemProperties, absBaseRunSpace);

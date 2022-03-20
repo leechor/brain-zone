@@ -19,8 +19,6 @@ public class EnumPropertyRow extends NumericDataPropertyRow {
         EnumPropertyDefinition enumPropertyDefinitionInfo =
                 (EnumPropertyDefinition) super.getStringPropertyDefinitionInfo();
         this.enumValue = enumPropertyDefinitionInfo.enumValue;
-
-
     }
 
     @Override

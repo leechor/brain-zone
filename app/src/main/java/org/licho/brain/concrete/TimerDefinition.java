@@ -21,6 +21,7 @@ public class TimerDefinition extends AbsDefinition {
         intervalType.Description(Resources.Timer_IntervalType_Description());
         intervalType.DefaultString(TimerIntervalType.Time.toString());
         intervalType.CategoryName(Resources.ElementPropertyCategory_BasicLogic());
+
         ExpressionPropertyDefinition timeOffset = new ExpressionPropertyDefinition("TimeOffset");
         timeOffset.DisplayName(Resources.Timer_TimeOffset_DisplayName());
         timeOffset.Description(Resources.Timer_TimeOffset_Description());
@@ -31,6 +32,7 @@ public class TimerDefinition extends AbsDefinition {
         timeOffset.SwitchNumericCondition(SwitchNumericConditions.LessThan);
         timeOffset.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.Time);
         timeOffset.DefaultUnitSubType(0);
+
         ExpressionPropertyDefinition timeInterval = new ExpressionPropertyDefinition("TimeInterval");
         timeInterval.DisplayName(Resources.Timer_TimeInterval_DisplayName());
         timeInterval.Description(Resources.Timer_TimeInterval_Description());
@@ -41,6 +43,7 @@ public class TimerDefinition extends AbsDefinition {
         timeInterval.SwitchNumericCondition(SwitchNumericConditions.LessThan);
         timeInterval.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.Time);
         timeInterval.DefaultUnitSubType(0);
+
         StatePropertyDefinition stateVariableName = new StatePropertyDefinition("StateVariableName");
         stateVariableName.DisplayName(Resources.Timer_StateVariableName_DisplayName());
         stateVariableName.Description(Resources.Timer_StateVariableName_Description());
@@ -50,6 +53,7 @@ public class TimerDefinition extends AbsDefinition {
         stateVariableName.SwitchNumericValue(1.0);
         stateVariableName.SwitchNumericCondition(SwitchNumericConditions.Equal);
         stateVariableName.RequiredValue(false);
+
         ExpressionPropertyDefinition stateValue = new ExpressionPropertyDefinition("StateValue");
         stateValue.DisplayName(Resources.Timer_StateValue_DisplayName());
         stateValue.Description(Resources.Timer_StateValue_Description());
@@ -59,6 +63,7 @@ public class TimerDefinition extends AbsDefinition {
         stateValue.SwitchNumericValue(1.0);
         stateValue.SwitchNumericCondition(SwitchNumericConditions.Equal);
         stateValue.UnitTypePropertyDefinition(stateVariableName);
+
         RateTablePropertyDefinition rateTable = new RateTablePropertyDefinition("RateTable");
         rateTable.DisplayName(Resources.Timer_RateTable_DisplayName());
         rateTable.DefaultString("");
@@ -67,6 +72,7 @@ public class TimerDefinition extends AbsDefinition {
         rateTable.SwitchNumericProperty(intervalType);
         rateTable.SwitchNumericValue(2.0);
         rateTable.RequiredValue(false);
+
         ExpressionPropertyDefinition rateScaleFactor = new ExpressionPropertyDefinition("RateScaleFactor");
         rateScaleFactor.DisplayName(Resources.Timer_RateScaleFactor_DisplayName());
         rateScaleFactor.DefaultString("1.0");
@@ -74,6 +80,7 @@ public class TimerDefinition extends AbsDefinition {
         rateScaleFactor.CategoryName(Resources.ElementPropertyCategory_BasicLogic());
         rateScaleFactor.SwitchNumericProperty(intervalType);
         rateScaleFactor.SwitchNumericValue(2.0);
+
         EventPropertyDefinition triggeringEventName = new EventPropertyDefinition("TriggeringEventName");
         triggeringEventName.DisplayName(Resources.Timer_TriggeringEventName_DisplayName());
         triggeringEventName.Description(Resources.Timer_TriggeringEventName_Description());
@@ -82,6 +89,7 @@ public class TimerDefinition extends AbsDefinition {
         triggeringEventName.SwitchNumericValue(3.0);
         triggeringEventName.RequiredValue(false);
         triggeringEventName.DefaultString("");
+
         ExpressionPropertyDefinition triggeringEventCount = new ExpressionPropertyDefinition("TriggeringEventCount");
         triggeringEventCount.DisplayName(Resources.Timer_TriggeringEventCount_DisplayName());
         triggeringEventCount.DefaultString("1");
@@ -89,6 +97,7 @@ public class TimerDefinition extends AbsDefinition {
         triggeringEventCount.CategoryName(Resources.ElementPropertyCategory_BasicLogic());
         triggeringEventCount.SwitchNumericProperty(intervalType);
         triggeringEventCount.SwitchNumericValue(3.0);
+
         TableAndColumnPropertyDefinition arrivalTimeProperty = new TableAndColumnPropertyDefinition(
         		"ArrivalTimeProperty");
         arrivalTimeProperty.DisplayName(Resources.Timer_ArrivalTimeProperty_DisplayName());
@@ -98,6 +107,7 @@ public class TimerDefinition extends AbsDefinition {
         arrivalTimeProperty.SwitchNumericValue(4.0);
         arrivalTimeProperty.RequiredValue(false);
         arrivalTimeProperty.DefaultString("");
+
         ExpressionPropertyDefinition arrivalEventsPerTimeSlot = new ExpressionPropertyDefinition(
         		"ArrivalEventsPerTimeSlot");
         arrivalEventsPerTimeSlot.DisplayName(Resources.Timer_ArrivalEventsPerTimeSlot_DisplayName());
@@ -106,6 +116,7 @@ public class TimerDefinition extends AbsDefinition {
         arrivalEventsPerTimeSlot.CategoryName(Resources.ElementPropertyCategory_BasicLogic());
         arrivalEventsPerTimeSlot.SwitchNumericProperty(intervalType);
         arrivalEventsPerTimeSlot.SwitchNumericValue(4.0);
+
         ExpressionPropertyDefinition arrivalTimeDeviation = new ExpressionPropertyDefinition("ArrivalTimeDeviation");
         arrivalTimeDeviation.DisplayName(Resources.Timer_ArrivalTimeDeviation_DisplayName());
         arrivalTimeDeviation.DefaultString("0.0");
@@ -115,6 +126,7 @@ public class TimerDefinition extends AbsDefinition {
         arrivalTimeDeviation.SwitchNumericValue(4.0);
         arrivalTimeDeviation.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.Time);
         arrivalTimeDeviation.DefaultUnitSubType(0);
+
         ExpressionPropertyDefinition arrivalNoShowProbability = new ExpressionPropertyDefinition(
         		"ArrivalNoShowProbability");
         arrivalNoShowProbability.DisplayName(Resources.Timer_ArrivalNoShowProbability_DisplayName());
@@ -131,11 +143,13 @@ public class TimerDefinition extends AbsDefinition {
         repeatArrivalPattern.SwitchNumericProperty(intervalType);
         repeatArrivalPattern.SwitchNumericValue(4.0);
         repeatArrivalPattern.DefaultString("False");
+
         ExpressionPropertyDefinition maximumEvents = new ExpressionPropertyDefinition("MaximumEvents");
         maximumEvents.DisplayName(Resources.Timer_MaximumEvents_DisplayName());
         maximumEvents.DefaultString("Infinity");
         maximumEvents.Description(Resources.Timer_MaximumEvents_Description());
         maximumEvents.CategoryName(Resources.ElementPropertyCategory_StoppingConditions());
+
         ExpressionPropertyDefinition maximumTime = new ExpressionPropertyDefinition("MaximumTime");
         maximumTime.DisplayName(Resources.Timer_MaximumTime_DisplayName());
         maximumTime.DefaultString("Infinity");
@@ -143,6 +157,7 @@ public class TimerDefinition extends AbsDefinition {
         maximumTime.CategoryName(Resources.ElementPropertyCategory_StoppingConditions());
         maximumTime.UnitType(NumericDataPropertyDefinition.NumericPropertyUnitType.Time);
         maximumTime.DefaultUnitSubType(0);
+
         EventPropertyDefinition resetEvent = new EventPropertyDefinition("ResetEvent");
         resetEvent.DisplayName(Resources.Timer_ResetEvent_DisplayName());
         resetEvent.Description(Resources.Timer_ResetEvent_Description());
@@ -153,12 +168,14 @@ public class TimerDefinition extends AbsDefinition {
         resetEvent.DefaultString("");
         resetEvent.CategoryName(Resources.ElementPropertyCategory_AdvancedOptions());
         resetEvent.ComplexityLevel(ProductComplexityLevel.Advanced);
+
         EnumPropertyDefinition initiallyEnabled = new EnumPropertyDefinition("InitiallyEnabled", BooleanType.class);
         initiallyEnabled.DisplayName(Resources.Timer_InitiallyEnabled_DisplayName());
         initiallyEnabled.Description(Resources.Timer_InitiallyEnabled_Description());
         initiallyEnabled.CategoryName(Resources.ElementPropertyCategory_AdvancedOptions());
         initiallyEnabled.DefaultString("True");
         initiallyEnabled.ComplexityLevel(ProductComplexityLevel.Advanced);
+
         super.getPropertyDefinitions().add(intervalType);
         super.getPropertyDefinitions().add(timeOffset);
         super.getPropertyDefinitions().add(timeInterval);
@@ -177,6 +194,7 @@ public class TimerDefinition extends AbsDefinition {
         super.getPropertyDefinitions().add(maximumTime);
         super.getPropertyDefinitions().add(resetEvent);
         super.getPropertyDefinitions().add(initiallyEnabled);
+
         BaseStatePropertyObject enabled = new BaseStatePropertyObject("Enabled", false, false, NumericDataType.Boolean);
         enabled.Description( Resources.Timer_Enabled_Description());
         CostStatePropertyObject elapsedTime = new CostStatePropertyObject("ElapsedTime", true, false);

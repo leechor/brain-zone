@@ -253,8 +253,7 @@ public class Network extends AbsIntelligentPropertyObject implements INetworkEle
         IntelligentObjectDefinition parent = super.Parent();
         if (parent.activeModel != null && parent.activeModel.canModify()) {
             var p = super.GetRunSpaceRecursionOutOfParent(parent.activeModel.MayApplication.getFixedRunSpace());
-            if (p instanceof NetworkElementRunSpace) {
-                NetworkElementRunSpace networkElementRunSpace = (NetworkElementRunSpace) p;
+            if (p instanceof NetworkElementRunSpace networkElementRunSpace) {
                 networkElementRunSpace.removeLink((LinkRunSpace)(link.GetRunSpaceRecursionOutOfParent(parent.activeModel.MayApplication.getFixedRunSpace())));
             }
         }

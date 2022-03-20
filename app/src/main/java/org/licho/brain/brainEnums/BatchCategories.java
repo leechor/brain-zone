@@ -1,6 +1,6 @@
 package org.licho.brain.brainEnums;
-	public enum BatchCategories
-	{
-		Parent,
-		Member
-	}
+
+public enum BatchCategories {
+    Parent,
+    Member
+}
