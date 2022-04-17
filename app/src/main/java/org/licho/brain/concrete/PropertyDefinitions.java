@@ -13,6 +13,7 @@ import org.licho.brain.utils.simu.system.IDisposable;
 import org.licho.brain.utils.simu.system.ListChangedEventArgs;
 import org.licho.brain.utils.simu.system.ListChangedType;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -315,7 +316,7 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
                     identityName);
         }
         if (stringPropertyDefinition == null && !PropertyDefinitions.isValidNodeName(xmlReader.Name()) && enum17 == StringPropertyDefinition.Enum17.One) {
-            intelligentObjectXml.addWarning(String.format(EngineResources.LoadWarning_CouldNotFindProperty,
+            intelligentObjectXml.addWarning(MessageFormat.format(EngineResources.LoadWarning_CouldNotFindProperty,
                     xmlReader.Name()));
             stringPropertyDefinition = new MissingPropertyDefinition(identityName.GetUniqueName("Property"));
         }

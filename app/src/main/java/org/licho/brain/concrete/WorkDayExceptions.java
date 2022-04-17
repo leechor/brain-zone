@@ -1,27 +1,27 @@
 package org.licho.brain.concrete;
 
+import org.licho.brain.api.IWorkDayException;
+import org.licho.brain.api.IWorkDayExceptions;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.utils.simu.IValues;
 import org.licho.brain.utils.simu.system.ITypedList;
-import org.licho.brain.api.IWorkDayException;
-import org.licho.brain.api.IWorkDayExceptions;
 
 import java.beans.PropertyDescriptor;
 import java.util.Iterator;
 
-/**
- *
- */
-public class WorkDayExceptions extends BindingList<WorkDayException> implements ITypedList, IWorkDayExceptions, IValues {
+
+@SuppressWarnings("FieldCanBeLocal")
+public class WorkDayExceptions extends BindingList<WorkDayException> implements ITypedList, IWorkDayExceptions,
+        IValues {
     private final WorkSchedule workSchedule;
     private final IntelligentObjectDefinition parent;
 
     public WorkDayExceptions(IntelligentObjectDefinition parent, WorkSchedule workSchedule) {
-		this.parent = parent;
-		this.workSchedule = workSchedule;
-		super.AllowEdit(true);
-		super.AllowNew(true);
-		super.AllowRemove(true);
+        this.parent = parent;
+        this.workSchedule = workSchedule;
+        super.AllowEdit(true);
+        super.AllowNew(true);
+        super.AllowRemove(true);
     }
 
     @Override
@@ -74,15 +74,17 @@ public class WorkDayExceptions extends BindingList<WorkDayException> implements 
         return null;
     }
 
-    public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml, IntelligentObjectDefinition intelligentObjectDefinition, IGridObject gridObject) {
-	return SomeXmlOperator.xmlReaderElementOperator(xmlReader, "DayExceptions", null, (XmlReader body) ->
-		{
-			WorkDayException workDayException = WorkDayException.readXml(xmlReader, intelligentObjectXml, intelligentObjectDefinition, gridObject);
-			if (workDayException != null)
-			{
-				this.add(workDayException);
-				return true;
-			}
-			return false;
-		});    }
+    public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
+                           IntelligentObjectDefinition intelligentObjectDefinition, IGridObject gridObject) {
+        return SomeXmlOperator.xmlReaderElementOperator(xmlReader, "DayExceptions", null, (XmlReader body) ->
+        {
+            WorkDayException workDayException = WorkDayException.readXml(xmlReader, intelligentObjectXml,
+                    intelligentObjectDefinition, gridObject);
+            if (workDayException != null) {
+                this.add(workDayException);
+                return true;
+            }
+            return false;
+        });
+    }
 }

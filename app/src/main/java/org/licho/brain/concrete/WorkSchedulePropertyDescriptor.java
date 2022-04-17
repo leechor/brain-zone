@@ -1,12 +1,13 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.annotations.SubDisplayName;
-import org.licho.brain.enu.Enum53;
 import org.licho.brain.api.containers.SpecialEditor;
+import org.licho.brain.enu.Enum53;
 import org.licho.brain.utils.simu.system.PropertyDescriptor;
 
 import java.beans.IntrospectionException;
 import java.lang.annotation.Annotation;
+
 
 /**
  *
@@ -18,6 +19,16 @@ public class WorkSchedulePropertyDescriptor extends PropertyDescriptor {
         super(propertyName, new Annotation[]{
                 new SubDisplayName() {
                     @Override
+                    public int hashCode() {
+                        return super.hashCode();
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        return super.equals(obj);
+                    }
+
+                    @Override
                     public Class<? extends Annotation> annotationType() {
                         return SubDisplayName.class;
                     }
@@ -28,6 +39,16 @@ public class WorkSchedulePropertyDescriptor extends PropertyDescriptor {
                     }
                 },
                 new SpecialEditor() {
+                    @Override
+                    public int hashCode() {
+                        return super.hashCode();
+                    }
+
+                    @Override
+                    public boolean equals(Object obj) {
+                        return super.equals(obj);
+                    }
+
                     @Override
                     public Class<? extends Annotation> annotationType() {
                         return SpecialEditor.class;

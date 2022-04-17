@@ -8,6 +8,7 @@ import org.licho.brain.concrete.property.AbsBaseRunSpace;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 /**
  *
@@ -85,7 +86,7 @@ public class ElementRunSpaceOperator {
             case AssociatedObject:
                 if (runSpace.AssociatedObjectRunSpace() == null) {
                     RuntimeErrorFullMessageDetails.reportError(runSpace, enumPropertyRow,
-                            String.format(EngineResources.Error_RuntimeReference_NullOrUndefinedReferenceException,
+                            MessageFormat.format(EngineResources.Error_RuntimeReference_NullOrUndefinedReferenceException,
                                     objectType, (enumPropertyRow != null) ? enumPropertyRow.getDisplay() :
                                             "undefined"));
                 }
@@ -98,7 +99,7 @@ public class ElementRunSpaceOperator {
                 if (absBaseRunSpace == null) {
                     if (objectProperty.isInvalidObjectNameValue(runSpace, intelligentObjectRunSpace) == 1.0) {
                         RuntimeErrorFullMessageDetails.reportError(runSpace, objectProperty,
-                                String.format(EngineResources.Error_RuntimeReference_NullOrUndefinedReferenceException,
+                                MessageFormat.format(EngineResources.Error_RuntimeReference_NullOrUndefinedReferenceException,
                                         objectProperty.getIntelligentObjectPropertyValue(runSpace,
                                                 intelligentObjectRunSpace),
                                         objectProperty.getDisplay()));
@@ -124,7 +125,7 @@ public class ElementRunSpaceOperator {
             IntelligentObjectProperty intelligentObjectProperty =
                     (objectType == ElementRunSpaceOperator.ObjectType.SpecificObject || objectType == ElementRunSpaceOperator.ObjectType.SpecificObjectOrElement) ? objectProperty : enumPropertyRow;
             RuntimeErrorFullMessageDetails.reportError(runSpace, intelligentObjectProperty,
-                    String.format(EngineResources.Error_RuntimeReference_ElementReferenceTypeMismatchException,
+                    MessageFormat.format(EngineResources.Error_RuntimeReference_ElementReferenceTypeMismatchException,
                             absBaseRunSpace.HierarchicalDisplayName(), (intelligentObjectProperty != null) ?
                                     intelligentObjectProperty.getDisplay() : "undefined", (absDefinition != null) ?
                                     absDefinition.Name() : "undefined"));
@@ -134,7 +135,7 @@ public class ElementRunSpaceOperator {
             IntelligentObjectProperty intelligentObjectProperty =
                     (objectType == ElementRunSpaceOperator.ObjectType.SpecificObject || objectType == ElementRunSpaceOperator.ObjectType.SpecificObjectOrElement) ? objectProperty : enumPropertyRow;
             RuntimeErrorFullMessageDetails.reportError(runSpace, intelligentObjectProperty,
-                    String.format(EngineResources.Error_RuntimeReference_AgentPopulationStaticParentReferenceException,
+                    MessageFormat.format(EngineResources.Error_RuntimeReference_AgentPopulationStaticParentReferenceException,
                             telementRunSpace.HierarchicalDisplayName(), (intelligentObjectProperty != null) ?
                                     intelligentObjectProperty.getDisplay() : "undefined"));
         }

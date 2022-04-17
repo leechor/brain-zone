@@ -150,7 +150,7 @@ public abstract class XmlReader implements IDisposable {
 
         /**
          * read element string contains begin and end.
-         * <b>Note:</b> if element node like <a/>, it will become <a></a>
+         * <b>Note:</b> if element node like <a>, it will become </a>
          * @return
          */
         @Override

@@ -227,7 +227,7 @@ public class SimioProjectManager {
     private boolean haveProject(InputStream stream, StringBuffer error) {
         if (stream == null) {
             if (this.project != null) {
-                this.project.NotifyError(String.format(Resources.FailedToOpenProject(), error));
+                this.project.NotifyError(MessageFormat.format(Resources.FailedToOpenProject(), error));
             }
             return false;
         }
@@ -579,7 +579,7 @@ public class SimioProjectManager {
                 if (this.Project().SimioProject.getInited() && this.project != null) {
                     String askSaveCurrentProject = Resources.AskSaveCurrentProject;
                     if (!Strings.isNullOrEmpty(this.Project().getFileName())) {
-                        askSaveCurrentProject = String.format(Resources.AskSaveCurrentProjectWithName,
+                        askSaveCurrentProject = MessageFormat.format(Resources.AskSaveCurrentProjectWithName,
                                 this.Project().getFileName());
                     }
                     switch (this.project.AskYesNoCancelQuestion(askSaveCurrentProject)) {

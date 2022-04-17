@@ -5,6 +5,8 @@ import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum42;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -52,7 +54,7 @@ public class EndStepProperty extends AbsStepProperty<EndStepDefinition> {
     public void execute(TokenRunSpace tokenRunSpace) {
 		if (tokenRunSpace.TraceFlag())
 		{
-			String param = String.format(EngineResources.Trace_EndStep_ProcessEnded,
+			String param = MessageFormat.format(EngineResources.Trace_EndStep_ProcessEnded,
                     tokenRunSpace.getProcessPropertyElementRunSpace().Name());
 			tokenRunSpace.traceMethod(tokenRunSpace, Enum42.Zero, param);
 		}

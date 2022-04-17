@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -113,6 +114,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
         return result;
     }
 
+    @SuppressWarnings("NonRuntimeAnnotation")
     private static void processNameDefinitionFunctions(Class<?> cl) {
         NameDefinitionFunctionOperator nameDefinitionFunctionOperator = null;
         var propertyDefinitionFactoryAttribute = cl.getAnnotation(PropertyDefinitionFactory.class);
@@ -1197,7 +1199,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
         }
 
         if (stringPropertyDefinition == null && !PropertyDefinitions.isValidNodeName(xmlReader.Name()) && enum17 == StringPropertyDefinition.Enum17.One) {
-            intelligentObjectXml.addWarning(String.format(EngineResources.LoadWarning_CouldNotFindProperty,
+            intelligentObjectXml.addWarning(MessageFormat.format(EngineResources.LoadWarning_CouldNotFindProperty,
                     xmlReader.Name()));
             stringPropertyDefinition = new MissingPropertyDefinition(identityName.GetUniqueName("Property"));
         }
@@ -1481,6 +1483,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
         }
     }
 
+    @SuppressWarnings("NonRuntimeAnnotation")
     private static synchronized String getTypeName(Class<?> type) {
         String name = StringPropertyDefinition.typeToName.get(type);
 
@@ -1491,8 +1494,8 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
                 name = propertyDefinitionNameAttribute.value();
                 StringPropertyDefinition.typeToName.put(type, name);
             }
-
         }
+
         if (name != null) {
             return name;
         }

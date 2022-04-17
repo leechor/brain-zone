@@ -134,6 +134,6 @@ public class ProcessDefinition extends AbsDefinition {
             return this.string_0;
         }
 
-        private String string_0;
+        private final String string_0;
     }
 }

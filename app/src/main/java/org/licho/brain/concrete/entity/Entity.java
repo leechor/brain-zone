@@ -44,7 +44,7 @@ import java.util.Map;
  * </p>
  * <p></p>
  * Entity do not flow through processes, as Tokens do. which might execute a process. when the process is executed,
- * a {@link Token} is created that flows through the steps of a process.
+ * a Token is created that flows through the steps of a process.
  */
 public class Entity extends Agent {
 

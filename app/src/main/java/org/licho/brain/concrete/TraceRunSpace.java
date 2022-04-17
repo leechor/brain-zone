@@ -14,9 +14,9 @@ public class TraceRunSpace implements ITrace, IRunSpace{
 
     private IntelligentObjectRunSpace associatedObjectRunSpace;
 
-    public TraceRunSpace(IntelligentObjectRunSpace intelligentObjectRunSpace, EntityRunSpace entityRunSpace) {
+    public TraceRunSpace(IntelligentObjectRunSpace parentObjectRunSpace, EntityRunSpace entityRunSpace) {
         this.parentObjectRunSpace = parentObjectRunSpace;
-        this.associatedObjectRunSpace = associatedObjectRunSpace;
+        this.associatedObjectRunSpace = entityRunSpace;
     }
 
     public IntelligentObjectRunSpace ContextObjectRunSpace() {

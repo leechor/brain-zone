@@ -13,6 +13,7 @@ import org.licho.brain.brainEnums.ElementScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     public String Group() {
         if (this.AutoCreated()) {
-            return String.format(EngineResources.AutoCreatedElementGroupLabel, super.DefinitionName());
+            return MessageFormat.format(EngineResources.AutoCreatedElementGroupLabel, super.DefinitionName());
         }
         return super.DefinitionName();
     }
@@ -177,7 +178,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     @Override
     public String GetGridObjectClassName() {
-        return String.format(EngineResources.ELEMENT_INSTANCE_CLASS_NAME, this.objectDefinition.Name());
+        return MessageFormat.format(EngineResources.ELEMENT_INSTANCE_CLASS_NAME, this.objectDefinition.Name());
     }
 
     @Override

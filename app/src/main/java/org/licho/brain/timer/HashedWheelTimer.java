@@ -21,6 +21,7 @@ import org.licho.brain.utils.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -40,7 +41,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * A {@link Timer} optimized for approximated I/O timeout scheduling.
  *
- * <h3>Tick Duration</h3>
+ * <b>Tick Duration</b>
  * <p>
  * As described with 'approximated', this timer does not execute the scheduled
  * {@link TimerTask} on time.  {@link HashedWheelTimer}, on every tick, will
@@ -53,7 +54,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * the default tick duration is 100 milliseconds and you will not need to try
  * different configurations in most cases.
  *
- * <h3>Ticks per Wheel (Wheel Size)</h3>
+ * <b>Ticks per Wheel (Wheel Size)</b>
  * <p>
  * {@link HashedWheelTimer} maintains a data structure called 'wheel'.
  * To put simply, a wheel is a hash table of {@link TimerTask}s whose hash
@@ -61,14 +62,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * (i.e. the size of the wheel) is 512.  You could specify a larger value
  * if you are going to schedule a lot of timeouts.
  *
- * <h3>Do not create many instances.</h3>
+ * <b>Do not create many instances.</b>
  * <p>
  * {@link HashedWheelTimer} creates a new thread whenever it is instantiated and
  * started.  Therefore, you should make sure to create only one instance and
  * share it across your application.  One of the common mistakes, that makes
  * your application unresponsive, is to create a new instance for every connection.
  *
- * <h3>Implementation Details</h3>
+ * <b>Implementation Details</b>
  * <p>
  * {@link HashedWheelTimer} is based on
  * <a href="http://cseweb.ucsd.edu/users/varghese/">George Varghese</a> and
@@ -245,8 +246,8 @@ public class HashedWheelTimer implements Timer {
 
         // Prevent overflow.
         if (this.tickDuration >= Long.MAX_VALUE / wheel.length) {
-            throw new IllegalArgumentException(String.format(
-                    "tickDuration: %d (expected: 0 < tickDuration in nanos < %d",
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "tickDuration: %{0, number, integer} (expected: 0 < tickDuration in nanos < %{1}",
                     tickDuration, Long.MAX_VALUE / wheel.length));
         }
         workerThread = threadFactory.newThread(worker);
@@ -725,7 +726,7 @@ public class HashedWheelTimer implements Timer {
                         timeout.expire();
                     } else {
                         // The timeout was placed into a wrong slot. This should never happen.
-                        throw new IllegalStateException(String.format(
+                        throw new IllegalStateException(MessageFormat.format(
                                 "timeout.deadline (%d) > deadline (%d)", timeout.deadline, deadline));
                     }
                 } else if (timeout.isCancelled()) {

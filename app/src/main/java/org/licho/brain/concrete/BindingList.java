@@ -130,13 +130,13 @@ public class BindingList<T> implements IBindingList {
             if (propertyChangedEventHandler == null) {
                 this.propertyChangedEventHandler.subscribe(this::Child_PropertyChanged);
             }
-            ((INotifyPropertyChanged) item).PropertyChanged.subscribe(this.propertyChangedEventHandler);
+           INotifyPropertyChanged.PropertyChanged.subscribe(this.propertyChangedEventHandler);
         }
     }
 
     private void UnhookPropertyChanged(T item) {
         if (item instanceof INotifyPropertyChanged && this.propertyChangedEventHandler != null) {
-            ((INotifyPropertyChanged) item).PropertyChanged.unSubscribe(this.propertyChangedEventHandler);
+            INotifyPropertyChanged.PropertyChanged.unSubscribe(this.propertyChangedEventHandler);
         }
     }
 
@@ -165,6 +165,7 @@ public class BindingList<T> implements IBindingList {
         }
     }
 
+    @SuppressWarnings("unchecked")
     void Child_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
         if (this.RaiseListChangedEvents()) {
             if (sender == null || e == null || Strings.isNullOrEmpty(e.PropertyName())) {
@@ -302,7 +303,7 @@ public class BindingList<T> implements IBindingList {
     }
 
     public void Remove(int index) {
-        this.Remove(index);
+        this.values.remove(index);
     }
 
     public boolean Remove(T item) {

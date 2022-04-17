@@ -13,195 +13,196 @@ apply plugin: 'jacoco'
 apply plugin: 'pmd'
 
 configurations {
-  checkstyleConfig
+    checkstyleConfig
 }
 
 dependencies {
-  spotbugsPlugins gradlePlugins.spotbugsContrib
-  spotbugsPlugins gradlePlugins.findsecbugs
-  checkstyleConfig gradlePlugins.checkstyle
+    spotbugsPlugins gradlePlugins.spotbugsContrib
+    spotbugsPlugins gradlePlugins.findsecbugs
+    checkstyleConfig gradlePlugins.checkstyle
 
-  errorprone files("${buildDir}/libs/caffeine-local.jar")
-  errorprone libraries.errorproneCore
-  errorprone libraries.nullaway
+    errorprone files("${buildDir}/libs/caffeine-local.jar")
+    errorprone libraries.errorproneCore
+    errorprone libraries.nullaway
 }
 
 // Gradle rewrites ErrorProne's dependency on Caffeine to a project dependency, which then fails.
 // Instead we have to download and trick the build to put the jar on the compiler's classpath.
 tasks.register('downloadCaffeineLocal') {
-  def local = file("${buildDir}/libs/caffeine-local.jar")
-  outputs.upToDateWhen { local.exists() }
+    def local = file("${buildDir}/libs/caffeine-local.jar")
+    outputs.upToDateWhen { local.exists() }
 
-  doFirst {
-    def version = '3.0.5'
-    def url = 'https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/' +
-      "${version}/caffeine-${version}.jar"
-    if (!local.exists()) {
-      local.parentFile.mkdirs()
-      new URL(url).withInputStream{ input -> local.withOutputStream { it << input } }
+    doFirst {
+        def version = '3.0.5'
+        def url = 'https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/' +
+                "${version}/caffeine-${version}.jar"
+        if (!local.exists()) {
+            local.parentFile.mkdirs()
+            new URL(url).withInputStream { input -> local.withOutputStream { it << input } }
+        }
     }
-  }
 }
 
 tasks.named('javadoc').configure {
-  options.links(
-    'https://checkerframework.org/api/',
-    'https://lightbend.github.io/config/latest/api/',
-    "https://guava.dev/releases/${versions.guava}/api/docs/",
-    "https://docs.oracle.com/en/java/javase/${JavaVersion.current().majorVersion}/docs/api/")
+    options.links(
+            'https://checkerframework.org/api/',
+            'https://lightbend.github.io/config/latest/api/',
+            "https://guava.dev/releases/${versions.guava}/api/docs/",
+            "https://docs.oracle.com/en/java/javase/${JavaVersion.current().majorVersion}/docs/api/")
 }
 
 tasks.named('jar').configure {
-  manifest.attributes 'Bundle-License': 'https://www.apache.org/licenses/LICENSE-2.0'
-  metaInf {
-    from "${rootDir}/LICENSE"
-  }
+    manifest.attributes 'Bundle-License': 'https://www.apache.org/licenses/LICENSE-2.0'
+    metaInf {
+        from "${rootDir}/LICENSE"
+    }
 }
 
 checkstyle {
-  showViolations = true
-  toolVersion = pluginVersions.checkstyle
-  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+    showViolations = true
+    toolVersion = pluginVersions.checkstyle
+    config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
 }
 
 spotbugs {
-  effort = 'max'
-  reportLevel = 'low'
-  toolVersion = pluginVersions.spotbugs
-  excludeFilter = file("${rootDir}/config/spotbugs/exclude.xml")
+    effort = 'max'
+    reportLevel = 'low'
+    toolVersion = pluginVersions.spotbugs
+    excludeFilter = file("${rootDir}/config/spotbugs/exclude.xml")
 }
 
 pmd {
-  ruleSets = []
-  toolVersion = pluginVersions.pmd
-  ruleSetConfig = resources.text.fromFile(file("${rootDir}/config/pmd/rulesSets.xml"))
+    ruleSets = []
+    toolVersion = pluginVersions.pmd
+    ruleSetConfig = resources.text.fromFile(file("${rootDir}/config/pmd/rulesSets.xml"))
 }
 
 jacoco {
-  toolVersion = [version(pluginVersions.jacoco), version(toolVersion)].max().version
+    toolVersion = [version(pluginVersions.jacoco), version(toolVersion)].max().version
 }
 
 jacocoTestReport {
-  group = 'Coverage reports'
-  description = 'Generates a test coverage report for a project'
+    group = 'Coverage reports'
+    description = 'Generates a test coverage report for a project'
 
-  reports {
-    xml.required = true
-    html.required = true
-  }
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
 sonarqube {
-  properties {
-    property 'sonar.organization', 'caffeine'
-    property 'sonar.projectKey', 'caffeine:caffeine'
-    property 'sonar.login', System.env.'SONAR_TOKEN'
-    property 'sonar.host.url', 'https://sonarcloud.io'
-  }
+    properties {
+        property 'sonar.organization', 'caffeine'
+        property 'sonar.projectKey', 'caffeine:caffeine'
+        property 'sonar.login', System.env.'SONAR_TOKEN'
+        property 'sonar.host.url', 'https://sonarcloud.io'
+    }
 }
 
 def JVM_ARGS_STRONG_ENCAPSULATION = [
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED',
-  '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
-  '--add-opens',   'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
-  '--add-opens',   'jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED',
-  '--add-opens',   'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED',
+        '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
+        '--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
+        '--add-opens', 'jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED',
+        '--add-opens', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
 ]
 
 tasks.withType(JavaExec).configureEach {
-  jvmArgs += JVM_ARGS_STRONG_ENCAPSULATION
+    jvmArgs += JVM_ARGS_STRONG_ENCAPSULATION
 }
 
 tasks.withType(JavaCompile).configureEach {
-  dependsOn downloadCaffeineLocal
+    dependsOn downloadCaffeineLocal
 
-  options.forkOptions.jvmArgs += JVM_ARGS_STRONG_ENCAPSULATION
-  options.compilerArgs << [
-    '-Xlint:all,-processing,-exports', '-auxiliaryclass',
-    '-requires-automatic', '-requires-transitive-automatic',
-  ].join(',')
-  options.encoding = 'UTF-8'
-  options.errorprone {
-    def enabledChecks = [
-      'AssertFalse', 'CatchingUnchecked', 'CheckedExceptionNotThrown', 'ClassName',
-      'ComparisonContractViolated', 'DepAnn', 'DivZero', 'EmptyIf', 'EqualsBrokenForNull',
-      'FieldCanBeFinal', 'FieldCanBeLocal', 'FieldCanBeStatic', 'ForEachIterable',
-      'FuzzyEqualsShouldNotBeUsedInEqualsMethod', 'FunctionalInterfaceClash', 'HashCodeToString',
-      'IterablePathParameter', 'LockMethodChecker', 'LongLiteralLowerCaseSuffix', 'MissingBraces',
-      'MissingDefault', 'MixedArrayDimensions', 'MissingDefault', 'NoAllocation', 'NumericEquality',
-      'PackageLocation', 'PreferredInterfaceType', 'RedundantThrows', 'RemoveUnusedImports',
-      'ReturnsNullCollection', 'StringEquality', 'StronglyTypeByteString', 'StronglyTypeTime',
-      'SwitchDefault', 'TimeUnitMismatch', 'TransientMisuse', 'UnlockMethod',
-      'UnnecessarilyVisible', 'UnnecessaryAnonymousClass', 'UnnecessaryOptionalGet',
-      'UnsafeLocaleUsage', 'UsingJsr305CheckReturnValue']
-    enabledChecks.each { enable(it) }
+    options.forkOptions.jvmArgs += JVM_ARGS_STRONG_ENCAPSULATION
+    options.compilerArgs << [
+            '-Xlint:all,-processing,-exports', '-auxiliaryclass',
+            '-requires-automatic', '-requires-transitive-automatic',
+    ].join(',')
+    options.encoding = 'UTF-8'
+    options.errorprone {
+//    def enabledChecks = [
+//      'AssertFalse', 'CatchingUnchecked', 'CheckedExceptionNotThrown', 'ClassName',
+//      'ComparisonContractViolated', 'DepAnn', 'DivZero', 'EmptyIf', 'EqualsBrokenForNull',
+//      'FieldCanBeFinal', 'FieldCanBeLocal', 'FieldCanBeStatic', 'ForEachIterable',
+//      'FuzzyEqualsShouldNotBeUsedInEqualsMethod', 'FunctionalInterfaceClash', 'HashCodeToString',
+//      'IterablePathParameter', 'LockMethodChecker', 'LongLiteralLowerCaseSuffix', 'MissingBraces',
+//      'MissingDefault', 'MixedArrayDimensions', 'MissingDefault', 'NoAllocation', 'NumericEquality',
+//      'PackageLocation', 'PreferredInterfaceType', 'RedundantThrows', 'RemoveUnusedImports',
+//      'ReturnsNullCollection', 'StringEquality', 'StronglyTypeByteString', 'StronglyTypeTime',
+//      'SwitchDefault', 'TimeUnitMismatch', 'TransientMisuse', 'UnlockMethod',
+//      'UnnecessarilyVisible', 'UnnecessaryAnonymousClass', 'UnnecessaryOptionalGet',
+//      'UnsafeLocaleUsage', 'UsingJsr305CheckReturnValue']
+        def enabledChecks = ['AssertFalse']
+        enabledChecks.each { enable(it) }
 
-    def disabledChecks = [ 'AutoValueSubclassLeaked', 'EmptyCatch', 'MissingSummary' ]
-    disabledChecks.each { disable(it) }
+        def disabledChecks = ['AutoValueSubclassLeaked', 'EmptyCatch', 'MissingSummary']
+        disabledChecks.each { disable(it) }
 
-    def errorChecks = [ 'NullAway' ]
-    errorChecks.each { error(it) }
+        def errorChecks = ['NullAway']
+        errorChecks.each { error(it) }
 
-    nullaway {
-      annotatedPackages.add('com.github.benmanes.caffeine')
-      checkOptionalEmptiness = true
-      suggestSuppressions = true
-      checkContracts = true
+        nullaway {
+            annotatedPackages.add('com.github.benmanes.caffeine')
+            checkOptionalEmptiness = true
+            suggestSuppressions = true
+            checkContracts = true
+        }
     }
-  }
 }
 
 tasks.named('compileTestJava').configure {
-  options.errorprone.disable('NullAway')
+    options.errorprone.disable('NullAway')
 }
 
 tasks.withType(Test).configureEach {
-  jvmArgs '-XX:SoftRefLRUPolicyMSPerMB=0'
-  if (System.properties.containsKey('debug')) {
-    jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
-  }
-  if (System.env.'CI') {
-    reports.html.required = false
-  }
-  testLogging {
-    events 'skipped', 'failed'
-    exceptionFormat 'full'
-    showCauses = true
-    showExceptions = true
-    showStackTraces = true
-  }
+    jvmArgs '-XX:SoftRefLRUPolicyMSPerMB=0'
+    if (System.properties.containsKey('debug')) {
+        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+    }
+    if (System.env.'CI') {
+        reports.html.required = false
+    }
+    testLogging {
+        events 'skipped', 'failed'
+        exceptionFormat 'full'
+        showCauses = true
+        showExceptions = true
+        showStackTraces = true
+    }
 }
 
 tasks.withType(Checkstyle).configureEach {
-  enabled = System.properties.containsKey('checkstyle')
-  group = 'Checkstyle'
-  reports {
-    xml.required = false
-    html.required = true
-  }
+    enabled = System.properties.containsKey('checkstyle')
+    group = 'Checkstyle'
+    reports {
+        xml.required = false
+        html.required = true
+    }
 }
 
 afterEvaluate {
-  tasks.findAll { it.name.startsWith('spotbugs') }*.configure {
-    enabled = System.properties.containsKey('spotbugs')
-    group = 'SpotBugs'
-    reports {
-      html.required = true
+    tasks.findAll { it.name.startsWith('spotbugs') }*.configure {
+        enabled = System.properties.containsKey('spotbugs')
+        group = 'SpotBugs'
+        reports {
+            html.required = true
+        }
     }
-  }
 }
 
 tasks.withType(Pmd).configureEach {
-  enabled = System.properties.containsKey('pmd')
-  group = 'PMD'
-  reports {
-    xml.required = false
-    html.required = true
-  }
+    enabled = System.properties.containsKey('pmd')
+    group = 'PMD'
+    reports {
+        xml.required = false
+        html.required = true
+    }
 }

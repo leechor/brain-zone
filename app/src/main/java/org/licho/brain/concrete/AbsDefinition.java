@@ -18,6 +18,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -171,7 +172,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
     }
 
     public String GetGridObjectClassName() {
-        return String.format(EngineResources.ElementDefinition_ClassName, this.Name());
+        return MessageFormat.format(EngineResources.ElementDefinition_ClassName, this.Name());
     }
 
     public StateDefinitions getStateDefinitions() {
@@ -246,7 +247,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                             return null;
                                         };
                                     } else {
-                                        throw new IllegalArgumentException(String.format("Function {0} does not have " +
+                                        throw new IllegalArgumentException(MessageFormat.format("Function {0} does not have " +
                                                 "a " +
                                                 "valid return type for an " +
                                                 "ExpressionFunction", methodInfo.getName()));
@@ -271,7 +272,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                     }
                                 };
                             } else {
-                                throw new IllegalArgumentException(String.format("Function %s does not have a " +
+                                throw new IllegalArgumentException(MessageFormat.format("Function %s does not have a " +
                                         "valid return type for an " +
                                         "ExpressionFunction", methodInfo.getName()));
                             }
@@ -314,7 +315,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                 functionInfo.description = des;
                             }
                             if (nfm.containsKey(name)) {
-                                throw new IllegalArgumentException(String.format("Have two functions called %s", name));
+                                throw new IllegalArgumentException(MessageFormat.format("Have two functions called %s", name));
                             }
                             nfm.put(name, functionInfo);
                             this.nameToFunctionMap = nfm;

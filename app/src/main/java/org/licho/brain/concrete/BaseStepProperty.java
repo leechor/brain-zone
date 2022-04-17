@@ -5,6 +5,8 @@ import org.licho.brain.concrete.property.AbsBaseStepProperty;
 import org.licho.brain.api.enu.ExitType;
 import org.licho.brain.api.extensions.IStep;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -49,7 +51,7 @@ public class BaseStepProperty extends AbsBaseStepProperty {
         }
         catch (Exception ex2)
         {
-            String message = String.format("Exception from step '{0}' execution. Message: {1}\n\nStack Trace:\n{2}",
+            String message = MessageFormat.format("Exception from step '{0}' execution. Message: {1}\n\nStack Trace:\n{2}",
                     this.InstanceName(), ex2.toString(), ex2.getStackTrace());
 //            throw new SimioRuntimeException(message);
         }
@@ -67,7 +69,7 @@ public class BaseStepProperty extends AbsBaseStepProperty {
 			stepExecutionContext.setAlreadyExit(true);
 			if (stepExecutionContext.isCalendarEventWaiting())
 			{
-				String message = String.format("User-defined step '{0}' scheduled a calendar event but did not return" +
+				String message = MessageFormat.format("User-defined step '{0}' scheduled a calendar event but did not return" +
                         " ExitType.Wait.", this.InstanceName());
 				throw new SimioRuntimeException(message);
 			}

@@ -3,6 +3,8 @@ package org.licho.brain.concrete;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.fake.XmlReader;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -50,7 +52,7 @@ public abstract class ListDefinition extends GridObjectDefinition {
             absListProperty.readXml(xmlReader, intelligentObjectXml, intelligentObjectDefinition);
         }
         if (absListProperty == null) {
-            intelligentObjectXml.addWarning(String.format(EngineResources.LoadWarning_CouldNotLoadListType, name));
+            intelligentObjectXml.addWarning(MessageFormat.format(EngineResources.LoadWarning_CouldNotLoadListType, name));
         }
         return absListProperty;
     }

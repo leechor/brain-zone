@@ -125,8 +125,10 @@ public abstract class AbsBaseTrace implements ITrace {
     public void runtimeWarningHandler(IntelligentObjectRunSpace intelligentObjectRunSpace, Warning warning,
                                       double param2, TokenRunSpace tokenRunSpace, String param4, String param5,
                                       String param6) {
-        this.runtimeWarningHandler(intelligentObjectRunSpace, warning, param2, tokenRunSpace, param4, param5, param6);
+        // TODO: 2022/4/17 
     }
+
+
 
     public String DisplayName() {
         return this.getBaseSomeIGridItemProperties().StatePropertyObject.Name();

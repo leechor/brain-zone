@@ -6,6 +6,7 @@ import org.licho.brain.api.enu.ExitType;
 import org.licho.brain.utils.simu.IBreakpoint;
 
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,7 +42,7 @@ public abstract class AbsStepProperty<T> extends AbsBaseStepProperty implements 
     @Override
     public String BreakpointLocation() {
         if (this.ProcessProperty != null) {
-            return String.format("{}.{}", this.ProcessProperty.InstanceName(), this.InstanceName());
+            return MessageFormat.format("{0}.{1}", this.ProcessProperty.InstanceName(), this.InstanceName());
         }
         return this.InstanceName();
     }

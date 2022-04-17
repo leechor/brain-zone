@@ -8,6 +8,7 @@ import org.licho.brain.concrete.fake.XmlWriter;
 import org.licho.brain.utils.simu.BoundsType;
 import org.licho.brain.utils.simu.StatisticType;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
@@ -45,16 +46,16 @@ public class TableTargetPerformanceSummaryResult {
     public String DataItem() {
         switch (this.boundsType) {
             case Within:
-                return String.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
+                return MessageFormat.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
                         this.target.getWithinBoundsStatus().replace(" ", ""));
             case Above:
-                return String.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
+                return MessageFormat.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
                         this.target.getAboveBoundsStatus().replace(" ", ""));
             case Below:
-                return String.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
+                return MessageFormat.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
                         this.target.getBelowBoundsStatus().replace(" ", ""));
             case NoValue:
-                return String.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
+                return MessageFormat.format(EngineResources.ResultDataItem_NumberTargetResultStatus,
                         this.target.getNoValueStatus().replace(" ", ""));
             default:
                 return "";

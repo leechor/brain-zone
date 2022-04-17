@@ -36,6 +36,7 @@ import org.licho.brain.utils.simu.IBreakpoint;
 import org.licho.brain.utils.simu.system.Color;
 
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -97,10 +98,10 @@ public abstract class AbsBaseStepProperty extends AbsPropertyObject implements I
                     if (absStepDefinition == null) {
                         Guid empty = Guid.TryParse(type);
                         if (empty != null) {
-                            intelligentObjectXml.addGuidWarnings(String.format(EngineResources.LoadWarning_CouldNotFindStep,
+                            intelligentObjectXml.addGuidWarnings(MessageFormat.format(EngineResources.LoadWarning_CouldNotFindStep,
                                     stepReadableType[0]));
                         } else {
-                            intelligentObjectXml.addWarning(String.format(EngineResources.LoadWarning_CouldNotFindStep,
+                            intelligentObjectXml.addWarning(MessageFormat.format(EngineResources.LoadWarning_CouldNotFindStep,
                                     stepReadableType[0]));
                         }
                         if (num == 2) {
@@ -371,7 +372,7 @@ public abstract class AbsBaseStepProperty extends AbsPropertyObject implements I
     }
 
     public String getNameDisplay() {
-        return String.format("[{0}] {1}", this.objectDefinition.Name(), this.InstanceName());
+        return MessageFormat.format("[{0}] {1}", this.objectDefinition.Name(), this.InstanceName());
     }
 
     protected void initProperties() {
@@ -428,7 +429,7 @@ public abstract class AbsBaseStepProperty extends AbsPropertyObject implements I
     @Override
     public String BreakpointLocation() {
         if (this.ProcessProperty != null) {
-            return String.format("%s,%s", this.InstanceName(), this.ProcessProperty.InstanceName());
+            return MessageFormat.format("%s,%s", this.InstanceName(), this.ProcessProperty.InstanceName());
         }
         return this.InstanceName();
     }

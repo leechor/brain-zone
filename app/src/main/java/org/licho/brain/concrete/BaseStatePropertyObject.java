@@ -17,6 +17,7 @@ import org.licho.brain.utils.simu.system.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -86,7 +87,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
             baseStatePropertyObject.readXml(xmlReader, intelligentObjectXml);
         }
         if (baseStatePropertyObject == null) {
-            intelligentObjectXml.addWarning(String.format(EngineResources.LoadWarning_CouldNotLoadState, name));
+            intelligentObjectXml.addWarning(MessageFormat.format(EngineResources.LoadWarning_CouldNotLoadState, name));
         }
         return baseStatePropertyObject;
 
@@ -235,7 +236,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
     }
 
     private static String getDimensionPropertyName(int index) {
-        String result = String.format(EngineResources.DimensionSize, index + 1);
+        String result = MessageFormat.format(EngineResources.DimensionSize, index + 1);
         switch (index) {
             case 0:
                 result = EngineResources.Rows;
@@ -353,7 +354,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
 
     public String getUnitTypePropertyNameError() {
         if (this.haveUnitTypePropertyName() && this.UnitTypePropertyDefinition() == null) {
-            return String.format(EngineResources.Error_CouldNotFindProperty, this.UnitTypePropertyName());
+            return MessageFormat.format(EngineResources.Error_CouldNotFindProperty, this.UnitTypePropertyName());
         }
         return null;
     }

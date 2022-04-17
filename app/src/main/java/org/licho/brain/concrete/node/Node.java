@@ -19,6 +19,7 @@ import org.licho.brain.api.ILinkObject;
 import org.licho.brain.api.ILinkObjects;
 import org.licho.brain.api.INodeObject;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -72,7 +73,7 @@ public class Node extends Fixed implements INodeObject {
     }
 
     public static String formatName(String sourceName, String name) {
-        return String.format("%s@%s", sourceName, name);
+        return MessageFormat.format("{0}{1}", sourceName, name);
     }
 
     @Override

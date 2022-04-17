@@ -16,6 +16,8 @@ import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.IVisitRequest;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -136,7 +138,7 @@ public class NetworkDefinition extends AbsDefinition {
         } catch (Exception ignored) {
         }
         if (fromNode == null || toNode == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     networkElementRunSpace.HierarchicalDisplayName(), "Distance"));
         }
         return networkElementRunSpace.getNetworkDistanceToNode(fromNode, toNode);
@@ -158,7 +160,7 @@ public class NetworkDefinition extends AbsDefinition {
             return ExpressionValue.from(networkElementRunSpace.NextLink(fromNode, toNode));
         }
         RuntimeErrorFullMessageDetails.reportError(runSpace,
-                String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+                MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                         networkElementRunSpace.HierarchicalDisplayName(), "NextLink"));
         return null;
     }
@@ -177,7 +179,7 @@ public class NetworkDefinition extends AbsDefinition {
         }
         if (fromNode == null || toNode == null) {
             RuntimeErrorFullMessageDetails.reportError(runSpace,
-                    String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+                    MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                             networkElementRunSpace.HierarchicalDisplayName(), "NextNode"));
             return null;
         }
@@ -206,7 +208,7 @@ public class NetworkDefinition extends AbsDefinition {
         }
         if (fromNode == null || toNode == null) {
             RuntimeErrorFullMessageDetails.reportError(runSpace,
-                    String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+                    MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                             networkElementRunSpace.HierarchicalDisplayName(), "PathExists"));
             return Double.NaN;
         }
@@ -251,7 +253,7 @@ public class NetworkDefinition extends AbsDefinition {
         try {
             num = expressionValues[0].toInt();
         } catch (Exception ignored) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     networkElementRunSpace.HierarchicalDisplayName(), "Links.ItemAtIndex"));
         }
         if (networkElementRunSpace.NumberItems() < num || num < 1) {
@@ -270,7 +272,7 @@ public class NetworkDefinition extends AbsDefinition {
         } catch (Exception ignored) {
         }
         if (linkRunSpace == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     networkElementRunSpace.HierarchicalDisplayName(), "Links.IndexOfItem"));
         }
         return (double) (networkElementRunSpace.getLinkRunSpaceList().indexOf(linkRunSpace) + 1);
@@ -286,7 +288,7 @@ public class NetworkDefinition extends AbsDefinition {
         } catch (Exception ignored) {
         }
         if (linkRunSpace == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     networkElementRunSpace.HierarchicalDisplayName(), "Links.Contains"));
         }
         if (networkElementRunSpace.getLinkRunSpaceList().contains(linkRunSpace)) {

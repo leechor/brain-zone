@@ -5,6 +5,7 @@ import org.licho.brain.concrete.exception.ExpressionResultTypeException;
 import org.licho.brain.enu.ExpressionResultType;
 import org.licho.brain.utils.ExtensionString;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 import static org.licho.brain.concrete.cont.ErrorString.ERROR_EXPRESSION_RESULT_DATA_TYPE_MISMATCH_EXCEPTION;
@@ -57,7 +58,7 @@ public class ExpressionValue implements Comparable<ExpressionValue> {
             switch (this.expressionResultType) {
                 case Number: {
                     throw new ExpressionResultTypeException(
-                            String.format(ERROR_EXPRESSION_RESULT_DATA_TYPE_MISMATCH_EXCEPTION,
+                            MessageFormat.format(ERROR_EXPRESSION_RESULT_DATA_TYPE_MISMATCH_EXCEPTION,
                                     value,
                                     ExtensionString.smethod_0(ExpressionResultType.Number.toString()),
                                     ExtensionString.smethod_0(ExpressionResultType.STRING.toString())));
@@ -65,7 +66,7 @@ public class ExpressionValue implements Comparable<ExpressionValue> {
 
                 case ElementReference:
                     throw new ExpressionResultTypeException(
-                            String.format(ERROR_EXPRESSION_RESULT_DATA_TYPE_MISMATCH_EXCEPTION,
+                            MessageFormat.format(ERROR_EXPRESSION_RESULT_DATA_TYPE_MISMATCH_EXCEPTION,
                                     absBaseRunSpace != null ?
                                             absBaseRunSpace.getHierarchicalDisplayName() : "[Nothing]",
                                     ExtensionString.smethod_0(ExpressionResultType.ElementReference.toString()),
@@ -105,11 +106,11 @@ public class ExpressionValue implements Comparable<ExpressionValue> {
         if (this.expressionResultType != ExpressionResultType.STRING) {
             switch (this.expressionResultType) {
                 case Number:
-                    throw new IllegalArgumentException(String.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
+                    throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
                             this.value, Arrays.toString(ExpressionResultType.Number.toString().split(" ")),
                             Arrays.toString(ExpressionResultType.STRING.toString().split(" "))));
                 case ElementReference:
-                    throw new IllegalArgumentException(String.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
+                    throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
                             (this.absBaseRunSpace != null) ? this.absBaseRunSpace.HierarchicalDisplayName() :
                                     "[Nothing]",
                             Arrays.toString(ExpressionResultType.ElementReference.toString().split(" ")),
@@ -123,12 +124,12 @@ public class ExpressionValue implements Comparable<ExpressionValue> {
         if (this.expressionResultType != ExpressionResultType.Number) {
             switch (this.expressionResultType) {
                 case STRING:
-                    throw new IllegalArgumentException(String.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
+                    throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
                             (this.valueString != null) ? this.valueString : "[Nothing]",
                             Arrays.toString(ExpressionResultType.STRING.toString().split(" ")),
                             Arrays.toString(ExpressionResultType.Number.toString().split(" "))));
                 case ElementReference:
-                    throw new IllegalArgumentException(String.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
+                    throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
                             (this.absBaseRunSpace != null) ?
                                     this.absBaseRunSpace.HierarchicalDisplayName() : "[Nothing]",
                             Arrays.toString(ExpressionResultType.ElementReference.toString().split("")),
@@ -142,11 +143,11 @@ public class ExpressionValue implements Comparable<ExpressionValue> {
         if (this.expressionResultType != ExpressionResultType.ElementReference) {
             switch (this.expressionResultType) {
                 case Number:
-                    throw new IllegalArgumentException(String.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
+                    throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
                             this.value, Arrays.toString(ExpressionResultType.Number.toString().split(" ")),
                             Arrays.toString(ExpressionResultType.ElementReference.toString().split(" "))));
                 case STRING:
-                    throw new IllegalArgumentException(String.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
+                    throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_ExpressionResult_DataTypeMismatchException,
                             (this.valueString != null) ? this.valueString : "[Nothing]",
                             Arrays.toString(ExpressionResultType.STRING.toString().split(" ")),
                             Arrays.toString(ExpressionResultType.ElementReference.toString().split(" "))));

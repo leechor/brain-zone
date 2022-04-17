@@ -8,6 +8,8 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.api.enu.TimeUnit;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -56,36 +58,36 @@ public class RuntimeErrorFullMessageDetails {
         if (tokenRunSpace != null && tokenRunSpace.getStepProperty() != null) {
             if (tokenRunSpace.AssociatedObjectRunSpace() != null) {
                 error.append(tokenRunSpace.AssociatedObjectRunSpace() instanceof EntityRunSpace ?
-                        String.format(EngineResources.RuntimeError_FullMessageDetails_Entity,
+                        MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Entity,
                                 tokenRunSpace.AssociatedObjectRunSpace().HierarchicalDisplayName())
-                        : String.format(EngineResources.RuntimeError_FullMessageDetails_Object,
+                        : MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Object,
                         tokenRunSpace.AssociatedObjectRunSpace().HierarchicalDisplayName()) + "\n\n");
             }
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Time_TokenRunSpaceContext,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Time_TokenRunSpaceContext,
                     tokenRunSpace.getMayApplication().getInitValue(unitCarry, UnitType.Time),
                     tokenRunSpace.getMayApplication().getUnitDescription(UnitType.Time)) + "\n\n");
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Object,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Object,
                     tokenRunSpace.ParentObjectRunSpace.HierarchicalDisplayName()) + "\n");
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Process,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Process,
                     tokenRunSpace.getProcessPropertyElementRunSpace().Name()) + "\n");
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Token,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Token,
                     tokenRunSpace.Name()) + "\n");
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Step,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Step,
                     tokenRunSpace.getStepProperty().getNameDisplay()) + "\n");
         } else if (absBaseRunSpace != null) {
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Time,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Time,
                     absBaseRunSpace.getMayApplication().getInitValue(unitCarry, UnitType.Time),
                     absBaseRunSpace.getMayApplication().getUnitDescription(UnitType.Time)) + "\n\n");
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_ObjectOrElement,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_ObjectOrElement,
                     absBaseRunSpace.HierarchicalDisplayName()) + "\n");
         } else if (propertyObject != null) {
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Time, unitCarry,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Time, unitCarry,
                     TimeUnit.values()[0] + "\n\n"));
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Item,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Item,
                     propertyObject.objectDefinition.Name(), propertyObject.InstanceName() + "\n"));
         }
         if (objectProperty != null) {
-            error.append(String.format(EngineResources.RuntimeError_FullMessageDetails_Property,
+            error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Property,
                     objectProperty.Name()) + "\n");
         }
         return error.append("\n").append(param4).toString();

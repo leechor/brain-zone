@@ -7,6 +7,8 @@ import org.licho.brain.enu.ElementType;
 import org.licho.brain.enu.PropertyGridFeel;
 import org.licho.brain.utils.simu.system.Color;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -63,7 +65,7 @@ public class ColorPropertyRow extends NumericDataPropertyRow {
             return this.color.Name();
         }
         if (!this.color.IsEmpty()) {
-            return String.format("{}, {}, {}", this.color.R, this.color.G, this.color.B);
+            return MessageFormat.format("{}, {}, {}", this.color.R, this.color.G, this.color.B);
         }
         return super.StringValue();
     }

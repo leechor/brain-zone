@@ -3,13 +3,15 @@ package org.licho.brain.concrete;
 import com.google.common.base.Strings;
 import org.licho.brain.enu.OperatorCharactersEnum;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
 public class ObjectValueDisplayOperator {
     private double value;
     private String identifier;
-    public OperatorCharactersEnum enum71;
+    public OperatorCharactersEnum operatorCharactersEnum;
     private static ObjectValueDisplayOperator.ObjectValueMathOperator[] mathOperators = new ObjectValueMathOperator[]{
             new ObjectValueDisplayOperator.ObjectValueMathOperator("Infinity", Double.POSITIVE_INFINITY),
             new ObjectValueDisplayOperator.ObjectValueMathOperator("True", 1.0),
@@ -23,15 +25,15 @@ public class ObjectValueDisplayOperator {
     public ObjectValueDisplayOperator(double value, String identifier) {
         this.value = value;
         this.identifier = identifier;
-        this.enum71 = OperatorCharactersEnum.Two;
+        this.operatorCharactersEnum = OperatorCharactersEnum.Two;
     }
 
     public ObjectValueDisplayOperator() {
 
     }
 
-    public ObjectValueDisplayOperator(OperatorCharactersEnum enum71) {
-        this.enum71 = enum71;
+    public ObjectValueDisplayOperator(OperatorCharactersEnum operatorCharactersEnum) {
+        this.operatorCharactersEnum = operatorCharactersEnum;
         this.value = Double.NaN;
         this.identifier = null;
     }
@@ -89,7 +91,7 @@ public class ObjectValueDisplayOperator {
 
     public static ObjectValueDisplayOperator smethod_1(String identifier) {
         var tmp = new ObjectValueDisplayOperator();
-        tmp.enum71 = OperatorCharactersEnum.Three;
+        tmp.operatorCharactersEnum = OperatorCharactersEnum.Three;
         tmp.identifier = identifier;
         tmp.value = Double.NaN;
         return tmp;
@@ -101,16 +103,16 @@ public class ObjectValueDisplayOperator {
 
     @Override
     public String toString() {
-        if (this.enum71 == OperatorCharactersEnum.Three) {
-            return String.format("\"{}\"", this.identifier);
+        if (this.operatorCharactersEnum == OperatorCharactersEnum.Three) {
+            return MessageFormat.format("''{0}''", this.identifier);
         }
         if (!Strings.isNullOrEmpty(this.identifier)) {
             return this.identifier;
         }
-        if (this.enum71 == OperatorCharactersEnum.Two) {
+        if (this.operatorCharactersEnum == OperatorCharactersEnum.Two) {
             return String.valueOf(this.value);
         }
-        switch (this.enum71) {
+        switch (this.operatorCharactersEnum) {
             case ParathesesPre:
                 return "(";
             case ParathesesAfter:
@@ -156,7 +158,7 @@ public class ObjectValueDisplayOperator {
 
     private static ObjectValueDisplayOperator smethod_0(String display) {
         var result = new ObjectValueDisplayOperator();
-        result.enum71 = OperatorCharactersEnum.One;
+        result.operatorCharactersEnum = OperatorCharactersEnum.One;
         result.identifier = display;
         result.value = Double.NaN;
         return result;
@@ -164,7 +166,7 @@ public class ObjectValueDisplayOperator {
 
     private static ObjectValueDisplayOperator smethod_3(String display) {
         var result = new ObjectValueDisplayOperator();
-        result.enum71 = OperatorCharactersEnum.Five;
+        result.operatorCharactersEnum = OperatorCharactersEnum.Five;
         result.identifier = display;
         result.value = Double.NaN;
         return result;
@@ -173,7 +175,7 @@ public class ObjectValueDisplayOperator {
     private static ObjectValueDisplayOperator smethod_2(String value) {
         var result = new ObjectValueDisplayOperator();
 
-        result.enum71 = OperatorCharactersEnum.Four;
+        result.operatorCharactersEnum = OperatorCharactersEnum.Four;
         result.identifier = value;
         result.value = Double.NaN;
         return result;

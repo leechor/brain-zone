@@ -7,6 +7,7 @@ import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.api.extensions.IStepDefinition;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +88,7 @@ public abstract class AbsStepDefinition extends GridObjectDefinition {
     }
 
     public String GetGridObjectClassName() {
-        return String.format(EngineResources.StepDefinition_ClassName, this.Name());
+        return MessageFormat.format(EngineResources.StepDefinition_ClassName, this.Name());
     }
 
     @Override

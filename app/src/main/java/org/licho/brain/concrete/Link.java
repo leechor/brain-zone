@@ -31,7 +31,7 @@ import java.util.List;
  * <p>A {@link Link} object transfers an Entity over a pathway defined by a polyline
  * connecting two {@link Node} objects. {@link Link} control and position is determined by the leading edge of an
  * Entity.
- * <p/>As soon as an Entity's leading edge moves onto a link, the {@link Entity} and its speed are controlled by the
+ * <p>As soon as an Entity's leading edge moves onto a link, the {@link Entity} and its speed are controlled by the
  * logic built
  * into that Link, When the Entity's leading edge moves off the link(perhaps onto a connected link), the Entity is no
  * longer controlled by the initial Link even if the trailing edge of the Entity remains on the initial Link. Control

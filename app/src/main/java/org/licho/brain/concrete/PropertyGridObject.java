@@ -3,6 +3,7 @@ package org.licho.brain.concrete;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 
@@ -58,7 +59,7 @@ public class PropertyGridObject implements IGridObject {
 
     @Override
     public String toString() {
-        return String.format("Name: '%s', Value: '%s'", this.PropertyName() == null ? "" : this.PropertyName(),
+        return MessageFormat.format("Name: '{0}', Value: '{1}'", this.PropertyName() == null ? "" : this.PropertyName(),
                 this.getName() == null ? "" : this.getName());
     }
 

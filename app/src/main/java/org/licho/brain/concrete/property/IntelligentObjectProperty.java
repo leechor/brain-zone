@@ -64,6 +64,7 @@ import org.licho.brain.utils.ExtensionString;
 import org.licho.brain.utils.simu.IReferencedObjects;
 import org.licho.brain.utils.simu.system.PropertyChangedEventHandler;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -366,7 +367,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     public String TooltipText() {
-        return String.format("{0}: <b>{1}</b>", this.DisplayName(), this.StringValue());
+        return MessageFormat.format("{0}: <b>{1}</b>", this.DisplayName(), this.StringValue());
     }
 
     protected boolean WriteOutStringValueToXml() {
@@ -671,7 +672,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         Properties properties = this.method_33(runSpace, intelligentObjectRunSpace, absBaseRunSpace, param3,
                 objectRunSpace, flag);
         if (properties == null) {
-            this.ReportError(String.format(EngineResources.Error_UnableToGetReferencedPropertyValue,
+            this.ReportError(MessageFormat.format(EngineResources.Error_UnableToGetReferencedPropertyValue,
                     this.getReference().Name()), runSpace, intelligentObjectRunSpace);
             return null;
         }
@@ -945,7 +946,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
                             IntelligentObjectRunSpace statisticsDataSourceIntelligentObject) {
         IRunSpace _runSpace = runSpace != null ? runSpace : statisticsDataSourceIntelligentObject;
         RuntimeErrorFullMessageDetails.reportError(_runSpace, this.getProperties().AbsPropertyObject, this,
-                String.format(ErrorString.RUNTIME_ERROR_UNABLE_TO_GET_VALUE_OF_PROPERTY, this.Name()) + "\n\n" + error);
+                MessageFormat.format(ErrorString.RUNTIME_ERROR_UNABLE_TO_GET_VALUE_OF_PROPERTY, this.Name()) + "\n\n" + error);
 
     }
 

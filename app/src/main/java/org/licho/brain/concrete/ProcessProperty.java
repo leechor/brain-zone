@@ -14,6 +14,7 @@ import org.licho.brain.utils.simu.IEntityProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -342,7 +343,7 @@ public class ProcessProperty extends AbsIntelligentPropertyObject {
             }
         }
         if (flag) {
-            intelligentObjectXml.addWarning(String.format("Process '{0}' of object '{1}' had step connections that " +
+            intelligentObjectXml.addWarning(MessageFormat.format("Process '{0}' of object '{1}' had step connections that " +
                     "could not be resolved.", this.InstanceName(), super.Parent().Name()));
         }
         this.processSteps();

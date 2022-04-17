@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -107,7 +108,7 @@ public class ZipFileOperator implements IFilesStream {
     }
 
     private String formatFileName() {
-        return String.format("%s.xml", this.fileType);
+        return MessageFormat.format("{0}.xml", this.fileType);
     }
 
 

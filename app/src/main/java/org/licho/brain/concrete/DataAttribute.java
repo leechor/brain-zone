@@ -35,7 +35,7 @@ public class DataAttribute {
     }
 
     public void setStream(InOutputStream openReadStream) {
-        this.stream = stream;
+        this.stream = openReadStream;
 
     }
 

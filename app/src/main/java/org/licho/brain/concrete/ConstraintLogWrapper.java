@@ -10,7 +10,7 @@ import org.licho.brain.utils.simu.system.DateTime;
 public class ConstraintLogWrapper {
 	private ConstraintLog constraintLog;
 
-    public ConstraintLogWrapper(ConstraintRecord constraintRecord) {
+    public ConstraintLogWrapper(ConstraintLog constraintLog) {
 		this.constraintLog = constraintLog;
     }
 

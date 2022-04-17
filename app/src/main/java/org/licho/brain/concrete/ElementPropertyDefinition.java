@@ -7,6 +7,8 @@ import org.licho.brain.enu.DataFormat;
 import org.licho.brain.enu.ElementReferenceType;
 import org.licho.brain.enu.PropertyGridFeel;
 
+import java.text.MessageFormat;
+
 @PropertyDefinitionName("ElementProperty")
 @PropertyDefinitionFactory(ElementPropertyFactory.class)
 public class ElementPropertyDefinition extends StringPropertyDefinition {
@@ -92,7 +94,7 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
         if (this.type != null) {
             arg = this.getName();
         }
-        return String.format(EngineResources.ElementProperty_ClassName, arg);
+        return MessageFormat.format(EngineResources.ElementProperty_ClassName, arg);
     }
 
     @Override
@@ -130,7 +132,7 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
     }
 
     private String getDescription() {
-        return String.format("%s Rows", this.getPropertyGridObjectOperator().Count());
+        return MessageFormat.format("%s Rows", this.getPropertyGridObjectOperator().Count());
 
     }
 

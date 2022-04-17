@@ -1,6 +1,12 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.annotations.ElementFunctionReferenceReturnType;
+import org.licho.brain.api.NodeShapeType;
+import org.licho.brain.brainEnums.ElementScope;
+import org.licho.brain.brainEnums.NodeOutputFlowStrategy;
+import org.licho.brain.brainEnums.NodeSplitAllocationRule;
+import org.licho.brain.brainEnums.QueueRanking;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.concrete.annotation.BaseElementFunction;
 import org.licho.brain.concrete.annotation.ElementFunction;
 import org.licho.brain.concrete.cont.EngineResources;
@@ -19,15 +25,10 @@ import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.ObjectClass;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.PropertyGridFeel;
-import org.licho.brain.brainEnums.ElementScope;
-import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.utils.simu.IEntityProcess;
 import org.licho.brain.utils.simu.system.Color;
-import org.licho.brain.api.NodeShapeType;
-import org.licho.brain.brainEnums.NodeOutputFlowStrategy;
-import org.licho.brain.brainEnums.NodeSplitAllocationRule;
-import org.licho.brain.brainEnums.QueueRanking;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 
 
@@ -42,7 +43,7 @@ public class NodeDefinition extends FixedDefinition {
     private static Color defaultColor = Color.FromArgb(128, 0, 0);
     private static NodeShapeType defaultNodeShapeType = NodeShapeType.Diamond;
     private Color color = NodeDefinition.defaultColor;
-    private NodeShapeType nodeShapeType =  NodeDefinition.defaultNodeShapeType;
+    private NodeShapeType nodeShapeType = NodeDefinition.defaultNodeShapeType;
 
     public NodeDefinition(String name) {
         super(name);
@@ -204,7 +205,8 @@ public class NodeDefinition extends FixedDefinition {
                 "EntryQueue");
         entryQueue.Description(EngineResources.Node_EntryQueue_Description);
         entryQueue.CanRemove(true);
-        BaseStatePropertyObject currentTravelerCapacity = new BaseStatePropertyObject("CurrentTravelerCapacity", false, false,
+        BaseStatePropertyObject currentTravelerCapacity = new BaseStatePropertyObject("CurrentTravelerCapacity",
+                false, false,
                 NumericDataType.Integer);
         currentTravelerCapacity.Description(EngineResources.Node_CurrentTravelerCapacity_Description);
         super.getStateDefinitions().addStateProperty(ridePickupQueue);
@@ -449,7 +451,7 @@ public class NodeDefinition extends FixedDefinition {
         try {
             num = param2[0].toInt();
         } catch (Exception e) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     nodeRunSpace.HierarchicalDisplayName(), "InboundLinks.ItemAtIndex"));
         }
         if (nodeRunSpace.getInboundNetworkWrapper() == null || nodeRunSpace.getInboundNetworkWrapper().backLinksCount() < num || num < 1) {
@@ -458,9 +460,7 @@ public class NodeDefinition extends FixedDefinition {
         return ExpressionValue.from(nodeRunSpace.getInboundNetworkWrapper().getBackLinkByIndex(num - 1));
     }
 
-    @BaseElementFunction(value = "InboundLinks.IndexOfItem", Arguments = {
-            "link"
-    })
+    @BaseElementFunction(value = "InboundLinks.IndexOfItem", Arguments = {"link"})
     public static double smethod_195(AbsBaseRunSpace absBaseRunSpace, IRunSpace runSpace, ExpressionValue[] param2) throws Exception0 {
         NodeRunSpace nodeRunSpace = (NodeRunSpace) absBaseRunSpace;
         LinkRunSpace space = null;
@@ -469,7 +469,7 @@ public class NodeDefinition extends FixedDefinition {
         } catch (Exception ignored) {
         }
         if (space == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     nodeRunSpace.HierarchicalDisplayName(), "InboundLinks.IndexOfItem"));
         }
         if (nodeRunSpace.getInboundNetworkWrapper() != null) {
@@ -477,7 +477,7 @@ public class NodeDefinition extends FixedDefinition {
             for (LinkRunSpace linkRunSpace : nodeRunSpace.getInboundNetworkWrapper().getBackLinksIterator()) {
                 num++;
                 if (linkRunSpace == space) {
-                    return (double) num;
+                    return num;
                 }
             }
             return 0.0;
@@ -497,7 +497,7 @@ public class NodeDefinition extends FixedDefinition {
         } catch (Exception ignored) {
         }
         if (linkRunSpace == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     nodeRunSpace.HierarchicalDisplayName(), "InboundLinks.Contains"));
         }
         if (nodeRunSpace.getInboundNetworkWrapper() != null) {
@@ -551,7 +551,7 @@ public class NodeDefinition extends FixedDefinition {
         try {
             num = expressionValues[0].toInt();
         } catch (Exception e) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     nodeRunSpace.HierarchicalDisplayName(), "OutboundLinks.ItemAtIndex"));
         }
         if (nodeRunSpace.getInboundNetworkWrapper() == null || nodeRunSpace.getInboundNetworkWrapper().forwardLinksCount() < num || num < 1) {
@@ -572,7 +572,7 @@ public class NodeDefinition extends FixedDefinition {
         } catch (Exception e) {
         }
         if (linkRunSpace == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     nodeRunSpace.HierarchicalDisplayName(), "OutboundLinks.IndexOfItem"));
         }
         if (nodeRunSpace.getInboundNetworkWrapper() != null) {
@@ -600,7 +600,7 @@ public class NodeDefinition extends FixedDefinition {
         } catch (Exception ignored) {
         }
         if (linkRunSpace == null) {
-            throw new Exception0(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new Exception0(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     nodeRunSpace.HierarchicalDisplayName(), "OutboundLinks.Contains"));
         }
         if (nodeRunSpace.getInboundNetworkWrapper() != null) {

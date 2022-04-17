@@ -26,7 +26,7 @@ public final class ArrayUtils {
     }
 
     /**
-     * <p>Checks if the array is null or empty. <p/>
+     * <p>Checks if the array is null or empty. </p>
      *
      * @param array th array to check
      * @return {@code true} if the array is null or empty.
@@ -36,7 +36,7 @@ public final class ArrayUtils {
     }
 
     /**
-     * <p>Checks if the array is not null or empty. <p/>
+     * <p>Checks if the array is not null or empty. </p>
      *
      * @param array th array to check
      * @return {@code true} if the array is not null or empty.

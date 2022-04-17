@@ -17,6 +17,7 @@ import org.licho.brain.enu.UnitType;
 import org.licho.brain.brainEnums.ElementScope;
 import org.licho.brain.utils.simu.IEntityProcess;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 
 /**
@@ -436,7 +437,7 @@ public class AgentDefinition extends IntelligentObjectDefinition {
         try {
             num = expressionValues[0].toInt();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "Population.ItemAtIndex"));
         }
         if (intelligentObjectRunSpace.getPopulation().getAgentElementRunSpaces().size() < num || num < 1) {
@@ -458,7 +459,7 @@ public class AgentDefinition extends IntelligentObjectDefinition {
         }
 
         if (intelligentObjectRunSpace2 == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "Population.IndexOfItem"));
         }
         return intelligentObjectRunSpace.getPopulation().getAgentElementRunSpaces().indexOf(intelligentObjectRunSpace2) + 1;
@@ -475,7 +476,7 @@ public class AgentDefinition extends IntelligentObjectDefinition {
         } catch (Exception ignored) {
         }
         if (intelligentObjectRunSpace2 == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     intelligentObjectRunSpace.Name(), "Population.Contains"));
         }
         if (intelligentObjectRunSpace.getPopulation() == intelligentObjectRunSpace2.getPopulation()) {

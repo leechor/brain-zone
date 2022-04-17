@@ -4,7 +4,7 @@ package org.licho.brain.concrete;
  *
  */
 public class SomViewUI implements IViewInfo {
-    private SimioProjectManager simioProjectManager;
+    private final SimioProjectManager simioProjectManager;
 
     public SomViewUI(SimioProjectManager simioProjectManager) {
         this.simioProjectManager = simioProjectManager;

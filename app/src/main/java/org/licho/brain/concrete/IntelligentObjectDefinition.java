@@ -182,6 +182,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
     private List<ChangeDescription> changeDescriptions = new ArrayList<>();
 
+    @SuppressWarnings("unused")
     private static Guid[] standardLibraryUUID = new Guid[]{
             new Guid("{585953CA-C744-444b-92D9-8AF032F3E9A1}"),
             new Guid("{0D40FBF0-8206-443f-B771-65F85633A2F6}"),
@@ -4800,7 +4801,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     public void setAnimationSetup(IContextBound animationSetup) {
-        this.animationSetup = this.animationSetup;
+        this.animationSetup = animationSetup;
         if (this.defaultAdditionalSymbol != null) {
             this.defaultAdditionalSymbol.NotifyOtherContextBound(this.animationSetup);
         }

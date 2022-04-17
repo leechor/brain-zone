@@ -177,7 +177,7 @@ public class NetworkWrapper {
 
 
     public void setIndex(int size) {
-        this.index = index;
+        this.index = size;
     }
 
     public void addLinkRunSpace(LinkRunSpace linkRunSpace) {

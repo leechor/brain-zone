@@ -10,6 +10,8 @@ import org.licho.brain.enu.NumericDataType;
 import org.licho.brain.enu.UnitType;
 import org.licho.brain.brainEnums.QueueRanking;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -166,7 +168,7 @@ public class QueueStateObject<T> extends AbsQueuePropertyObject {
         try {
             num = expressionValues[0].toInt();
         } catch (Exception ignored) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     absBaseTrace.getName(), "ItemAtIndex"));
         }
         Queue<?> queue = baseQueueGridItemTrace.getQueueList().ItemAtIndex(num - 1);
@@ -187,7 +189,7 @@ public class QueueStateObject<T> extends AbsQueuePropertyObject {
         } catch (Exception ignored) {
         }
         if (intelligentObjectRunSpace == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     absBaseTrace.getName(), "IndexOfItem"));
         }
         return (double) baseTrace.IndexOf(intelligentObjectRunSpace);
@@ -225,7 +227,7 @@ public class QueueStateObject<T> extends AbsQueuePropertyObject {
         } catch (Exception ignored) {
         }
         if (intelligentObjectRunSpace == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     absBaseTrace.getName(), "Contains"));
         }
         if (baseTrace.Contains(intelligentObjectRunSpace)) {

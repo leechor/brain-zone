@@ -2,6 +2,8 @@ package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.cont.EngineResources;
 
+import java.text.MessageFormat;
+
 /**
  *
  */
@@ -30,7 +32,7 @@ public class ElementReferenceStatePropertyObject extends BaseStatePropertyObject
     @Override
     public String GetGridObjectClassName() {
         if (this.absDefinition != null) {
-            return String.format(EngineResources.TypedElementReferenceState_ClassName,
+            return MessageFormat.format(EngineResources.TypedElementReferenceState_ClassName,
                     this.absDefinition.ExpressionIdentifier());
         }
         return EngineResources.ElementReferenceState_ClassName;

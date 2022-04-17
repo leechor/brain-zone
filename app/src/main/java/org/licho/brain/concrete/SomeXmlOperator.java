@@ -27,7 +27,7 @@ import java.util.function.Predicate;
  */
 public class SomeXmlOperator {
 
-    private static Logger logger = LoggerFactory.getLogger(SomeXmlOperator.class);
+    private static final Logger logger = LoggerFactory.getLogger(SomeXmlOperator.class);
 
     public static boolean xmlReaderOperator(XmlReader xmlReader, String nodeName, Consumer<XmlReader> processXmlDeletate
             , Predicate<XmlReader> param3) {
@@ -187,13 +187,13 @@ public class SomeXmlOperator {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "ReturnValueIgnored"})
     public static <T extends Enum<T>> void readEnumAttribute(XmlReader xmlReader, String name, Action<T> assignAction
             , Class<T> t) {
         String attribute = xmlReader.GetAttribute(name);
         if (!Strings.isNullOrEmpty(attribute)) {
             try {
-                T.valueOf(t, attribute);
+                Enum.valueOf(t, attribute);
                 return;
             } catch (NullPointerException e) {
                 logger.info(e.toString());

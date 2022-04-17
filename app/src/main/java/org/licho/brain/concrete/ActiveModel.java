@@ -26,6 +26,7 @@ import org.licho.brain.utils.simu.system.IBindingList;
 import org.licho.brain.utils.simu.system.ICancelAddNew;
 import org.licho.brain.utils.simu.system.IDisposable;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -1274,7 +1275,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         StringBuilder text = new StringBuilder();
         String name;
         do {
-            name = String.format("Experiment%d", num++);
+            name = MessageFormat.format("Experiment%d", num++);
         }
         while (!this.containExperimentConstraint(name, text));
         return name;
@@ -1284,7 +1285,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         if (experimentConstraints.values.stream().anyMatch(t -> t.Name().equals(name))) {
             return true;
         }
-        error.append(String.format(EngineResources.ErrorRenamingExperimentToExistingName, name));
+        error.append(MessageFormat.format(EngineResources.ErrorRenamingExperimentToExistingName, name));
         return false;
     }
 

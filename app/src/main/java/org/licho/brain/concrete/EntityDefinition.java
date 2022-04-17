@@ -25,6 +25,7 @@ import org.licho.brain.utils.simu.IEntityProcess;
 import org.licho.brain.utils.simu.IVisitRequest;
 import org.licho.brain.brainEnums.QueueRanking;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -512,7 +513,7 @@ public class EntityDefinition extends AgentDefinition {
         try {
             num = values[0].toInt();
         } catch (Exception ignored) {
-            throw new NumberFormatException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new NumberFormatException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     entityRunSpace.Name(), "Sequence.DestinationNodes.ItemAtIndex"));
         }
         if (entityRunSpace.tableRowReferences.getTable() == null) {
@@ -531,7 +532,7 @@ public class EntityDefinition extends AgentDefinition {
         } catch (Exception ignored) {
         }
         if (nodeRunSpace == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     entityRunSpace.Name(), "Sequence.DestinationNodes.IndexOfItem"));
         }
         if (entityRunSpace.tableRowReferences.getTable() != null) {
@@ -556,7 +557,7 @@ public class EntityDefinition extends AgentDefinition {
         } catch (Exception ignore) {
         }
         if (nodeRunSpace == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     entityRunSpace.Name(), "Sequence.DestinationNodes.Contains"));
         }
         if (entityRunSpace.tableRowReferences.getTable() != null) {
@@ -618,7 +619,7 @@ public class EntityDefinition extends AgentDefinition {
         } catch (Exception ignore) {
         }
         if (nodeRunSpace == null) {
-            throw new IllegalArgumentException(String.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
+            throw new IllegalArgumentException(MessageFormat.format(EngineResources.Error_InvalidOrUndefinedFunctionArguments,
                     entityRunSpace.Name(), "NetworkDistanceTo.Node"));
         }
         return entityRunSpace.GetNetworkDistanceToNode(nodeRunSpace);

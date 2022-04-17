@@ -11,7 +11,7 @@ public class CancelEventArgs extends EventArgs {
         this(false);
     }
 
-    public CancelEventArgs(boolean b) {
+    public CancelEventArgs(boolean cancel) {
         this.cancel = cancel;
     }
 
