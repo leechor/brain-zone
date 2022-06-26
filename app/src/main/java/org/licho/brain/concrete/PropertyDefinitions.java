@@ -25,15 +25,18 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- *
+ * Property definition collect.
  */
 public class PropertyDefinitions extends BindingList<StringPropertyDefinition> implements IIdentityName,
         IPropertyDefinitions {
 
     public PropertyGroupClass propertyGroupClass;
     private List<PropertyDefinitionFacade> propertyDefinitionFacadeList = new ArrayList<>();
+    /**
+     * the object of attaching to
+     */
     public GridObjectDefinition TargetObject;
-    public org.licho.brain.concrete.RepeatingPropertyDefinition RepeatingPropertyDefinition;
+    public RepeatingPropertyDefinition RepeatingPropertyDefinition;
     public String seperator = ", ";
     private ActionRun actionRun;
     public final List<OverrideObject> overrides = new ArrayList<>();
@@ -42,7 +45,7 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
 
 
     public PropertyDefinitions(GridObjectDefinition targetObject,
-                               org.licho.brain.concrete.RepeatingPropertyDefinition repeatingPropertyDefinition) {
+                               RepeatingPropertyDefinition repeatingPropertyDefinition) {
         this.TargetObject = targetObject;
         this.RepeatingPropertyDefinition = repeatingPropertyDefinition;
     }
@@ -181,11 +184,11 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
 
     }
 
-    public org.licho.brain.concrete.RepeatingPropertyDefinition getRepeatingPropertyDefinition() {
+    public RepeatingPropertyDefinition getRepeatingPropertyDefinition() {
         return RepeatingPropertyDefinition;
     }
 
-    public void setRepeatingPropertyDefinition(org.licho.brain.concrete.RepeatingPropertyDefinition repeatingPropertyDefinition) {
+    public void setRepeatingPropertyDefinition(RepeatingPropertyDefinition repeatingPropertyDefinition) {
         this.RepeatingPropertyDefinition = repeatingPropertyDefinition;
     }
 
@@ -444,8 +447,8 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
         PropertyDefinitions definitions = properties.PropertyDefinitions;
         for (int i = 0; i < definitions.size(); i++) {
             StringPropertyDefinition stringPropertyDefinition = definitions.get(i);
-            org.licho.brain.concrete.RepeatingPropertyDefinition repeatingPropertyDefinition =
-                    (org.licho.brain.concrete.RepeatingPropertyDefinition) stringPropertyDefinition;
+            RepeatingPropertyDefinition repeatingPropertyDefinition =
+                    (RepeatingPropertyDefinition) stringPropertyDefinition;
             if (repeatingPropertyDefinition != null) {
                 RepeatStringPropertyRow repeatStringPropertyRow = (RepeatStringPropertyRow) properties.get(i);
                 BindingList<Properties> enumerable = repeatStringPropertyRow.PropertyDescriptors;
@@ -485,12 +488,14 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
             if (this.RepeatingPropertyDefinition == null) {
                 properties.get(stringPropertyDefinition.overRidePropertyIndex).UpdateForNewPropertyDefinition();
             } else {
-                this.UpdateChildrenForNewPropertyDefinition(stringPropertyDefinition, properties, stringPropertyDefinition.owner);
+                this.UpdateChildrenForNewPropertyDefinition(stringPropertyDefinition, properties,
+                        stringPropertyDefinition.owner);
             }
         }
     }
 
-    private void UpdateChildrenForNewPropertyDefinition(StringPropertyDefinition stringPropertyDefinition, Properties properties,
+    private void UpdateChildrenForNewPropertyDefinition(StringPropertyDefinition stringPropertyDefinition,
+                                                        Properties properties,
                                                         PropertyDefinitions owner) {
         PropertyDefinitions definitions = properties.PropertyDefinitions;
 

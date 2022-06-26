@@ -31,7 +31,6 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
     protected PropertyDefinitions propertyDefinitions;
     private final List<AbsPropertyObject> AssociatedInstances;
     private int count;
-    public PropertyDefinitions owner;
     private EventHandler<PropertyChangedEventArgs> propertyDescriptionChangedEventHandler;
 
 
@@ -61,17 +60,11 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
 
     public void Description(String value) {
         this.description = value;
-        this.triggerPropertyChangedEventHandler();
+        this.OnDescriptionChanged();
     }
 
-    protected void triggerPropertyChangedEventHandler() {
-        if (this.propertyDescriptionChangedEventHandler != null) {
-            this.propertyDescriptionChangedEventHandler.fire(this, new PropertyChangedEventArgs(description));
-        }
-        if (this.owner != null && this.owner.TargetObject != null &&
-                this.owner.TargetObject instanceof IntelligentObjectDefinition) {
-            ((IntelligentObjectDefinition) this.owner.TargetObject).resetTable(255);
-        }
+    protected void OnDescriptionChanged() {
+
     }
 
 

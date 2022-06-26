@@ -15,8 +15,9 @@ import java.util.Objects;
 public abstract class AbsPropertyObject implements INotifyPropertyChanged, IPropertyObject, IGridObject,
         IAutoComplete, IOwner, ISearch, IPropertyDefaultValue, IReferenceProperty {
 
-    private String description;
     private String name;
+
+    private String description;
 
     public GridObjectDefinition objectDefinition;
 

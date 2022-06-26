@@ -56,7 +56,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
     }
 
     protected void DefineSchema() {
-		this.initBasicPropertyDefinition();
+        this.initBasicPropertyDefinition();
     }
 
     private void initBasicPropertyDefinition() {
@@ -247,7 +247,8 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                             return null;
                                         };
                                     } else {
-                                        throw new IllegalArgumentException(MessageFormat.format("Function {0} does not have " +
+                                        throw new IllegalArgumentException(MessageFormat.format("Function {0} does " +
+                                                "not have " +
                                                 "a " +
                                                 "valid return type for an " +
                                                 "ExpressionFunction", methodInfo.getName()));
@@ -315,7 +316,8 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                 functionInfo.description = des;
                             }
                             if (nfm.containsKey(name)) {
-                                throw new IllegalArgumentException(MessageFormat.format("Have two functions called %s", name));
+                                throw new IllegalArgumentException(MessageFormat.format("Have two functions called " +
+                                        "%s", name));
                             }
                             nfm.put(name, functionInfo);
                             this.nameToFunctionMap = nfm;
@@ -435,7 +437,8 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                 if (absDefinition.DefaultDefinition() != null) {
                     AbsDefinition.absDefinitions.add(absDefinition.DefaultDefinition());
                 }
-            } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
+                     NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (Exception ignored) {
             }
@@ -537,7 +540,8 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
             return null;
         }
         if (param0 >= 1000000) {
-            BaseStatePropertyObject stateDefinition = this.getStateDefinitions().StateProperties.values.get(param0 - 1000000);
+            BaseStatePropertyObject stateDefinition =
+                    this.getStateDefinitions().StateProperties.values.get(param0 - 1000000);
             return stateDefinition.GetListValues();
         }
         return super.DisplayedValuesNeeded(param0);

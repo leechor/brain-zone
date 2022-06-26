@@ -638,6 +638,12 @@ public class IntelligentObjectDefinition extends AbsDefinition
         EventHandler.fire(this.resourceLogicChangedEvent, this, EventArgs.Empty);
     }
 
+    @Override
+    protected void OnDescriptionChanged() {
+        this.resetTable(0, false);
+        super.OnDescriptionChanged();
+    }
+
     public String Author() {
         if (Strings.isNullOrEmpty(this.author)) {
             return "LICHO";
@@ -5268,7 +5274,8 @@ public class IntelligentObjectDefinition extends AbsDefinition
         }
 
         @Override
-        public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
+        public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
+                                                          GridObjectDefinition gridObjectDefinition) {
             return null;
         }
 

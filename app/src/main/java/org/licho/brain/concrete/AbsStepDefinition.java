@@ -38,7 +38,7 @@ public abstract class AbsStepDefinition extends GridObjectDefinition {
     }
 
     private static void sortByName() {
-         AbsStepDefinition.absStepDefinitions.sort(Comparator.comparing(GridObjectDefinition::Name));
+        AbsStepDefinition.absStepDefinitions.sort(Comparator.comparing(GridObjectDefinition::Name));
     }
 
     protected boolean isInterruptible() {
@@ -125,7 +125,8 @@ public abstract class AbsStepDefinition extends GridObjectDefinition {
                     AbsStepDefinition absStepDefinition = null;
                     try {
                         absStepDefinition = (AbsStepDefinition) type.getDeclaredConstructor().newInstance();
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                             NoSuchMethodException e) {
                         e.printStackTrace();
                     }
                     if (absStepDefinition.DefaultDefinition(type) != null) {

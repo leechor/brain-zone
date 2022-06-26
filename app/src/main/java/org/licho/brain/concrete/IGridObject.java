@@ -12,7 +12,8 @@ public interface IGridObject {
 
     String GetGridObjectInstanceName();
 
-    GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition);
+    GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
+                                               GridObjectDefinition gridObjectDefinition);
 
     IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1);
 

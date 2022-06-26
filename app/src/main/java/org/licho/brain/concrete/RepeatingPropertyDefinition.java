@@ -68,7 +68,8 @@ public class RepeatingPropertyDefinition extends StringPropertyDefinition {
     @Override
     protected boolean ReadXmlBody(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
                                   IIdentityName identityName) {
-        return super.ReadXmlBody(xmlReader, intelligentObjectXml, identityName) || this.propertyDefinitions.readXml(xmlReader, intelligentObjectXml, identityName);
+        return super.ReadXmlBody(xmlReader, intelligentObjectXml, identityName) ||
+                this.propertyDefinitions.readXml(xmlReader, intelligentObjectXml, identityName);
     }
 
     public PropertiesRunSpaceWrapper getPropertiesRunSpaceWrapper(IRunSpace runSpace,
