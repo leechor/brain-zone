@@ -53,12 +53,12 @@ public class Breakpoint implements IDataErrorInfo, IGridObject, INotifyPropertyC
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return null;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return null;
     }
 
@@ -68,17 +68,17 @@ public class Breakpoint implements IDataErrorInfo, IGridObject, INotifyPropertyC
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition) {
         return null;
     }
 
     @Override
-    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+    public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
         return null;
     }
 
     @Override
-    public String[] DisplayedValuesNeeded(int param0) {
+    public String[] DisplayedValuesNeeded(int index) {
         return new String[0];
     }
 

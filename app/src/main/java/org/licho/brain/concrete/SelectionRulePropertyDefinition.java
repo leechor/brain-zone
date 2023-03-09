@@ -20,12 +20,12 @@ public class SelectionRulePropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.SelectionRuleProperty_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.SelectionRuleProperty_ClassDescription;
     }
 

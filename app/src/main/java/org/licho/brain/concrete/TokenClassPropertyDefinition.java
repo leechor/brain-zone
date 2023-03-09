@@ -21,13 +21,13 @@ public class TokenClassPropertyDefinition extends StringPropertyDefinition {
 	}
 
     @Override
-	public  String GetGridObjectClassName()
+	public  String getObjectClassName()
 	{
 		return EngineResources.TokenClassProperty_ClassName;
 	}
 
     @Override
-	public  String GetGridObjectDescription()
+	public  String getObjectDescription()
 	{
 		return EngineResources.TokenClassProperty_ClassDescription;
 	}

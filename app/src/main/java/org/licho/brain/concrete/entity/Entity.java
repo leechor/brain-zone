@@ -123,9 +123,9 @@ public class Entity extends Agent {
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
 
         GridItemProperty property =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_PhysicalCharacteristics);

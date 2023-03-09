@@ -48,7 +48,7 @@ public class ObjectInstancePropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.ObjectInstanceProperty_ClassName;
     }
 
@@ -74,9 +74,9 @@ public class ObjectInstancePropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
         GridItemProperty gridItemProperty =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_Value);
         gridItemProperties.add(new GridItemProperty("Filter to Resources", gridItemProperty, -4874,

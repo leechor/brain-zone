@@ -1,5 +1,6 @@
 package org.licho.brain.concrete;
 
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.IFunction.Action;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.Enum13;
@@ -7,18 +8,17 @@ import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.PropertyGroupClass;
 import org.licho.brain.event.EventHandler;
 import org.licho.brain.utils.simu.system.PropertyChangedEventArgs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- *
+ * definition model({@link AbsPropertyObject})
  */
+@Slf4j
 public abstract class GridObjectDefinition implements IGridObject, IAutoComplete {
-    protected Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * object name
      */
@@ -29,7 +29,7 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
     private String description;
 
     protected PropertyDefinitions propertyDefinitions;
-    private final List<AbsPropertyObject> AssociatedInstances;
+    private final List<AbsPropertyObject> associatedInstances;
     private int count;
     private EventHandler<PropertyChangedEventArgs> propertyDescriptionChangedEventHandler;
 
@@ -37,7 +37,7 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
     public GridObjectDefinition(String name) {
         this.name = name;
         this.propertyDefinitions = new PropertyDefinitions(this, null);
-        this.AssociatedInstances = new ArrayList<>();
+        this.associatedInstances = new ArrayList<>();
         this.description = "";
     }
 
@@ -85,7 +85,7 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
     }
 
     public List<AbsPropertyObject> getAssociatedInstances() {
-        return this.AssociatedInstances;
+        return this.associatedInstances;
     }
 
     public List<AbsPropertyObject> getAllAssociatedInstancesOfThisPropertyBagList() {
@@ -95,14 +95,14 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
     public abstract AbsPropertyObject CreateInstance(String name);
 
     public void DestroyInstance(AbsPropertyObject propertyObject) {
-        this.AssociatedInstances.remove(propertyObject);
+        this.associatedInstances.remove(propertyObject);
     }
 
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return this.Name() + " Definition";
     }
 
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return this.Description();
     }
 
@@ -114,8 +114,8 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
         return false;
     }
 
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         for (PropertyDefinitionFacade propertyDefinitionFacade : this.propertyDefinitions.getPropertyDefinitionList()) {
             GridItemProperty gridItemProperty;
             if (propertyDefinitionFacade.Parent() != null) {
@@ -144,7 +144,7 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
         return gridItemProperties;
     }
 
-    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object value) {
         if (param0 >= 1000 && param0 < 1000000) {
             int index;
             if (param0 >= 30000) {
@@ -157,7 +157,7 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
                 index = param0 - 1000;
             }
             StringPropertyDefinition stringPropertyDefinition = this.propertyDefinitions.values.get(index);
-            stringPropertyDefinition.UpdateGridPropertyValue(param0, param1);
+            stringPropertyDefinition.UpdateGridPropertyValue(param0, value);
         }
         return null;
     }
@@ -171,7 +171,7 @@ public abstract class GridObjectDefinition implements IGridObject, IAutoComplete
 
     }
 
-    public String[] DisplayedValuesNeeded(int param0) {
+    public String[] DisplayedValuesNeeded(int index) {
         return null;
     }
 

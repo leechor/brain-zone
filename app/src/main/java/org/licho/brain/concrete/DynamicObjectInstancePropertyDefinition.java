@@ -31,7 +31,7 @@ public class DynamicObjectInstancePropertyDefinition extends ObjectInstancePrope
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.DynamicObjectInstanceProperty_ClassName;
     }
 
@@ -46,9 +46,9 @@ public class DynamicObjectInstancePropertyDefinition extends ObjectInstancePrope
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
         GridItemProperty gridItemProperty =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_Value);
         gridItemProperties.add(new GridItemProperty(EngineResources.DynamicObjectInstanceProperty_UseDefaultEntityName,

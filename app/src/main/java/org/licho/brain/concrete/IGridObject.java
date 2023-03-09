@@ -6,17 +6,26 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
  *
  */
 public interface IGridObject {
-    String GetGridObjectClassName();
+    /**
+     * Gets the name of the object.
+     *
+     * @return The name of the object.
+     */
+    String getObjectClassName();
 
-    String GetGridObjectDescription();
+    /**
+     * Gets the description of the object.
+     * @return
+     */
+    String getObjectDescription();
 
     String GetGridObjectInstanceName();
 
-    GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                               GridObjectDefinition gridObjectDefinition);
+    GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                           GridObjectDefinition gridObjectDefinition);
 
-    IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1);
+    IntelligentObjectProperty UpdatePropertyChange(int index, Object value);
 
-    String[] DisplayedValuesNeeded(int param0);
+    String[] DisplayedValuesNeeded(int index);
 }
 

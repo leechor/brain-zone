@@ -89,7 +89,7 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         String arg = "Element";
         if (this.type != null) {
             arg = this.getName();
@@ -98,14 +98,14 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.ElementProperty_ClassDescription;
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
         GridItemProperty gridItemProperty =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_AdvancedOptions);
         gridItemProperties.add(new GridItemProperty(EngineResources.ElementProperty_ReferenceTypeName, gridItemProperty

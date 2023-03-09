@@ -35,13 +35,13 @@ public class EventPropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.EventProperty_ClassName;
     }
 
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.EventProperty_ClassDescription;
     }
 

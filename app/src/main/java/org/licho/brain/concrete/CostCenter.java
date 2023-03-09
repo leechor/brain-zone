@@ -92,7 +92,7 @@ public class CostCenter extends AbsIntelligentPropertyObject {
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return null;
     }
 

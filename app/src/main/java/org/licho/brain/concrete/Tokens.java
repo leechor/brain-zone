@@ -21,7 +21,7 @@ public class Tokens extends BindingList<TokenDefinition> {
     }
 
     public TokenDefinition getTokenDefinitionByName(String name) {
-        if (TokenDefinition.name.equalsIgnoreCase(name)) {
+        if (TokenDefinition.objectName.equalsIgnoreCase(name)) {
             return TokenDefinition.Instance;
         }
         for (TokenDefinition tokenDefinition : this.getValues()) {
@@ -33,7 +33,7 @@ public class Tokens extends BindingList<TokenDefinition> {
     }
 
     public List<TokenDefinition> getTokenDefinitionsByName(String name) {
-        if (TokenDefinition.name.equalsIgnoreCase(name)) {
+        if (TokenDefinition.objectName.equalsIgnoreCase(name)) {
             return List.of(TokenDefinition.Instance);
         }
 

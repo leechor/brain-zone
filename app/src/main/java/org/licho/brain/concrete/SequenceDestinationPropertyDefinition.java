@@ -25,12 +25,12 @@ public class SequenceDestinationPropertyDefinition extends StringPropertyDefinit
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.SequenceDestinationProperty_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.SequenceDestinationProperty_ClassDescription;
     }
 
@@ -49,8 +49,8 @@ public class SequenceDestinationPropertyDefinition extends StringPropertyDefinit
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         super.method_2(gridItemProperties, gridObjectDefinition);
         GridItemProperty categoryName =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_Value);

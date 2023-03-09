@@ -57,12 +57,12 @@ public class SizeStatePropertyObject extends AbsStatePropertyObject {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.SizeState_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.SizeState_ClassDescription;
     }
 
@@ -72,9 +72,9 @@ public class SizeStatePropertyObject extends AbsStatePropertyObject {
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
         GridItemProperty param2 = gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_Value);
         gridItemProperties.add(new GridItemProperty(EngineResources.SizeState_Length_Name, param2,
                 super.LastPropertyNumber() - 1, this.Length(), 1.0, PropertyGridFeel.none,

@@ -20,17 +20,17 @@ public class DayPatternPropertyDefinition extends StringPropertyDefinition {
 		return new DayPatternPropertyRow(this, properties);
 	}
 
-	public  String GetGridObjectClassName()
+	public  String getObjectClassName()
 	{
 		return EngineResources.DayPatternProperty_ClassName;
 	}
 
-	public  String GetGridObjectDescription()
+	public  String getObjectDescription()
 	{
 		return EngineResources.DayPatternProperty_ClassDescription;
 	}
 
-	public  GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition)
+	public  GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties, GridObjectDefinition gridObjectDefinition)
 	{
 //		return super.method_2(gridItemProperties, gridObjectDefinition);
         return null;

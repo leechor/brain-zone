@@ -177,13 +177,13 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return MessageFormat.format(EngineResources.ELEMENT_INSTANCE_CLASS_NAME, this.objectDefinition.Name());
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         return null;
     }
 
@@ -241,12 +241,12 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
 
     @Override
-    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+    public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
         return null;
     }
 
     @Override
-    public String[] DisplayedValuesNeeded(int param0) {
+    public String[] DisplayedValuesNeeded(int index) {
         return null;
     }
 

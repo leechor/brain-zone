@@ -48,7 +48,7 @@ public class TokenClassPropertyRow extends IntelligentObjectProperty {
             }
             return null;
         } else {
-            if (objectName.equalsIgnoreCase(TokenDefinition.name)) {
+            if (objectName.equalsIgnoreCase(TokenDefinition.objectName)) {
                 this.absDefinition = TokenDefinition.Instance;
             }
             if (this.absDefinition == null) {

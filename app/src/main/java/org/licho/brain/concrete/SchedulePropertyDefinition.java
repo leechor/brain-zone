@@ -38,7 +38,7 @@ public class SchedulePropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.ScheduleProperty_ClassName;
     }
 
@@ -53,13 +53,13 @@ public class SchedulePropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.ScheduleProperty_ClassDescription;
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         super.method_2(gridItemProperties, gridObjectDefinition);
         GridItemProperty gridItemPropertyByName =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_Value);

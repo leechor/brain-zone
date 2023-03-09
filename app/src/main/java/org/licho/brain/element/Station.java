@@ -1,5 +1,8 @@
 package org.licho.brain.element;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.concrete.AbsDefinition;
 import org.licho.brain.concrete.AbsIntelligentPropertyObject;
 import org.licho.brain.concrete.ActiveModel;
@@ -55,7 +58,9 @@ import org.licho.brain.step.Transfer;
  * 'Server1.OutputBuffer.Contents.Weight' would provide the cumulative weight of all the entities waiting in the
  * output buffer of Server1.
  */
-
+@Getter
+@Setter
+@Slf4j
 public class Station extends AbsIntelligentPropertyObject {
 
 
@@ -85,7 +90,7 @@ public class Station extends AbsIntelligentPropertyObject {
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return null;
     }
 
@@ -127,46 +132,6 @@ public class Station extends AbsIntelligentPropertyObject {
     @Override
     public void SubmitToSearch(ItemEditPolicy itemEditPolicy, ActiveModel activeModel) {
 
-    }
-
-    public ExpressionPropertyRow getInitialCapacity() {
-        return this.initialCapacity;
-    }
-
-    public EnumPropertyRow getEntryRankingRule() {
-        return this.entryRankingRule;
-    }
-
-    public ExpressionPropertyRow getEntryRankingExpression() {
-        return this.entryRankingExpression;
-    }
-
-    public SelectionRulePropertyRow getDynamicSelectionRule() {
-        return this.dynamicSelectionRule;
-    }
-
-    public EnumPropertyRow getContentsRankingRule() {
-        return this.contentsRankingRule;
-    }
-
-    public ExpressionPropertyRow getContentsRankingExpression() {
-        return this.contentsRankingExpression;
-    }
-
-    public ElementPropertyRow getRedirectStation() {
-        return this.redirectStation;
-    }
-
-    public ElementPropertyRow getParentCostCenter() {
-        return this.parentCostCenter;
-    }
-
-    public ExpressionPropertyRow getCostPerUse() {
-        return this.costPerUse;
-    }
-
-    public ExpressionPropertyRow getHoldingCostRate() {
-        return this.holdingCostRate;
     }
 
     @Override

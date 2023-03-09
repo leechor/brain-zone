@@ -1,6 +1,7 @@
 package org.licho.brain.concrete;
 
 import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.IFunction.Action;
 import org.licho.brain.annotations.DynamicUnitClass;
 import org.licho.brain.annotations.ElementFunctionReferenceReturnType;
@@ -26,9 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- *
- */
+@Slf4j
 public abstract class AbsDefinition extends GridObjectDefinition implements IIdentityName {
     private static Action<Class<?>> newDefinitionFunction;
     private StateDefinitions stateDefinitions;
@@ -50,7 +49,6 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
         }
     }
 
-
     protected boolean DefineSchemaInConstructor() {
         return true;
     }
@@ -60,99 +58,61 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
     }
 
     private void initBasicPropertyDefinition() {
-        PropertyDefinitionFacade basicLogic = new PropertyDefinitionFacade();
-        basicLogic.Name(EngineResources.CategoryName_BasicLogic);
-        basicLogic.Description(EngineResources.CategoryName_BasicLogic);
-        basicLogic.InitiallyExpanded(true);
+        var basicLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_BasicLogic);
+        var processLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_ProcessLogic);
+        var crossingLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_CrossingLogic);
+        var transportLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_TransportLogic);
+        var travelLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_TravelLogic);
+        var routingLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_RoutingLogic);
+        var population = new PropertyDefinitionFacade(EngineResources.CategoryName_Population, false);
+        var resultsClassification =
+                new PropertyDefinitionFacade(EngineResources.CategoryName_ResultsClassification, false);
+        var stoppingConditions =
+                new PropertyDefinitionFacade(EngineResources.CategoryName_StoppingConditions, false);
+        var inputFlowControl =
+                new PropertyDefinitionFacade(EngineResources.CategoryName_InputFlowControl, false);
 
-        PropertyDefinitionFacade processLogic = new PropertyDefinitionFacade();
-        processLogic.Name(EngineResources.CategoryName_ProcessLogic);
-        processLogic.Description(EngineResources.CategoryName_ProcessLogic);
-        processLogic.InitiallyExpanded(true);
+        var financials = new PropertyDefinitionFacade(EngineResources.CategoryName_Financials, false);
 
-        PropertyDefinitionFacade crossingLogic = new PropertyDefinitionFacade();
-        crossingLogic.Name(EngineResources.CategoryName_CrossingLogic);
-        crossingLogic.Description(EngineResources.CategoryName_CrossingLogic);
-        crossingLogic.InitiallyExpanded(true);
+        var financialsTransportCosts = PropertyDefinitionFacade.builder()
+                .name(EngineResources.CategoryName_FinancialsTransportCosts)
+                .parent(financials)
+                .description(EngineResources.CategoryDescription_FinancialsTransportCosts)
+                .initiallyExpanded(false)
+                .build();
 
-        PropertyDefinitionFacade transportLogic = new PropertyDefinitionFacade();
-        transportLogic.Name(EngineResources.CategoryName_TransportLogic);
-        transportLogic.Description(EngineResources.CategoryName_TransportLogic);
-        transportLogic.InitiallyExpanded(true);
+        var financialsResourceCosts = PropertyDefinitionFacade.builder()
+                .name(EngineResources.CategoryName_FinancialsResourceCosts)
+                .parent(financials)
+                .description(EngineResources.CategoryDescription_FinancialsResourceCosts)
+                .initiallyExpanded(false)
+                .build();
 
-        PropertyDefinitionFacade travelLogic = new PropertyDefinitionFacade();
-        travelLogic.Name(EngineResources.CategoryName_TravelLogic);
-        travelLogic.Description(EngineResources.CategoryName_TravelLogic);
-        travelLogic.InitiallyExpanded(true);
+        var advancedOptions =
+                new PropertyDefinitionFacade(EngineResources.CategoryName_AdvancedOptions, false);
 
-        PropertyDefinitionFacade routingLogic = new PropertyDefinitionFacade();
-        routingLogic.Name(EngineResources.CategoryName_RoutingLogic);
-        routingLogic.Description(EngineResources.CategoryName_RoutingLogic);
-        routingLogic.InitiallyExpanded(true);
+        var advancedOptionsTokenActions = PropertyDefinitionFacade.builder()
+                .name(EngineResources.CategoryName_AdvancedOptionsTokenActions)
+                .parent(advancedOptions)
+                .description(EngineResources.CategoryDescription_TokenActionOptions)
+                .initiallyExpanded(false)
+                .build();
 
-        PropertyDefinitionFacade population = new PropertyDefinitionFacade();
-        population.Name(EngineResources.CategoryName_Population);
-        population.Description(EngineResources.CategoryName_Population);
-        population.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade resultsClassification = new PropertyDefinitionFacade();
-        resultsClassification.Name(EngineResources.CategoryName_ResultsClassification);
-        resultsClassification.Description(EngineResources.CategoryName_ResultsClassification);
-        resultsClassification.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade stoppingConditions = new PropertyDefinitionFacade();
-        stoppingConditions.Name(EngineResources.CategoryName_StoppingConditions);
-        stoppingConditions.Description(EngineResources.CategoryName_StoppingConditions);
-        stoppingConditions.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade inputFlowControl = new PropertyDefinitionFacade();
-        inputFlowControl.Name(EngineResources.CategoryName_InputFlowControl);
-        inputFlowControl.Description(EngineResources.CategoryName_InputFlowControl);
-        inputFlowControl.InitiallyExpanded(true);
-
-        PropertyDefinitionFacade financials = new PropertyDefinitionFacade();
-        financials.Name(EngineResources.CategoryName_Financials);
-        financials.Description(EngineResources.CategoryName_Financials);
-        financials.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade financialsTransportCosts = new PropertyDefinitionFacade();
-        financialsTransportCosts.Name(EngineResources.CategoryName_FinancialsTransportCosts);
-        financialsTransportCosts.Parent(financials);
-        financialsTransportCosts.Description(EngineResources.CategoryDescription_FinancialsTransportCosts);
-        financialsTransportCosts.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade financialsResourceCosts = new PropertyDefinitionFacade();
-        financialsResourceCosts.Name(EngineResources.CategoryName_FinancialsResourceCosts);
-        financialsResourceCosts.Parent(financials);
-        financialsResourceCosts.Description(EngineResources.CategoryDescription_FinancialsResourceCosts);
-        financialsResourceCosts.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade advancedOptions = new PropertyDefinitionFacade();
-        advancedOptions.Name(EngineResources.CategoryName_AdvancedOptions);
-        advancedOptions.Description(EngineResources.CategoryName_AdvancedOptions);
-        advancedOptions.InitiallyExpanded(false);
-
-        PropertyDefinitionFacade advancedOptionsTokenActions = new PropertyDefinitionFacade();
-        advancedOptionsTokenActions.Name(EngineResources.CategoryName_AdvancedOptionsTokenActions);
-        advancedOptionsTokenActions.Parent(advancedOptions);
-        advancedOptionsTokenActions.Description(EngineResources.CategoryDescription_TokenActionOptions);
-        advancedOptionsTokenActions.InitiallyExpanded(false);
-
-        this.propertyDefinitions.addPropertyDefinition(basicLogic);
-        this.propertyDefinitions.addPropertyDefinition(processLogic);
-        this.propertyDefinitions.addPropertyDefinition(crossingLogic);
-        this.propertyDefinitions.addPropertyDefinition(transportLogic);
-        this.propertyDefinitions.addPropertyDefinition(travelLogic);
-        this.propertyDefinitions.addPropertyDefinition(routingLogic);
-        this.propertyDefinitions.addPropertyDefinition(population);
-        this.propertyDefinitions.addPropertyDefinition(resultsClassification);
-        this.propertyDefinitions.addPropertyDefinition(stoppingConditions);
-        this.propertyDefinitions.addPropertyDefinition(inputFlowControl);
-        this.propertyDefinitions.addPropertyDefinition(financials);
-        this.propertyDefinitions.addPropertyDefinition(financialsTransportCosts);
-        this.propertyDefinitions.addPropertyDefinition(financialsResourceCosts);
-        this.propertyDefinitions.addPropertyDefinition(advancedOptions);
-        this.propertyDefinitions.addPropertyDefinition(advancedOptionsTokenActions);
+        this.propertyDefinitions.addPropertyDefinitions(basicLogic,
+                processLogic,
+                crossingLogic,
+                transportLogic,
+                travelLogic,
+                routingLogic,
+                population,
+                resultsClassification,
+                stoppingConditions,
+                inputFlowControl,
+                financials,
+                financialsTransportCosts,
+                financialsResourceCosts,
+                advancedOptions,
+                advancedOptionsTokenActions);
         this.propertyDefinitions.add(this.createReportStatistics());
     }
 
@@ -171,7 +131,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
         return null;
     }
 
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return MessageFormat.format(EngineResources.ElementDefinition_ClassName, this.Name());
     }
 
@@ -268,7 +228,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                     try {
                                         return new ExpressionValue((Double) methodInfo.invoke(null, t, u));
                                     } catch (IllegalAccessException | InvocationTargetException e) {
-                                        logger.error(e.toString());
+                                        log.error(e.toString());
                                         return null;
                                     }
                                 };
@@ -345,7 +305,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                 }
             }
         } catch (Exception e) {
-            logger.error(e.toString());
+            log.error(e.toString());
         }
         return this.nameToFunctionMap;
     }
@@ -450,7 +410,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
         if (result != null) {
             return result.keySet();
         } else {
-            logger.error("get NameToFunctionMap error.");
+            log.error("get NameToFunctionMap error.");
             return null;
         }
     }
@@ -535,16 +495,16 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
     }
 
     @Override
-    public String[] DisplayedValuesNeeded(int param0) {
-        if (param0 >= 1000 && param0 < 1000000) {
+    public String[] DisplayedValuesNeeded(int index) {
+        if (index >= 1000 && index < 1000000) {
             return null;
         }
-        if (param0 >= 1000000) {
+        if (index >= 1000000) {
             BaseStatePropertyObject stateDefinition =
-                    this.getStateDefinitions().StateProperties.values.get(param0 - 1000000);
+                    this.getStateDefinitions().StateProperties.values.get(index - 1000000);
             return stateDefinition.GetListValues();
         }
-        return super.DisplayedValuesNeeded(param0);
+        return super.DisplayedValuesNeeded(index);
     }
 
 

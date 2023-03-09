@@ -443,7 +443,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
 
     @Override
     public String ObjectType() {
-        return this.GetGridObjectClassName();
+        return this.getObjectClassName();
     }
 
     @Override
@@ -1039,12 +1039,12 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.Property_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.Property_ClassDescription;
     }
 
@@ -1054,18 +1054,18 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         return this.method_2(gridItemProperties, gridObjectDefinition);
     }
 
     @Override
-    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+    public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
         return null;
     }
 
     @Override
-    public String[] DisplayedValuesNeeded(int param0) {
+    public String[] DisplayedValuesNeeded(int index) {
         return new String[0];
     }
 

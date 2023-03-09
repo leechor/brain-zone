@@ -30,7 +30,7 @@ public class ElementReferenceStatePropertyObject extends BaseStatePropertyObject
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         if (this.absDefinition != null) {
             return MessageFormat.format(EngineResources.TypedElementReferenceState_ClassName,
                     this.absDefinition.ExpressionIdentifier());
@@ -39,7 +39,7 @@ public class ElementReferenceStatePropertyObject extends BaseStatePropertyObject
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.ElementReferenceState_ClassDescription;
     }
 
@@ -68,9 +68,9 @@ public class ElementReferenceStatePropertyObject extends BaseStatePropertyObject
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
         gridItemProperties.removeIf(t -> StringHelper.equalsLocal(t.DisplayName(),
                 EngineResources.State_PropertyName_InitialStateValue));
         return gridItemProperties;

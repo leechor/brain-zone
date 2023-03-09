@@ -43,7 +43,7 @@ public class TableStateDefinition extends AbsDefinition{
     }
 
     @Override
-    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+    public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
         return null;
     }
 

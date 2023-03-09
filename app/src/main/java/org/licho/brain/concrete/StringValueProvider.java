@@ -25,7 +25,7 @@ public class StringValueProvider implements IValueProvider {
 			list.add(token.Name());
 		}
 
-		list.add(0, TokenDefinition.name);
+		list.add(0, TokenDefinition.objectName);
 		return list.toArray(new String[0]);
 	}
 }

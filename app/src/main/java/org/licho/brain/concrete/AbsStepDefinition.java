@@ -1,5 +1,6 @@
 package org.licho.brain.concrete;
 
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.AbsBaseStepProperty;
 import org.licho.brain.concrete.property.MissingBranchedStepDefinition;
@@ -14,9 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- *
- */
+@Slf4j
 public abstract class AbsStepDefinition extends GridObjectDefinition {
     private static Map<String, AbsStepDefinition> stepDefinitions;
     private static List<AbsStepDefinition> absStepDefinitions;
@@ -87,13 +86,13 @@ public abstract class AbsStepDefinition extends GridObjectDefinition {
         return null;
     }
 
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return MessageFormat.format(EngineResources.StepDefinition_ClassName, this.Name());
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         for (StringPropertyDefinition stringPropertyDefinition : this.propertyDefinitions.values) {
             if (stringPropertyDefinition.CanDisplayInPropertyGrid()) {
                 GridItemProperty gridItemProperty =

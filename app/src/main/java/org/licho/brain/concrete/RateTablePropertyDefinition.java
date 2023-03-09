@@ -15,13 +15,13 @@ public class RateTablePropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.RateTableProperty_ClassName;
     }
 
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.RateTableProperty_ClassDescription;
     }
 

@@ -47,13 +47,13 @@ public class QueueStateObject<T> extends AbsQueuePropertyObject {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.QueueState_ClassName;
     }
 
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.QueueState_ClassDescription;
     }
 

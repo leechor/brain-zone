@@ -1,13 +1,12 @@
 package org.licho.brain.concrete;
 
+import lombok.Builder;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
 import org.licho.brain.enu.DataFormat;
 import org.licho.brain.enu.NumericDataType;
 
-/**
- *
- */
+
 public class BooleanPropertyDefinition extends NumericDataPropertyDefinition {
 
     public BooleanPropertyDefinition(String name) {
@@ -30,7 +29,7 @@ public class BooleanPropertyDefinition extends NumericDataPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.BooleanProperty_ClassName;
     }
 
@@ -40,7 +39,7 @@ public class BooleanPropertyDefinition extends NumericDataPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.BooleanProperty_ClassDescription;
     }
 

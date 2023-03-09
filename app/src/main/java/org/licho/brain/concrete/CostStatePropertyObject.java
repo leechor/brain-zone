@@ -29,12 +29,12 @@ public class CostStatePropertyObject extends AbsStatePropertyObject {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.FirstOrderState_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.FirstOrderState_ClassDescription;
     }
 
@@ -49,9 +49,9 @@ public class CostStatePropertyObject extends AbsStatePropertyObject {
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
-        super.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
+        super.getPropertyItemList(gridItemProperties, gridObjectDefinition);
 
         gridItemProperties.removeIf(t ->
                 StringHelper.equalsLocal(EngineResources.State_DisplayFormat_Name, t.DisplayName()));

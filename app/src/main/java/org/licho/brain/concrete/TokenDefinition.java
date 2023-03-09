@@ -24,10 +24,10 @@ public class TokenDefinition extends AbsDefinition implements INotifyPropertyCha
         IListData {
     private IntelligentObjectDefinition parent;
     private Guid guid;
-    public static final String name = "Token";
+    public static final String objectName = "Token";
     public static final Guid DefaultGuid = new Guid("08106CA5-0813-4514-AD74-104AAA9F3088");
 
-    public static TokenDefinition Instance = new TokenDefinition(TokenDefinition.name, TokenDefinition.DefaultGuid,
+    public static TokenDefinition Instance = new TokenDefinition(TokenDefinition.objectName, TokenDefinition.DefaultGuid,
             null);
 
     private TokenDefinition(String name, Guid guid, IntelligentObjectDefinition parent) {
@@ -153,7 +153,7 @@ public class TokenDefinition extends AbsDefinition implements INotifyPropertyCha
 
     @Override
     public void Rename(String newName) {
-        this.Name(name);
+        this.Name(objectName);
     }
 
     @Override

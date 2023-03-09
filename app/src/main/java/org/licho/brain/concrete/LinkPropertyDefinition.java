@@ -18,12 +18,12 @@ public class LinkPropertyDefinition extends ObjectInstancePropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.LinkProperty_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.LinkProperty_ClassDescription;
     }
 

@@ -171,7 +171,7 @@ public class Network extends AbsIntelligentPropertyObject implements INetworkEle
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return null;
     }
 

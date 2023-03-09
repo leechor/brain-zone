@@ -14,7 +14,7 @@ public class ColorPropertyDefinition extends NumericDataPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.ColorProperty_ClassName;
     }
 
@@ -24,7 +24,7 @@ public class ColorPropertyDefinition extends NumericDataPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.ColorProperty_ClassDescription;
     }
 

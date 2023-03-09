@@ -39,7 +39,7 @@ public class Errors extends BindingList<Error> implements IErrors {
 
     private void removeErrorByObject(IGridObject gridObject) {
         GridItemProperties gridItemProperties = new GridItemProperties();
-        gridObject.GetGridPropertyItemList(gridItemProperties, null);
+        gridObject.getPropertyItemList(gridItemProperties, null);
         for (GridItemProperty gridItemProperty : gridItemProperties) {
             if (gridItemProperty.getPropertyOperator() != null) {
                 IGridObjectOperator children = gridItemProperty.getPropertyOperator().GetChildren();

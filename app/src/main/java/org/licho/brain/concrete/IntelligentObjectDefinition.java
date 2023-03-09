@@ -1,6 +1,7 @@
 package org.licho.brain.concrete;
 
 import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.IFunction.Action;
 import org.licho.brain.annotations.ElementFunctionReferenceReturnType;
 import org.licho.brain.annotations.UnitClass;
@@ -95,6 +96,7 @@ import java.util.stream.Collectors;
 /**
  * general object definition
  */
+@Slf4j
 public class IntelligentObjectDefinition extends AbsDefinition
         implements IFacility, IIntelligentObjects, IModel, IRunSetup, IPlan {
 
@@ -3459,7 +3461,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
                     int result = Integer.parseInt(revision);
                     this.setRevision(result);
                 } catch (NumberFormatException e) {
-                    logger.error("revision convert to int error");
+                    log.error("revision convert to int error");
                 }
             }
 
@@ -4997,7 +4999,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
 
     @Override
-    public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+    public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
         return null;
     }
 
@@ -5259,12 +5261,12 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
     public static class BuiltInFunction implements IGridObject {
         @Override
-        public String GetGridObjectClassName() {
+        public String getObjectClassName() {
             return "Built-in Function";
         }
 
         @Override
-        public String GetGridObjectDescription() {
+        public String getObjectDescription() {
             return null;
         }
 
@@ -5274,18 +5276,18 @@ public class IntelligentObjectDefinition extends AbsDefinition
         }
 
         @Override
-        public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                          GridObjectDefinition gridObjectDefinition) {
+        public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                      GridObjectDefinition gridObjectDefinition) {
             return null;
         }
 
         @Override
-        public IntelligentObjectProperty UpdatePropertyChange(int param0, Object param1) {
+        public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
             return null;
         }
 
         @Override
-        public String[] DisplayedValuesNeeded(int param0) {
+        public String[] DisplayedValuesNeeded(int index) {
             return new String[0];
         }
     }

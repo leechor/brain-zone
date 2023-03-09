@@ -1,6 +1,10 @@
 package org.licho.brain.concrete;
 
 import com.google.common.base.Strings;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.annotations.Browsable;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
@@ -9,10 +13,8 @@ import org.licho.brain.api.IPropertyObject;
 
 import java.util.Objects;
 
-/**
- *
- */
-public abstract class AbsPropertyObject implements INotifyPropertyChanged, IPropertyObject, IGridObject,
+@Slf4j
+public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyChanged, IPropertyObject,
         IAutoComplete, IOwner, ISearch, IPropertyDefaultValue, IReferenceProperty {
 
     private String name;
@@ -57,7 +59,7 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
     }
 
     public String ItemTypeName() {
-        return this.GetGridObjectClassName();
+        return this.getObjectClassName();
     }
 
     public String GetNameForKey(Object target) {
@@ -539,12 +541,12 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return this.objectDefinition.Name() + " Instance";
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return this.objectDefinition.Description();
     }
 
@@ -554,8 +556,8 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         for (IntelligentObjectProperty propertyInstance : this.properties.values) {
             GridItemProperty gridItemProperty =
                     propertyInstance.GetGridItemProperty(this.properties.PropertyDefinitions);
@@ -597,30 +599,30 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
     }
 
     @Override
-    public IntelligentObjectProperty UpdatePropertyChange(int count, Object name) {
-        if (count == 501) {
-            this.InstanceName((String) name);
+    public IntelligentObjectProperty UpdatePropertyChange(int index, Object value) {
+        if (index == 501) {
+            this.InstanceName((String) value);
             return null;
         }
 
-        if (count < 1000 || count >= 1000000) {
+        if (index < 1000 || index >= 1000000) {
             return null;
         }
 
         int num;
-        if (count >= 30000) {
-            num = count - 30000;
-        } else if (count >= 10000) {
-            num = count - 10000;
-        } else if (count >= 20000) {
-            num = count - 20000;
+        if (index >= 30000) {
+            num = index - 30000;
+        } else if (index >= 10000) {
+            num = index - 10000;
+        } else if (index >= 20000) {
+            num = index - 20000;
         } else {
-            num = count - 1000;
+            num = index - 1000;
         }
 
         if (num >= 0 && num < this.properties.size()) {
             IntelligentObjectProperty intelligentObjectProperty = this.properties.get(num);
-            intelligentObjectProperty.UpdateGridPropertyValue(count, name);
+            intelligentObjectProperty.UpdateGridPropertyValue(index, value);
             return intelligentObjectProperty;
         }
 
@@ -628,23 +630,23 @@ public abstract class AbsPropertyObject implements INotifyPropertyChanged, IProp
     }
 
     @Override
-    public String[] DisplayedValuesNeeded(int count) {
-        if (count == 501) {
+    public String[] DisplayedValuesNeeded(int index) {
+        if (index == 501) {
             return null;
         }
 
-        if (count >= 30000) {
-            count -= 30000;
-        } else if (count >= 10000) {
-            count -= 10000;
-        } else if (count >= 20000) {
-            count -= 20000;
+        if (index >= 30000) {
+            index -= 30000;
+        } else if (index >= 10000) {
+            index -= 10000;
+        } else if (index >= 20000) {
+            index -= 20000;
         } else {
-            count -= 1000;
+            index -= 1000;
         }
 
-        if (count >= 0 && count < this.properties.size()) {
-            IntelligentObjectProperty intelligentObjectProperty = this.properties.get(count);
+        if (index >= 0 && index < this.properties.size()) {
+            IntelligentObjectProperty intelligentObjectProperty = this.properties.get(index);
             return intelligentObjectProperty.GetListValues();
         }
 

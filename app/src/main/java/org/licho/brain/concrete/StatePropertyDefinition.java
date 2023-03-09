@@ -31,12 +31,12 @@ public class StatePropertyDefinition extends NumericDataPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.StateProperty_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.StateProperty_ClassDescription;
     }
 
@@ -94,8 +94,8 @@ public class StatePropertyDefinition extends NumericDataPropertyDefinition {
     }
 
     @Override
-    public GridItemProperties GetGridPropertyItemList(GridItemProperties gridItemProperties,
-                                                      GridObjectDefinition gridObjectDefinition) {
+    public GridItemProperties getPropertyItemList(GridItemProperties gridItemProperties,
+                                                  GridObjectDefinition gridObjectDefinition) {
         super.getGridPropertyItemList(gridItemProperties, gridObjectDefinition);
         GridItemProperty gridItemProperty =
                 gridItemProperties.getGridItemPropertyByName(EngineResources.CategoryName_Value);

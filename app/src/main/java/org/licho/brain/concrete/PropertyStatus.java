@@ -95,7 +95,7 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
         this.gridItemPropertyObjectMap.clear();
         if (this.gridObject != null && this.propertyUpdateOperator != null) {
             GridItemProperties gridItemProperties = new GridItemProperties();
-            this.gridObject.GetGridPropertyItemList(gridItemProperties, gridObjectDefinition);
+            this.gridObject.getPropertyItemList(gridItemProperties, gridObjectDefinition);
 
             List<GridItemProperty> itemProperties = gridItemProperties.stream()
                     .sorted(Comparator.comparing(this::method_8)).collect(Collectors.toList());
@@ -344,7 +344,7 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
             if (gridItemProperty.type == null) {
                 String description = gridItemProperty.getDescription();
                 if (description == null) {
-                    description = this.gridObject.GetGridObjectDescription();
+                    description = this.gridObject.getObjectDescription();
                 }
 
                 if (this.propertyUpdateOperator != null) {
@@ -454,7 +454,7 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
 
     private void setGridObjectClassNameStates() {
         if (this.propertyUpdateOperator != null && this.gridObject != null) {
-            this.gridObjectClassNameStates.put(this.gridObject.GetGridObjectClassName(),
+            this.gridObjectClassNameStates.put(this.gridObject.getObjectClassName(),
                     this.propertyUpdateOperator.GetStates());
         }
     }

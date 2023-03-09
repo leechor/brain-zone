@@ -21,12 +21,12 @@ public class TableAndColumnPropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public String GetGridObjectClassName() {
+    public String getObjectClassName() {
         return EngineResources.TableArrivalProperty_ClassName;
     }
 
     @Override
-    public String GetGridObjectDescription() {
+    public String getObjectDescription() {
         return EngineResources.TableArrivalProperty_ClassDescription;
     }
 

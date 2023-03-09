@@ -22,13 +22,13 @@ public class SequencePropertyDefinition extends StringPropertyDefinition {
 	}
 
 	@Override
-	public  String GetGridObjectClassName()
+	public  String getObjectClassName()
 	{
 		return EngineResources.SequenceProperty_ClassName;
 	}
 
 	@Override
-	public  String GetGridObjectDescription()
+	public  String getObjectDescription()
 	{
 		return EngineResources.SequenceProperty_ClassDescription;
 	}
