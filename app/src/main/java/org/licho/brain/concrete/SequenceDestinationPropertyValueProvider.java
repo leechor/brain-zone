@@ -28,7 +28,7 @@ public class SequenceDestinationPropertyValueProvider implements IValueProvider 
                 list.add(node.InstanceName());
             } else if (node.IntelligentObject != null && node.NodeClassProperty.InputLocationType() != NodeInputLogicType.None) {
                 IntelligentObjectDefinition objectDefinition =
-                        (IntelligentObjectDefinition) node.IntelligentObject.objectDefinition;
+                        (IntelligentObjectDefinition) node.IntelligentObject.assignerDefinition;
                 if (objectDefinition.haveOneTransferPoints()) {
                     list.add(node.IntelligentObject.InstanceName());
                 } else {

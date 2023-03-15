@@ -57,7 +57,7 @@ public abstract class AbsStepProperty<T> extends AbsBaseStepProperty implements 
 
     @Override
     protected String TypeName() {
-        return this.objectDefinition.Name();
+        return this.assignerDefinition.Name();
     }
 
     @Override

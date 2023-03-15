@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -428,9 +427,9 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
 
                 Properties propertyGroupInstance = absPropertyObject.GetPropertyGroupInstance(this.propertyGroupClass);
                 if (this.RepeatingPropertyDefinition == null) {
-                    if (!flag || (flag && absPropertyObject.objectDefinition == this.TargetObject)) {
+                    if (!flag || (flag && absPropertyObject.assignerDefinition == this.TargetObject)) {
                         targetAction.apply(propertyGroupInstance);
-                    } else if (flag && absPropertyObject.objectDefinition != this.TargetObject) {
+                    } else if (flag && absPropertyObject.assignerDefinition != this.TargetObject) {
                         propertyObjects.add(absPropertyObject);
                     }
                 } else {
@@ -451,7 +450,7 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
 
     private void actionProperties(Properties properties, PropertyDefinitions propertyDefinitions,
                                   Action<Properties> targetAction, boolean bool_0) {
-        PropertyDefinitions definitions = properties.PropertyDefinitions;
+        PropertyDefinitions definitions = properties.propertyDefinitions;
         for (int i = 0; i < definitions.size(); i++) {
             StringPropertyDefinition stringPropertyDefinition = definitions.get(i);
             RepeatingPropertyDefinition repeatingPropertyDefinition =
@@ -504,7 +503,7 @@ public class PropertyDefinitions extends BindingList<StringPropertyDefinition> i
     private void UpdateChildrenForNewPropertyDefinition(StringPropertyDefinition stringPropertyDefinition,
                                                         Properties properties,
                                                         PropertyDefinitions owner) {
-        PropertyDefinitions definitions = properties.PropertyDefinitions;
+        PropertyDefinitions definitions = properties.propertyDefinitions;
 
         for (int i = 0; i < definitions.size(); i++) {
             if (definitions.get(i) instanceof RepeatingPropertyDefinition) {

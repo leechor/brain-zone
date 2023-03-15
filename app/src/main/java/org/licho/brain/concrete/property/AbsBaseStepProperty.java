@@ -69,7 +69,7 @@ public abstract class AbsBaseStepProperty extends AbsPropertyObject implements I
 
 
     protected String TypeName() {
-        return this.objectDefinition.Name();
+        return this.assignerDefinition.Name();
     }
 
     protected String getName() {
@@ -113,7 +113,7 @@ public abstract class AbsBaseStepProperty extends AbsPropertyObject implements I
                     }
 
                     AbsBaseStepProperty absBaseStepProperty =
-                            processProperty.createAbsBaseStepProperty(absStepDefinition, name);
+                            processProperty.createStepProperty(absStepDefinition, name);
                     if (assignAction != null) {
                         assignAction(stepID[0]);
                     }
@@ -372,7 +372,7 @@ public abstract class AbsBaseStepProperty extends AbsPropertyObject implements I
     }
 
     public String getNameDisplay() {
-        return MessageFormat.format("[{0}] {1}", this.objectDefinition.Name(), this.InstanceName());
+        return MessageFormat.format("[{0}] {1}", this.assignerDefinition.Name(), this.InstanceName());
     }
 
     protected void initProperties() {

@@ -24,8 +24,8 @@ public class BaseStepProperty extends AbsBaseStepProperty {
     }
 
     private void init() {
-        if (this.step == null && this.objectDefinition != null && ((StepDefinition) this.objectDefinition).getStepDefinition() != null) {
-            this.step = ((StepDefinition) this.objectDefinition).getStepDefinition().CreateStep(this.properties);
+        if (this.step == null && this.assignerDefinition != null && ((StepDefinition) this.assignerDefinition).getStepDefinition() != null) {
+            this.step = ((StepDefinition) this.assignerDefinition).getStepDefinition().CreateStep(this.properties);
         }
     }
 

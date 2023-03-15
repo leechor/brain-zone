@@ -28,22 +28,22 @@ import java.util.function.Predicate;
  */
 public final class Properties extends BindingList<IntelligentObjectProperty> implements INotifyPropertyChanged,
         IGridObject, IProperties, ISearch, IDataErrorInfo, Comparable<Properties>, IRow, IPropertyReaders {
-    public AbsPropertyObject AbsPropertyObject;
+    public AbsPropertyObject propertyObject;
 
-    public PropertyDefinitions PropertyDefinitions;
+    public PropertyDefinitions propertyDefinitions;
 
     private RepeatStringPropertyRow repeatStringPropertyRow;
     private EventHandler<PropertyChangedEventArgs> propertyChangedEventHandler;
 
 
-    public Properties(PropertyDefinitions propertyDefinitions, AbsPropertyObject AbsPropertyObject,
+    public Properties(PropertyDefinitions propertyDefinitions, AbsPropertyObject propertyObject,
                       RepeatStringPropertyRow repeatStringPropertyRow) {
-        this.PropertyDefinitions = propertyDefinitions;
-        this.AbsPropertyObject = AbsPropertyObject;
+        this.propertyDefinitions = propertyDefinitions;
+        this.propertyObject = propertyObject;
         this.repeatStringPropertyRow = repeatStringPropertyRow;
         for (StringPropertyDefinition propertyDefinitionInfo : propertyDefinitions.values) {
-            IntelligentObjectProperty objectProperty = propertyDefinitionInfo.CreateInstance(this);
-            super.Add(objectProperty);
+            IntelligentObjectProperty property = propertyDefinitionInfo.CreateInstance(this);
+            super.Add(property);
         }
     }
 
@@ -92,8 +92,8 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
     public boolean readXmlProperties(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         xmlReader.MoveToContent();
         return SomeXmlOperator.xmlReaderElementAll(xmlReader, "Properties", null, (XmlReader beforeRead) ->        {
-            if (this.AbsPropertyObject != null) {
-                this.AbsPropertyObject.LoadOldDefaultValuesForLoadFrom(intelligentObjectXml);
+            if (this.propertyObject != null) {
+                this.propertyObject.LoadOldDefaultValuesForLoadFrom(intelligentObjectXml);
             }
             return null;
         }, (XmlReader body) -> IntelligentObjectProperty.readXml(body, intelligentObjectXml, this) != null, null);
@@ -184,20 +184,20 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
         return null;
     }
 
-    public AbsPropertyObject getAbsPropertyObject() {
-        return AbsPropertyObject;
+    public AbsPropertyObject getPropertyObject() {
+        return propertyObject;
     }
 
-    public void setAbsPropertyObject(AbsPropertyObject absPropertyObject) {
-        this.AbsPropertyObject = absPropertyObject;
+    public void setPropertyObject(AbsPropertyObject propertyObject) {
+        this.propertyObject = propertyObject;
     }
 
     public PropertyDefinitions getPropertyDefinitions() {
-        return PropertyDefinitions;
+        return propertyDefinitions;
     }
 
     public void setPropertyDefinitions(PropertyDefinitions propertyDefinitions) {
-        this.PropertyDefinitions = propertyDefinitions;
+        this.propertyDefinitions = propertyDefinitions;
     }
 
     @Override
@@ -242,7 +242,7 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
 
 
     public void PropertyUpdating(IntelligentObjectProperty objectProperty) {
-        this.AbsPropertyObject.PropertyUpdating(objectProperty);
+        this.propertyObject.PropertyUpdating(objectProperty);
     }
 
     public void init() {
@@ -254,13 +254,13 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
                 }
             }
 
-            if (this.AbsPropertyObject != null) {
-                this.AbsPropertyObject.PropertyUpdating(intelligentObjectProperty);
+            if (this.propertyObject != null) {
+                this.propertyObject.PropertyUpdating(intelligentObjectProperty);
             }
 
             intelligentObjectProperty.processPropertyChange();
-            if (this.AbsPropertyObject != null) {
-                this.AbsPropertyObject.PropertyUpdated(intelligentObjectProperty,
+            if (this.propertyObject != null) {
+                this.propertyObject.PropertyUpdated(intelligentObjectProperty,
                         intelligentObjectProperty.getError() != null, null);
             }
         }
@@ -292,7 +292,7 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
 
     public Object PropertyUpdated(IntelligentObjectProperty intelligentObjectProperty, boolean b, Object o,
                                   IntelligentObjectProperty.ValueVersion valueVersion) {
-        Object result = this.AbsPropertyObject.PropertyUpdated(intelligentObjectProperty, b, o);
+        Object result = this.propertyObject.PropertyUpdated(intelligentObjectProperty, b, o);
         for (IntelligentObjectProperty objectProperty : this.values) {
             if (objectProperty != intelligentObjectProperty) {
                 objectProperty.NotifySiblingPropertyUpdated(intelligentObjectProperty, valueVersion);
@@ -320,7 +320,7 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
 
     public void updateStringValue() {
         for (IntelligentObjectProperty intelligentObjectProperty : this.values) {
-            String name = intelligentObjectProperty.getDefaultName(this.PropertyDefinitions);
+            String name = intelligentObjectProperty.getDefaultName(this.propertyDefinitions);
             if (!Objects.equals(name, intelligentObjectProperty.StringValue())) {
                 intelligentObjectProperty.StringValue(name);
             }
@@ -329,8 +329,8 @@ public final class Properties extends BindingList<IntelligentObjectProperty> imp
 
     public IntelligentObjectProperty getIntelligentObjectProperty(String attributeName,
                                                                   IntelligentObjectXml intelligentObjectXml) {
-        if (this.AbsPropertyObject != null) {
-            IntelligentObjectProperty propertyForLoad = this.AbsPropertyObject.GetPropertyForLoad(attributeName,
+        if (this.propertyObject != null) {
+            IntelligentObjectProperty propertyForLoad = this.propertyObject.GetPropertyForLoad(attributeName,
                     intelligentObjectXml);
             if (propertyForLoad != null) {
                 return propertyForLoad;

@@ -169,15 +169,15 @@ public class ProcessProperty extends AbsIntelligentPropertyObject {
         processPropertyElementRunSpace.Initialize(true, true);
     }
 
-    public <T, R> R createAbsBaseStepProperty(String name, Class<T> cl) {
-        return (R) this.createAbsBaseStepPropertyDefault(name, cl);
+    public <T, R> R createStepProperty(String name, Class<T> cl) {
+        return (R) this.createStepPropertyDefault(name, cl);
     }
 
-    public <T> AbsBaseStepProperty createAbsBaseStepPropertyDefault(String name, Class<T> cl) {
-        return this.createAbsBaseStepProperty((AbsStepDefinition) AbsBaseStepDefinition.definition.Instance(cl), name);
+    public <T> AbsBaseStepProperty createStepPropertyDefault(String name, Class<T> cl) {
+        return this.createStepProperty((AbsStepDefinition) AbsBaseStepDefinition.definition.Instance(cl), name);
     }
 
-    public AbsBaseStepProperty createAbsBaseStepProperty(AbsStepDefinition absStepDefinition, String name) {
+    public AbsBaseStepProperty createStepProperty(AbsStepDefinition absStepDefinition, String name) {
         this.bExcludedFromLimits = false;
         AbsBaseStepProperty absBaseStepProperty = absStepDefinition.createAbsBaseStepProperty(name, this);
         this.AbsBaseStepProperties.add(absBaseStepProperty);

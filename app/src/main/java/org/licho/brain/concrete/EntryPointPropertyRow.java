@@ -16,6 +16,6 @@ public class EntryPointPropertyRow extends IntelligentObjectProperty {
     public EntryPointPropertyRow(EntryPointPropertyDefinition entryPointPropertyDefinition, Properties properties) {
         super(entryPointPropertyDefinition, properties);
         this.ExitPointPropertyRows = new ArrayList<ExitPointPropertyRow>(1);
-        this.AbsBaseStepProperty = (AbsBaseStepProperty) properties.AbsPropertyObject;
+        this.AbsBaseStepProperty = (AbsBaseStepProperty) properties.propertyObject;
     }
 }

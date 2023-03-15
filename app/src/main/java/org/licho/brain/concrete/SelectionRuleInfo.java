@@ -11,7 +11,7 @@ public class SelectionRuleInfo extends AbsPropertyObject {
     }
 
     public ISelectionRule CreateRule() {
-        return ((SelectionRuleDefinition)this.objectDefinition).CreateRule(this.properties);
+        return ((SelectionRuleDefinition)this.assignerDefinition).CreateRule(this.properties);
     }
 
     @Override

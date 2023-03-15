@@ -39,7 +39,7 @@ public class SequenceDestinationPropertyRow extends IntelligentObjectProperty im
                 return this.node.InstanceName();
             }
             IntelligentObjectDefinition intelligentObjectDefinition =
-                    (IntelligentObjectDefinition) this.intelligentObjectProperty.objectDefinition;
+                    (IntelligentObjectDefinition) this.intelligentObjectProperty.assignerDefinition;
             if (this.node.NodeClassProperty.InputLocationType() != NodeInputLogicType.None && intelligentObjectDefinition.haveOneTransferPoints() && !((SequenceDestinationPropertyDefinition) super.getStringPropertyDefinition()).AcceptsAnyNode()) {
                 return this.intelligentObjectProperty.InstanceName();
             }

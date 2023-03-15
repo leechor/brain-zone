@@ -27,7 +27,7 @@ public class PropertyDescriptors extends BindingList<Properties> implements ITyp
 
     private void init() {
 
-        var tmp = this.repeatStringPropertyRow.getPropertyObject().objectDefinition;
+        var tmp = this.repeatStringPropertyRow.getPropertyObject().assignerDefinition;
         if (tmp instanceof TableDefinition) {
             TableDefinition tableDefinition = (TableDefinition) tmp;
             tableDefinition.Group().addListChanged(this::onListChanged);

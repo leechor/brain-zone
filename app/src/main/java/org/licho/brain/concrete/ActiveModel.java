@@ -613,9 +613,9 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         this.activateRunSetup = runSetup;
     }
 
-    public ActiveModel(IntelligentObjectDefinition intelligentObjectDefinition) {
+    public ActiveModel(IntelligentObjectDefinition currentModel) {
         this(null, null);
-        this.reRegisterEvent(intelligentObjectDefinition);
+        this.reRegisterEvent(currentModel);
 
     }
 

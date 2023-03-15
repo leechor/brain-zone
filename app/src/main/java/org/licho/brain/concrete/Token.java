@@ -26,9 +26,9 @@ public class Token extends AbsIntelligentPropertyObject {
     @Override
 	protected  int BindPropertyInstanceReferences(int index)
 	{
-		if (this.objectDefinition != null)
+		if (this.assignerDefinition != null)
 		{
-			((TokenDefinition)this.objectDefinition).initProperties();
+			((TokenDefinition)this.assignerDefinition).initProperties();
 		}
 		return super.BindPropertyInstanceReferences(index);
 	}

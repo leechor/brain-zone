@@ -194,7 +194,7 @@ public class IntelligentObjectXml {
         if (alreadyHaveModel || objectDefinition == null) {
             var guidVersion = this.definitionRefNameGuidVersionsMap.get(definitionName);
             if (guidVersion != null) {
-                objectDefinition = guidVersion.getIntelligentObjectDefinition(activeModel);
+                objectDefinition = guidVersion.tryCreateBasicDefinition(activeModel);
                 if (objectDefinition != null) {
                     this.allIntelligentObjectDefinitionNameMap.put(definitionName, objectDefinition);
                 } else {
@@ -358,7 +358,7 @@ public class IntelligentObjectXml {
         this.runnableInstanceXml.forEach(runnableInstanceOutXml -> {
             IntelligentObject intelligentObject = runnableInstanceOutXml.ActiveModel.getIntelligentObjectDefinition().IntelligentObject;
             intelligentObject.properties.values.forEach(p -> {
-                p.SetStringValue(p.getDefaultName(intelligentObject.objectDefinition.getPropertyDefinitions()), null,
+                p.SetStringValue(p.getDefaultName(intelligentObject.assignerDefinition.getPropertyDefinitions()), null,
                         IntelligentObjectProperty.ValueVersion.userVersion(this.FileVersion()));
             });
         });
@@ -494,7 +494,7 @@ public class IntelligentObjectXml {
             this.revision = version;
         }
 
-        public IntelligentObjectDefinition getIntelligentObjectDefinition(ActiveModel activeModel) {
+        public IntelligentObjectDefinition tryCreateBasicDefinition(ActiveModel activeModel) {
             if (this.guid == AgentDefinition.guid) {
                 return AgentDefinition.create();
             }

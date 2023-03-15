@@ -14,8 +14,8 @@ public class AnimationSetup extends AbsContextBound implements IListener, IObjec
         super.setActiveModel(activeModel);
     }
 
-    public AnimationSetup(IntelligentObjectDefinition intelligentObjectDefinition, Interface197 param1) {
-        super(intelligentObjectDefinition, param1);
+    public AnimationSetup(IntelligentObjectDefinition assigner, Interface197 param1) {
+        super(assigner, param1);
     }
 
     @Override

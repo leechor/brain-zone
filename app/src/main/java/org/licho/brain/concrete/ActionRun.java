@@ -7,22 +7,22 @@ import org.licho.brain.utils.simu.system.IDisposable;
  */
 public class ActionRun {
     private final Runnable action;
-    private int count;
+    private int waitCount;
 
     public ActionRun(Runnable action) {
         this.action = action;
     }
 
     public boolean empty() {
-        return this.count > 0;
+        return this.waitCount > 0;
     }
 
     public void waitAction() {
-        this.count++;
+        this.waitCount++;
     }
 
     public void run() {
-        this.count--;
+        this.waitCount--;
         if (this.empty() && this.action != null) {
             this.action.run();
         }

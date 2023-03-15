@@ -8,8 +8,8 @@ import org.licho.brain.utils.simu.IReferencedObjects;
  *
  */
 public class DefaultAdditionalSymbol extends AbsContextBound implements INotifyPropertyChanged, IListener {
-    public DefaultAdditionalSymbol(IntelligentObjectDefinition intelligentObjectDefinition, Interface197 param1) {
-        super(intelligentObjectDefinition, param1);
+    public DefaultAdditionalSymbol(IntelligentObjectDefinition assigner, Interface197 param1) {
+        super(assigner, param1);
     }
 
     @Override

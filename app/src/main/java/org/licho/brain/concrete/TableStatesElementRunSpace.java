@@ -13,7 +13,7 @@ public class TableStatesElementRunSpace extends AbsBaseRunSpace {
 
     @Override
     public String HierarchicalDisplayName() {
-        Schema schema = ((TableStatesDefinition) this.myElementInstance.objectDefinition).getSchema();
+        Schema schema = ((TableStatesDefinition) this.myElementInstance.assignerDefinition).getSchema();
         Table parent = schema.Parent();
         return parent.getDisplayName(this.ParentObjectRunSpace, this);
     }

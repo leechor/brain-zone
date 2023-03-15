@@ -95,7 +95,7 @@ public class TableInfo extends AbsPropertyObject {
     private void method_14() {
         for (StringPropertyDefinition stringPropertyDefinition : this.stringPropertyDefinitionSet) {
             Map<String, IntelligentObjectProperty> intelligentObjectProperties = new HashMap<>();
-            Table parent =  ((TableDefinition)this.objectDefinition).Parent().Parent();
+            Table parent =  ((TableDefinition)this.assignerDefinition).Parent().Parent();
 
             for (Properties properties : parent.Data().Rows().values) {
                 IntelligentObjectProperty intelligentObjectProperty =

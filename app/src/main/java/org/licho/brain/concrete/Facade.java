@@ -12,28 +12,28 @@ public class Facade extends IntelligentObjectXml {
     }
 
     @Override
-    public void initContextBound(IntelligentObjectDefinition intelligentObjectDefinition) {
-        super.initContextBound(intelligentObjectDefinition);
-        if (intelligentObjectDefinition.getAnimationSetup() == null) {
-            AnimationSetup animationSetup = new AnimationSetup(intelligentObjectDefinition, null);
-            intelligentObjectDefinition.setAnimationSetup(animationSetup);
-            if (intelligentObjectDefinition.activeModel != null) {
-                animationSetup.setActiveModel(intelligentObjectDefinition.activeModel);
+    public void initContextBound(IntelligentObjectDefinition assigner) {
+        super.initContextBound(assigner);
+        if (assigner.getAnimationSetup() == null) {
+            AnimationSetup animationSetup = new AnimationSetup(assigner, null);
+            assigner.setAnimationSetup(animationSetup);
+            if (assigner.activeModel != null) {
+                animationSetup.setActiveModel(assigner.activeModel);
             }
         }
-        if (intelligentObjectDefinition.getDefaultAdditionalSymbol() == null) {
-            DefaultAdditionalSymbol defaultAdditionalSymbol = new DefaultAdditionalSymbol(intelligentObjectDefinition
+        if (assigner.getDefaultAdditionalSymbol() == null) {
+            DefaultAdditionalSymbol defaultAdditionalSymbol = new DefaultAdditionalSymbol(assigner
 					, null);
-            intelligentObjectDefinition.DefaultAdditionalSymbolNotifyOtherContextBound(defaultAdditionalSymbol);
-            if (intelligentObjectDefinition.activeModel != null) {
-                defaultAdditionalSymbol.setActiveModel(intelligentObjectDefinition.activeModel);
+            assigner.DefaultAdditionalSymbolNotifyOtherContextBound(defaultAdditionalSymbol);
+            if (assigner.activeModel != null) {
+                defaultAdditionalSymbol.setActiveModel(assigner.activeModel);
             }
         }
-        if (intelligentObjectDefinition.getDashboard() == null) {
-            Dashboard dashboard = new Dashboard(intelligentObjectDefinition, null);
-            intelligentObjectDefinition.DashboardNotifyOtherContextBound(dashboard);
-            if (intelligentObjectDefinition.activeModel != null) {
-                dashboard.setActiveModel(intelligentObjectDefinition.activeModel);
+        if (assigner.getDashboard() == null) {
+            Dashboard dashboard = new Dashboard(assigner, null);
+            assigner.DashboardNotifyOtherContextBound(dashboard);
+            if (assigner.activeModel != null) {
+                dashboard.setActiveModel(assigner.activeModel);
             }
         }
     }

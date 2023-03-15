@@ -45,8 +45,8 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
             MemberExpressionUtils.getMemberExpressionMemberName(AbsIntelligentPropertyObject::Group);
 
 
-    protected AbsIntelligentPropertyObject(GridObjectDefinition definition, String name, ElementScope scope) {
-        super(definition, name);
+    protected AbsIntelligentPropertyObject(GridObjectDefinition assigner, String name, ElementScope scope) {
+        super(assigner, name);
         this.bool_0 = false;
         this.scope = scope;
         this.StateIGridItemPropertyObjectList = new StateIGridItemPropertyObjectList(this);
@@ -125,9 +125,9 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
             return intelligentObject;
         }
 
-        if (intelligentObject.getAbsIntelligentObjectProperty().getObjectDefinition() instanceof IntelligentObjectDefinition) {
+        if (intelligentObject.getAbsIntelligentObjectProperty().getAssignerDefinition() instanceof IntelligentObjectDefinition) {
             IntelligentObjectDefinition intelligentObjectDefinition = (IntelligentObjectDefinition) intelligentObject
-                    .getAbsIntelligentObjectProperty().getObjectDefinition();
+                    .getAbsIntelligentObjectProperty().getAssignerDefinition();
 
             while (intelligentObjectDefinition.getRelation(this.Parent()) != IntelligentObjectDefinition.Relation.Same) {
                 intelligentObject = intelligentObject.ParentObjectRunSpace();
@@ -135,7 +135,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
                     return null;
                 }
                 intelligentObjectDefinition = (IntelligentObjectDefinition) intelligentObject
-                        .getAbsIntelligentObjectProperty().getObjectDefinition();
+                        .getAbsIntelligentObjectProperty().getAssignerDefinition();
             }
         }
         return this.getRunSpaceOutOfParent(intelligentObject);
@@ -178,7 +178,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
     @Override
     public String getObjectClassName() {
-        return MessageFormat.format(EngineResources.ELEMENT_INSTANCE_CLASS_NAME, this.objectDefinition.Name());
+        return MessageFormat.format(EngineResources.ELEMENT_INSTANCE_CLASS_NAME, this.assignerDefinition.Name());
     }
 
     @Override
@@ -277,12 +277,12 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
 
 
     @Override
-    public GridObjectDefinition getObjectDefinition() {
-        return objectDefinition;
+    public GridObjectDefinition getAssignerDefinition() {
+        return assignerDefinition;
     }
 
     public void setGridObjectDefinition(GridObjectDefinition gridObjectDefinition) {
-        this.objectDefinition = gridObjectDefinition;
+        this.assignerDefinition = gridObjectDefinition;
     }
 
     public void setAutoCreated(boolean autoCreated) {
@@ -293,7 +293,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
     @Override
     public final IntelligentObjectProperty GetPropertyForLoad(String s1, IntelligentObjectXml intelligentObjectXml) {
         StringPropertyDefinition propertyDefinitionInfoForLoad =
-                ((AbsDefinition) this.objectDefinition).GetPropertyForLoad(s1, intelligentObjectXml);
+                ((AbsDefinition) this.assignerDefinition).GetPropertyForLoad(s1, intelligentObjectXml);
         if (propertyDefinitionInfoForLoad == null) {
             return super.GetPropertyForLoad(s1, intelligentObjectXml);
         }
@@ -311,7 +311,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
     }
 
     protected String getXmlType() {
-        return ((AbsDefinition) this.objectDefinition).Name();
+        return ((AbsDefinition) this.assignerDefinition).Name();
     }
 
     protected String getReadableXmlType() {

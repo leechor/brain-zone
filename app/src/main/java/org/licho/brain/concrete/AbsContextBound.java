@@ -14,14 +14,14 @@ public class AbsContextBound extends DefaultFlowMaterial implements IDisposable,
     private ActionRun actionRun;
     private Symbol symbol;
 
-    public AbsContextBound(IntelligentObjectDefinition intelligentObjectDefinition, Interface197 param1) {
+    public AbsContextBound(IntelligentObjectDefinition assigner, Interface197 param1) {
         super();
         Action action = null;
         this.minimumNumberOfFramesToDisplayIdleAnimation = 10;
-        if (intelligentObjectDefinition == null) {
+        if (assigner == null) {
             throw new IllegalArgumentException();
         }
-        this.selectionContext = intelligentObjectDefinition;
+        this.selectionContext = assigner;
         this.actionRun = new ActionRun(() -> {
             this.OnLoadFinished();
             this.InvalidateSymbol();

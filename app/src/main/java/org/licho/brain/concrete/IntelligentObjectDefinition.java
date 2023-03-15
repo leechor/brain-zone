@@ -443,7 +443,8 @@ public class IntelligentObjectDefinition extends AbsDefinition
         PropertyDefinitions propertyDefinitions = super.getPropertyDefinitions();
         StateDefinitions stateDefinitions = super.getStateDefinitions();
         EventDefinitions eventDefinitions = super.getEventDefinitions();
-        for (StringPropertyDefinition stringPropertyDefinition : parentDefinition.getPropertyDefinitions().getValues()) {
+        for (StringPropertyDefinition stringPropertyDefinition :
+                parentDefinition.getPropertyDefinitions().getValues()) {
             propertyDefinitions.addDefinition(stringPropertyDefinition);
         }
         for (PropertyDefinitionFacade propertyDefinitionFacade :
@@ -513,7 +514,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
     private void addAbsIntelligentPropertyObject(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
         this.elements.Add(absIntelligentPropertyObject);
-        this.addObjectByName(absIntelligentPropertyObject.InstanceName(), absIntelligentPropertyObject);
+        this.addProcessPropertyByName(absIntelligentPropertyObject.InstanceName(), absIntelligentPropertyObject);
     }
 
     public IntelligentObjectDefinition createDefaultParentDefinition() {
@@ -2658,14 +2659,16 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
     protected void createProcessProperties(ObjectClass objectClass) {
         Class<?> enumType = IntelligentObjectDefinition.getProcessType(objectClass);
-        int[] a = new int[1];
+
         for (int i = 0; i < enumType.getEnumConstants().length; i++) {
-            a[0] = i;
-            this.createProcessProperty(IntelligentObjectDefinition.getProcessStep(objectClass, i), ElementScope.Private,
-                    (ProcessProperty processProperty) -> {
-                        processProperty.processIndex = a[0];
+            final int index = i;
+            this.createProcessProperty(IntelligentObjectDefinition.getProcessStep(objectClass, index),
+                    ElementScope.Private,
+                    processProperty -> {
+                        processProperty.processIndex = index;
                         processProperty.objectClass = objectClass;
-                    }, false);
+                    },
+                    false);
         }
     }
 
@@ -2676,8 +2679,8 @@ public class IntelligentObjectDefinition extends AbsDefinition
         processProperty.AutoCreated(autoCreated);
         this.initProperty(processProperty);
         processProperty.properties.init();
-        processProperty.createAbsBaseStepProperty("Begin", BeginStepDefinition.class);
-        processProperty.createAbsBaseStepProperty("End", EndStepDefinition.class);
+        processProperty.createStepProperty("Begin", BeginStepDefinition.class);
+        processProperty.createStepProperty("End", EndStepDefinition.class);
         if (action != null) {
             action.apply(processProperty);
         }
@@ -2688,7 +2691,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     private void addProcessProperty(ProcessProperty processProperty, int lastIndex) {
-        this.addObjectByName(processProperty.InstanceName(), processProperty);
+        this.addProcessPropertyByName(processProperty.InstanceName(), processProperty);
         this.triggerDefinitionChildrenNameChangedEvent((IntelligentObjectDefinition subclass) ->
         {
             subclass.InsertProcessProperty(processProperty, lastIndex);
@@ -2720,9 +2723,9 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
 
-    private void addObjectByName(String instanceName, Object target) {
-        this.getNameUtil().addObjectByName(name, target);
-        if (target instanceof ISearch search) {
+    private void addProcessPropertyByName(String instanceName, Object processProperty) {
+        this.getNameUtil().addObjectByName(name, processProperty);
+        if (processProperty instanceof ISearch search) {
             if (this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() == this && this.activeModel.parentProjectDefinition != null) {
                 this.activeModel.parentProjectDefinition.getItemEditPolicy().method_0(search, ItemEditPolicy.name,
                         this.activeModel);
@@ -2785,31 +2788,15 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     private static Class<? extends Enum> getProcessType(ObjectClass objectClass) {
-        Class<? extends Enum> result = null;
-        switch (objectClass) {
-            case Object:
-                result = ObjectInterfaceProcess.class;
-                break;
-            case Fixed:
-                result = FixedInterfaceProcess.class;
-                break;
-            case Entity:
-                result = EntityInterfaceProcess.class;
-                break;
-            case Transporter:
-                result = TransporterInterfaceProcess.class;
-                break;
-            case Link:
-                result = LinkInterfaceProcess.class;
-                break;
-            case Agent:
-                result = AgentInterfaceProcess.class;
-                break;
-            case Node:
-                result = NodeInterfaceProcess.class;
-                break;
-        }
-        return result;
+        return switch (objectClass) {
+            case Object -> ObjectInterfaceProcess.class;
+            case Fixed -> FixedInterfaceProcess.class;
+            case Entity -> EntityInterfaceProcess.class;
+            case Transporter -> TransporterInterfaceProcess.class;
+            case Link -> LinkInterfaceProcess.class;
+            case Agent -> AgentInterfaceProcess.class;
+            case Node -> NodeInterfaceProcess.class;
+        };
     }
 
     public void method_320(AbsBaseStepProperty absBaseStepProperty) {
@@ -2844,7 +2831,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     private void addElement(AbsIntelligentPropertyObject propertyObject, int index) {
-        this.addObjectByName(propertyObject.InstanceName(), propertyObject);
+        this.addProcessPropertyByName(propertyObject.InstanceName(), propertyObject);
         this.triggerDefinitionChildrenNameChangedEvent((IntelligentObjectDefinition intelligentObjectDefinition) ->
         {
             intelligentObjectDefinition.InsertElement(propertyObject, index);
@@ -3002,7 +2989,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         }
 
         this.propertyInstanceAction(properties -> {
-            if (enum6 == Enum6.One || (properties.AbsPropertyObject != null && properties.AbsPropertyObject.IsOwnedBy(this))) {
+            if (enum6 == Enum6.One || (properties.propertyObject != null && properties.propertyObject.IsOwnedBy(this))) {
                 properties.propertyInstanceAction(intelligentObjectProperty -> {
                     propertyAction.apply(intelligentObjectProperty);
                     if (intelligentObjectProperty instanceof IListeners) {
@@ -3480,49 +3467,49 @@ public class IntelligentObjectDefinition extends AbsDefinition
     void resetNameCollections() {
         this.getNameUtil().clear();
         for (String name_ : super.getNames()) {
-            this.addObjectByName(name_, this.getBuiltInFunction());
+            this.addProcessPropertyByName(name_, this.getBuiltInFunction());
         }
-        this.registerSomeTypeObjectsName((AbsIntelligentPropertyObject object) -> this.addObjectByName(object.InstanceName(), object));
+        this.registerSomeTypeObjectsName(object -> this.addProcessPropertyByName(object.InstanceName(), object));
         for (StringPropertyDefinition stringPropertyDefinition : super.getPropertyDefinitions().getValues()) {
-            this.addObjectByName(stringPropertyDefinition.Name(), stringPropertyDefinition);
+            this.addProcessPropertyByName(stringPropertyDefinition.Name(), stringPropertyDefinition);
         }
         for (BaseStatePropertyObject baseStatePropertyObject :
                 super.getStateDefinitions().StateProperties.getValues()) {
-            this.addObjectByName(baseStatePropertyObject.Name(), baseStatePropertyObject);
+            this.addProcessPropertyByName(baseStatePropertyObject.Name(), baseStatePropertyObject);
         }
         for (Object obj : super.getEventDefinitions()) {
             EventDefinition eventDefinition = (EventDefinition) obj;
-            this.addObjectByName(eventDefinition.Name(), eventDefinition);
+            this.addProcessPropertyByName(eventDefinition.Name(), eventDefinition);
         }
         for (ExpressionFunction expressionFunction : this.ExpressionFunctions().getValues()) {
-            this.addObjectByName(expressionFunction.Name(), expressionFunction);
+            this.addProcessPropertyByName(expressionFunction.Name(), expressionFunction);
         }
         for (AbsInputParameter absInputParameter : this.InputParameters().getValues()) {
-            this.addObjectByName(absInputParameter.Name(), absInputParameter);
+            this.addProcessPropertyByName(absInputParameter.Name(), absInputParameter);
         }
         for (UserFunction functionTable : this.getFunctionTables().getValues()) {
-            this.addObjectByName(functionTable.Name(), functionTable);
+            this.addProcessPropertyByName(functionTable.Name(), functionTable);
         }
         for (RateTable rateTable : this.RateTables().getValues()) {
-            this.addObjectByName(rateTable.Name(), rateTable);
+            this.addProcessPropertyByName(rateTable.Name(), rateTable);
         }
         for (ChangeoverMatrix changeoverMatrix : this.getChangeoverMatrices().getValues()) {
-            this.addObjectByName(changeoverMatrix.Name(), changeoverMatrix);
+            this.addProcessPropertyByName(changeoverMatrix.Name(), changeoverMatrix);
         }
         for (DayPattern dayPattern : this.getWorkSchedulesUtils().DayPatterns().getValues()) {
-            this.addObjectByName(dayPattern.Name(), dayPattern);
+            this.addProcessPropertyByName(dayPattern.Name(), dayPattern);
         }
         for (WorkSchedule workSchedule : this.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
-            this.addObjectByName(workSchedule.Name(), workSchedule);
+            this.addProcessPropertyByName(workSchedule.Name(), workSchedule);
         }
         for (NodeClassProperty nodeClassProperty : this.transferPoints) {
-            this.addObjectByName(nodeClassProperty.InstanceName(), nodeClassProperty);
+            this.addProcessPropertyByName(nodeClassProperty.InstanceName(), nodeClassProperty);
         }
         for (AbsListProperty absListProperty : this.Lists().getValues()) {
-            this.addObjectByName(absListProperty.Name(), absListProperty);
+            this.addProcessPropertyByName(absListProperty.Name(), absListProperty);
         }
         for (Table table : this.Tables().getValues()) {
-            this.addObjectByName(table.Name(), table.getTableProperty());
+            this.addProcessPropertyByName(table.Name(), table.getTableProperty());
         }
     }
 
@@ -3778,8 +3765,8 @@ public class IntelligentObjectDefinition extends AbsDefinition
             overrideProperty.objectClass = processProperty.objectClass;
         }
         if (noOverride) {
-            overrideProperty.createAbsBaseStepProperty("Begin", BeginStepProperty.class);
-            overrideProperty.createAbsBaseStepProperty("End", EndStepProperty.class);
+            overrideProperty.createStepProperty("Begin", BeginStepProperty.class);
+            overrideProperty.createStepProperty("End", EndStepProperty.class);
         }
         if (updateConfig) {
             this.updateConfig(processProperty, overrideProperty);
@@ -3792,7 +3779,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     private void buildOverrideProcessProperty(ProcessProperty source, ProcessProperty overrideProcessProperty) {
         this.removeObjectByName(source.InstanceName(), source);
         this.RemoveRelationExistingRunSpace(source);
-        this.addObjectByName(overrideProcessProperty.InstanceName(), overrideProcessProperty);
+        this.addProcessPropertyByName(overrideProcessProperty.InstanceName(), overrideProcessProperty);
         if (!IntelligentObjectDefinition.updatingLibrary) {
             this.UpdateForParentObjectMemberElementChange(source);
         }
@@ -3994,7 +3981,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
             }
             this.RemoveRelationExistingRunSpace(processProperty);
             if (param1) {
-                processProperty.objectDefinition.DestroyInstance(processProperty);
+                processProperty.assignerDefinition.DestroyInstance(processProperty);
             }
             processProperty.Parent(null);
         }
@@ -4036,7 +4023,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
                          NodeDefinition nodeDefinition, ElementScope elementScope) {
         String name = this.getNodeClassName(nodeClassProperty, intelligentObject);
         Node node = this.createNode(name, nodeClassProperty, index, elementScope, intelligentObject, nodeDefinition);
-        Location location = ((IntelligentObjectDefinition) intelligentObject.objectDefinition).
+        Location location = ((IntelligentObjectDefinition) intelligentObject.assignerDefinition).
                 getLocation(nodeClassProperty).add(this.getDirection(node)).add(intelligentObject.location);
         node.setLocation(location);
     }
@@ -4104,7 +4091,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     private void addLinkRecursive(IntelligentObject intelligentObject, int index) {
-        this.addObjectByName(intelligentObject.InstanceName(), intelligentObject);
+        this.addProcessPropertyByName(intelligentObject.InstanceName(), intelligentObject);
         this.triggerDefinitionChildrenNameChangedEvent((IntelligentObjectDefinition intelligentObjectDefinition) ->
                 intelligentObjectDefinition.addLink(intelligentObject, index));
         this.flashState();
@@ -4176,7 +4163,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     private void addNodeRecursive(Node node, int index) {
-        this.addObjectByName(node.InstanceName(), node);
+        this.addProcessPropertyByName(node.InstanceName(), node);
         this.triggerDefinitionChildrenNameChangedEvent((IntelligentObjectDefinition objectDefinition) ->
         {
             objectDefinition.addNode(node, index);
@@ -4213,7 +4200,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     public boolean containChild(IntelligentObjectDefinition intelligentObjectDefinition) {
         for (IntelligentObject intelligentObject : this.childrenObject) {
             IntelligentObjectDefinition objectObjectDefinition =
-                    (IntelligentObjectDefinition) intelligentObject.objectDefinition;
+                    (IntelligentObjectDefinition) intelligentObject.assignerDefinition;
             if (objectObjectDefinition.sameGuid(intelligentObjectDefinition) ||
                     objectObjectDefinition.containChild(intelligentObjectDefinition)) {
                 return true;
@@ -4388,7 +4375,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
     private void addTransferPointForChildren(NodeClassProperty nodeClassProperty, int transferPointsCount,
                                              List<NodePointInfo> infos) {
-        this.addObjectByName(nodeClassProperty.InstanceName(), nodeClassProperty);
+        this.addProcessPropertyByName(nodeClassProperty.InstanceName(), nodeClassProperty);
         this.processChildrenDefinition((IntelligentObjectDefinition subclass) ->
                 subclass.addTransferPoint(nodeClassProperty, transferPointsCount, infos));
         this.flashState();
@@ -4750,7 +4737,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         node.DestroyInstance();
         this.RemoveRelationExistingRunSpace(node);
         this.nodes.remove(node);
-        node.objectDefinition.DestroyInstance(node);
+        node.assignerDefinition.DestroyInstance(node);
         node.Parent(null);
         this.getNameUtil().removeObjectByName(node.InstanceName(), node);
         int num = 0;
@@ -4779,7 +4766,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         link.DestroyInstance();
         this.RemoveRelationExistingRunSpace(link);
         this.childrenObject.remove(link);
-        link.objectDefinition.DestroyInstance(link);
+        link.assignerDefinition.DestroyInstance(link);
         link.Parent(null);
         this.getNameUtil().removeObjectByName(link.InstanceName(), link);
         if (link.beginNode != null) {
@@ -4889,7 +4876,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     void insertTokenDefinition(TokenDefinition tokenDefinition, int index) {
-        this.addObjectByName(tokenDefinition.Name(), tokenDefinition);
+        this.addProcessPropertyByName(tokenDefinition.Name(), tokenDefinition);
         this.processChildrenDefinition((IntelligentObjectDefinition t) -> t.getTokens().Insert(index, tokenDefinition));
         this.flashState();
         this.resetTable(255);
@@ -4905,7 +4892,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
     void updateRecuriseTokenDefinition(int index, TokenDefinition old, TokenDefinition newObject) {
         this.removeObjectByName(old.Name(), old);
-        this.addObjectByName(newObject.Name(), newObject);
+        this.addProcessPropertyByName(newObject.Name(), newObject);
         this.propertyListenHandle_1((IListener listener) ->
                 listener.UpdateForParentObjectTokenDefinitionChange(old, Enum38.Zero));
         this.flashState();
@@ -4914,7 +4901,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     public void insertDayPattern(DayPattern dayPattern, int index) {
-        this.addObjectByName(dayPattern.Name(), dayPattern);
+        this.addProcessPropertyByName(dayPattern.Name(), dayPattern);
         this.processChildrenDefinition((IntelligentObjectDefinition t) ->
         {
             t.getWorkSchedulesUtils().DayPatterns().Insert(index, dayPattern);
@@ -4962,7 +4949,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     public void addWorkSchedule(WorkSchedule workSchedule, int index) {
-        this.addObjectByName(workSchedule.Name(), workSchedule);
+        this.addProcessPropertyByName(workSchedule.Name(), workSchedule);
         this.processChildrenDefinition((IntelligentObjectDefinition t) ->
                 t.getWorkSchedulesUtils().getWorkSchedules().Insert(index, workSchedule));
         this.flashState();
@@ -5325,7 +5312,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         public void destroyOverrideProcessProperty() {
             if (this.overrideProcessProperty != null) {
                 this.overrideProcessProperty.DestroyInstance();
-                this.overrideProcessProperty.objectDefinition.DestroyInstance(this.overrideProcessProperty);
+                this.overrideProcessProperty.assignerDefinition.DestroyInstance(this.overrideProcessProperty);
                 this.overrideProcessProperty = null;
                 this.processProperty = null;
                 this.parent = null;
@@ -5425,7 +5412,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         public void DestroyInstance() {
             if (this.instance != null) {
                 this.instance.DestroyInstance();
-                this.instance.objectDefinition.DestroyInstance(this.instance);
+                this.instance.assignerDefinition.DestroyInstance(this.instance);
                 this.instance = null;
                 this.intelligentObjectDefinition = null;
             }

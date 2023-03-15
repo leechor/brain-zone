@@ -76,7 +76,7 @@ public class ObjectInstancePropertyDefinitionValueProvider implements IValueProv
         for (Object obj : enumerable) {
             IntelligentObject intelligentObject = (IntelligentObject) obj;
             IntelligentObjectDefinition objectObjectDefinition =
-                    (IntelligentObjectDefinition) intelligentObject.objectDefinition;
+                    (IntelligentObjectDefinition) intelligentObject.assignerDefinition;
             if (objectObjectDefinition.valid(objectInstancePropertyDefinition.ValidObjectType()) && (!objectInstancePropertyDefinition.FilterToResources() || objectObjectDefinition.ResourceLogic())) {
                 names.add(intelligentObject.InstanceName());
             }

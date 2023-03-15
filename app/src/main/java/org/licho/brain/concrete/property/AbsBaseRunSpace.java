@@ -132,7 +132,7 @@ public abstract class AbsBaseRunSpace implements IStatisticsDataSource, IRunSpac
 
     public String ConstraintDescription() {
         if (Strings.isNullOrEmpty(this.Description())) {
-            return this.myElementInstance.objectDefinition.Name();
+            return this.myElementInstance.assignerDefinition.Name();
         }
         return this.Description();
     }
@@ -227,7 +227,7 @@ public abstract class AbsBaseRunSpace implements IStatisticsDataSource, IRunSpac
             }
             result.name = this.Name();
         }
-        result.propertyDefinitionName = intelligentObjectRunSpace.myElementInstance.objectDefinition.Name();
+        result.propertyDefinitionName = intelligentObjectRunSpace.myElementInstance.assignerDefinition.Name();
         IntelligentObjectRunSpace objectRunSpace;
         if (intelligentObjectRunSpace.ParentObjectRunSpace != null) {
             objectRunSpace = intelligentObjectRunSpace.ParentObjectRunSpace;
@@ -238,7 +238,7 @@ public abstract class AbsBaseRunSpace implements IStatisticsDataSource, IRunSpac
             while (objectRunSpace != null && objectRunSpace.ParentObjectRunSpace != null) {
                 result.name = text;
                 result.contextObjectName = objectRunSpace.Name();
-                result.propertyDefinitionName = objectRunSpace.myElementInstance.objectDefinition.Name();
+                result.propertyDefinitionName = objectRunSpace.myElementInstance.assignerDefinition.Name();
                 text = result.contextObjectName + "." + text;
                 objectRunSpace = objectRunSpace.ParentObjectRunSpace;
             }

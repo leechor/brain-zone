@@ -148,7 +148,7 @@ public class ProcessPropertyElementRunSpace extends AbsBaseRunSpace {
         if (super.getMayApplication().ProfileRecords != null && absBaseStepProperty.vmethod_3()) {
             String displayName = this.DisplayName();
             if (!this.ParentObjectRunSpace.parentEmpty()) {
-                displayName = this.ParentObjectRunSpace.myElementInstance.objectDefinition.Name() + "." + displayName;
+                displayName = this.ParentObjectRunSpace.myElementInstance.assignerDefinition.Name() + "." + displayName;
             }
             super.getMayApplication().ProfileRecords.startWatch(String.join("",
                     displayName,

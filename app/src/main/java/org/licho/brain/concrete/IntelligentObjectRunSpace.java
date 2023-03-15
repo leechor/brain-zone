@@ -185,7 +185,7 @@ public class IntelligentObjectRunSpace extends AbsBaseRunSpace implements IAssoc
 
     public void injectRunSpace(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
         IntelligentObjectDefinition intelligentObjectDefinition =
-                (IntelligentObjectDefinition) (this.myElementInstance.objectDefinition);
+                (IntelligentObjectDefinition) (this.myElementInstance.assignerDefinition);
         if (absIntelligentPropertyObject.Parent() == intelligentObjectDefinition) {
             absIntelligentPropertyObject.AddNewRunSpace(this);
             return;
@@ -335,7 +335,7 @@ public class IntelligentObjectRunSpace extends AbsBaseRunSpace implements IAssoc
 
     public void RemoveChildrenExistingRunSpace(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
         IntelligentObjectDefinition intelligentObjectDefinition =
-                (IntelligentObjectDefinition) this.myElementInstance.objectDefinition;
+                (IntelligentObjectDefinition) this.myElementInstance.assignerDefinition;
         if (absIntelligentPropertyObject.Parent() == intelligentObjectDefinition) {
             absIntelligentPropertyObject.RemoveExistingRunSpace(this);
             return;
@@ -347,7 +347,7 @@ public class IntelligentObjectRunSpace extends AbsBaseRunSpace implements IAssoc
 
     public void initLinkRunSpace(Link link) {
         IntelligentObjectDefinition objectDefinition =
-                (IntelligentObjectDefinition) this.myElementInstance.objectDefinition;
+                (IntelligentObjectDefinition) this.myElementInstance.assignerDefinition;
         if (link.Parent() == objectDefinition) {
             LinkRunSpace runSpace = (LinkRunSpace) link.GetRunSpaceRecursionOutOfParent(this);
             runSpace.Initialize(true, true);
@@ -360,7 +360,7 @@ public class IntelligentObjectRunSpace extends AbsBaseRunSpace implements IAssoc
 
     public void method_66(Network network) {
         IntelligentObjectDefinition intelligentObjectDefinition =
-                (IntelligentObjectDefinition) this.myElementInstance.objectDefinition;
+                (IntelligentObjectDefinition) this.myElementInstance.assignerDefinition;
         if (network.Parent() == intelligentObjectDefinition) {
             NetworkElementRunSpace space = (NetworkElementRunSpace) network.GetRunSpaceRecursionOutOfParent(this);
             space.method_18();
@@ -373,7 +373,7 @@ public class IntelligentObjectRunSpace extends AbsBaseRunSpace implements IAssoc
     }
 
     protected int method_60() {
-        return ((IntelligentObjectDefinition) this.myElementInstance.objectDefinition).getAboutLocationNum();
+        return ((IntelligentObjectDefinition) this.myElementInstance.assignerDefinition).getAboutLocationNum();
     }
 
     @Override

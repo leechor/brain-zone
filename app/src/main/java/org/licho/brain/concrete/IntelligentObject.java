@@ -181,7 +181,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     }
 
     public boolean isEqual() {
-        return ((IntelligentObjectDefinition) this.objectDefinition).IntelligentObject == this;
+        return ((IntelligentObjectDefinition) this.assignerDefinition).IntelligentObject == this;
     }
 
     @Override
@@ -271,7 +271,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
 
     @Override
     public String getCaptionFor(String name) {
-        var tmp = this.objectDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
+        var tmp = this.assignerDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
         if (tmp instanceof RepeatingPropertyDefinition stringPropertyDefinitionInfoByName) {
             IntelligentObjectProperty intelligentObjectProperty =
                     this.properties.get(stringPropertyDefinitionInfoByName.overRidePropertyIndex);
@@ -452,7 +452,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     }
 
     public boolean sameGuid(IntelligentObject intelligentObject) {
-        return ((IntelligentObjectDefinition) this.objectDefinition).sameGuid((IntelligentObjectDefinition) intelligentObject.objectDefinition);
+        return ((IntelligentObjectDefinition) this.assignerDefinition).sameGuid((IntelligentObjectDefinition) intelligentObject.assignerDefinition);
     }
 
     public List<Size> getSizes() {
@@ -495,7 +495,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
         }
 
         this.suppressedWarnings.add(warning.clone());
-        ActiveModel activeModel = ((IntelligentObjectDefinition) this.objectDefinition).activeModel;
+        ActiveModel activeModel = ((IntelligentObjectDefinition) this.assignerDefinition).activeModel;
         if (activeModel != null && activeModel.parentProjectDefinition != null) {
             activeModel.parentProjectDefinition.inited();
         }
@@ -578,14 +578,14 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
                                             String attribute2 = nodeattr.GetAttribute("Type");
                                             nameToDefs.put(array[0],
                                                     (NodeDefinition) intelligentObjectXml.readIntelligentObjectDefinitionByName(attribute2,
-                                                            ((IntelligentObjectDefinition) this.objectDefinition).activeModel, null,
+                                                            ((IntelligentObjectDefinition) this.assignerDefinition).activeModel, null,
                                                             false, false));
                                         }
                                     }, null));
                 }
             }
             IntelligentObjectDefinition intelligentObjectDefinition =
-                    (IntelligentObjectDefinition) this.objectDefinition;
+                    (IntelligentObjectDefinition) this.assignerDefinition;
             for (NodeClassProperty nodeClassProperty : intelligentObjectDefinition.TransferPoints()) {
                 NodeDefinition nodeDefinition = nameToDefs.get(nodeClassProperty.InstanceName());
                 super.Parent().setNodeLocation(nodeClassProperty, -1, this, nodeDefinition, ElementScope.Private);

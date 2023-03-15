@@ -84,7 +84,7 @@ public class RuntimeErrorFullMessageDetails {
             error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Time, unitCarry,
                     TimeUnit.values()[0] + "\n\n"));
             error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Item,
-                    propertyObject.objectDefinition.Name(), propertyObject.InstanceName() + "\n"));
+                    propertyObject.assignerDefinition.Name(), propertyObject.InstanceName() + "\n"));
         }
         if (objectProperty != null) {
             error.append(MessageFormat.format(EngineResources.RuntimeError_FullMessageDetails_Property,

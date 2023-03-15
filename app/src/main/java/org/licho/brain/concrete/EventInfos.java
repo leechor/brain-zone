@@ -12,7 +12,7 @@ public class EventInfos extends ArrayList<EventInfo> {
 
     public EventInfos(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
         this.absIntelligentPropertyObject = absIntelligentPropertyObject;
-        AbsDefinition absDefinition = (AbsDefinition) absIntelligentPropertyObject.objectDefinition;
+        AbsDefinition absDefinition = (AbsDefinition) absIntelligentPropertyObject.assignerDefinition;
         if (absDefinition != null) {
             for (IEventDefinition obj : absDefinition.getEventDefinitions()) {
                 EventDefinition eventDefinition = (EventDefinition) obj;

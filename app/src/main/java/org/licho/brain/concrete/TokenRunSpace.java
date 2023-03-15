@@ -132,7 +132,7 @@ public class TokenRunSpace extends AbsBaseRunSpace implements IAssociatedObjectR
         }
         this.addEnum70One(tokenRunSpace.isEnum70One());
         this.ReturnTable().method_3(tokenRunSpace.ReturnTable());
-        if (this.myElementInstance.objectDefinition == tokenRunSpace.myElementInstance.objectDefinition) {
+        if (this.myElementInstance.assignerDefinition == tokenRunSpace.myElementInstance.assignerDefinition) {
             for (int i = 1; i < this.absBaseTraces.length; i++) {
                 this.absBaseTraces[i].method_3(tokenRunSpace.absBaseTraces[i]);
             }

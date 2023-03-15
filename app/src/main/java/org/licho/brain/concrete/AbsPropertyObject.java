@@ -1,9 +1,6 @@
 package org.licho.brain.concrete;
 
 import com.google.common.base.Strings;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.annotations.Browsable;
 import org.licho.brain.concrete.fake.XmlReader;
@@ -21,23 +18,23 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
 
     private String description;
 
-    public GridObjectDefinition objectDefinition;
+    public GridObjectDefinition assignerDefinition;
 
     public IntelligentObjectDefinition parent;
 
     public Properties properties;
 
-    protected AbsPropertyObject(GridObjectDefinition definition, String name) {
+    protected AbsPropertyObject(GridObjectDefinition assigner, String name) {
         if (name == null) {
-            definition.setCount(definition.getCount() + 1);
-            name = definition.Name() + definition.getCount();
+            assigner.setCount(assigner.getCount() + 1);
+            name = assigner.Name() + assigner.getCount();
         }
         this.name = name;
         this.description = "";
-        this.objectDefinition = definition;
-        this.properties = new Properties(definition.getPropertyDefinitions(), this, null);
-        if (!definition.IsJustAFactory()) {
-            definition.getAssociatedInstances().add(this);
+        this.assignerDefinition = assigner;
+        this.properties = new Properties(assigner.getPropertyDefinitions(), this, null);
+        if (!assigner.IsJustAFactory()) {
+            assigner.getAssociatedInstances().add(this);
         }
     }
 
@@ -91,7 +88,7 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
         IntelligentObjectProperty intelligentObjectProperty = (IntelligentObjectProperty) target;
         if (intelligentObjectProperty != null) {
             return intelligentObjectProperty.getStringPropertyDefinition()
-                    .GetDisplayName(this.objectDefinition.getPropertyDefinitions());
+                    .GetDisplayName(this.assignerDefinition.getPropertyDefinitions());
         }
 
         return null;
@@ -137,11 +134,11 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
 
 
     public String DefinitionName() {
-        return this.objectDefinition.Name();
+        return this.assignerDefinition.Name();
     }
 
     public String getDefinitionName() {
-        return objectDefinition.Name();
+        return assignerDefinition.Name();
     }
 
     public String InstanceName() {
@@ -270,8 +267,8 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
             objectProperty.destroyInstance();
         }
 
-        if (!this.objectDefinition.IsJustAFactory()) {
-            this.objectDefinition.getAssociatedInstances().remove(this);
+        if (!this.assignerDefinition.IsJustAFactory()) {
+            this.assignerDefinition.getAssociatedInstances().remove(this);
         }
     }
 
@@ -287,11 +284,11 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
     }
 
     public String getGridObjectClassName() {
-        return this.objectDefinition.Name() + " Instance";
+        return this.assignerDefinition.Name() + " Instance";
     }
 
     public String getGridObjectDescription() {
-        return this.objectDefinition.Description();
+        return this.assignerDefinition.Description();
     }
 
     public String getGridObjectInstanceName() {
@@ -323,7 +320,7 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
     }
 
     public IAutoComplete getAutoCompleteObject(String name, IntelligentObjectDefinition objectFacility) {
-        return this.objectDefinition.getAutoCompleteObject(name, objectFacility);
+        return this.assignerDefinition.getAutoCompleteObject(name, objectFacility);
     }
 
 //    public void getAutoCompleteChoices(List<CompleteChoice> results, )
@@ -446,8 +443,8 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
         return r;
     }
 
-    public GridObjectDefinition getObjectDefinition() {
-        return this.objectDefinition;
+    public GridObjectDefinition getAssignerDefinition() {
+        return this.assignerDefinition;
     }
 
     public IntelligentObjectDefinition getIntelligentObjectFacility() {
@@ -462,7 +459,7 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
 
     public boolean isAReferenceProperty(String name) {
         StringPropertyDefinition stringPropertyDefinition =
-                this.objectDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
+                this.assignerDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
         if (stringPropertyDefinition != null) {
             IntelligentObjectProperty intelligentObjectProperty =
                     this.properties.values.get(stringPropertyDefinition.getOverRidePropertyIndex());
@@ -473,17 +470,17 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
 
     public boolean canBeReferenceProperty(String name) {
         StringPropertyDefinition stringPropertyDefinition =
-                this.objectDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
+                this.assignerDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
         return stringPropertyDefinition != null;
     }
 
     public Object getDefaultValueFor(String name) {
         StringPropertyDefinition stringPropertyDefinition =
-                this.objectDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
+                this.assignerDefinition.getPropertyDefinitions().findStringPropertyDefinitionInfoByName(name);
         if (stringPropertyDefinition != null) {
             IntelligentObjectProperty intelligentObjectFacility =
                     this.properties.values.get(stringPropertyDefinition.getOverRidePropertyIndex());
-            return intelligentObjectFacility.getDefaultName(this.getObjectDefinition().getPropertyDefinitions());
+            return intelligentObjectFacility.getDefaultName(this.getAssignerDefinition().getPropertyDefinitions());
         }
         return null;
     }
@@ -527,8 +524,8 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
             intelligentObjectProperty.DestroyInstance();
         }
 
-        if (!this.objectDefinition.IsJustAFactory()) {
-            this.objectDefinition.getAssociatedInstances().remove(this);
+        if (!this.assignerDefinition.IsJustAFactory()) {
+            this.assignerDefinition.getAssociatedInstances().remove(this);
         }
     }
 
@@ -542,12 +539,12 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
 
     @Override
     public String getObjectClassName() {
-        return this.objectDefinition.Name() + " Instance";
+        return this.assignerDefinition.Name() + " Instance";
     }
 
     @Override
     public String getObjectDescription() {
-        return this.objectDefinition.Description();
+        return this.assignerDefinition.Description();
     }
 
     @Override
@@ -560,7 +557,7 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
                                                   GridObjectDefinition gridObjectDefinition) {
         for (IntelligentObjectProperty propertyInstance : this.properties.values) {
             GridItemProperty gridItemProperty =
-                    propertyInstance.GetGridItemProperty(this.properties.PropertyDefinitions);
+                    propertyInstance.GetGridItemProperty(this.properties.propertyDefinitions);
             if (gridItemProperty != null) {
                 if (propertyInstance.getStringPropertyDefinition().ParentPropertyDefinition() != null) {
                     gridItemProperty.Parent(gridItemProperties.stream().filter((GridItemProperty prop) ->
@@ -573,11 +570,11 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
                 }
 
                 gridItemProperty.ComplexityLevel(propertyInstance.getStringPropertyDefinition()
-                        .GetComplexityLevel(this.properties.PropertyDefinitions));
+                        .GetComplexityLevel(this.properties.propertyDefinitions));
                 gridItemProperties.add(gridItemProperty);
             } else {
                 GridItemProperties itemProperties = new GridItemProperties();
-                propertyInstance.AlternateGetGridItemProperties(this.properties.PropertyDefinitions, itemProperties);
+                propertyInstance.AlternateGetGridItemProperties(this.properties.propertyDefinitions, itemProperties);
                 for (GridItemProperty itemProperty : itemProperties) {
                     if (itemProperty.Parent() == null) {
                         if (propertyInstance.getStringPropertyDefinition().ParentPropertyDefinition() != null) {
@@ -590,7 +587,7 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
                     }
 
                     itemProperty.ComplexityLevel(propertyInstance.getStringPropertyDefinition()
-                            .GetComplexityLevel(this.properties.PropertyDefinitions));
+                            .GetComplexityLevel(this.properties.propertyDefinitions));
                     gridItemProperties.add(itemProperty);
                 }
             }

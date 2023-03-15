@@ -100,7 +100,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         this.error = null;
         this.properties = properties;
         if (this.CopyInDefaultValue()) {
-            this.setObjectValue(this.getDefaultName(this.getStringPropertyDefinition().GetDefaultStringBy(properties.PropertyDefinitions)));
+            this.setObjectValue(this.getDefaultName(this.getStringPropertyDefinition().GetDefaultStringBy(properties.propertyDefinitions)));
         }
         this.clear();
     }
@@ -535,14 +535,14 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
             switch (enum19) {
                 case Zero:
                     if (name != null) {
-                        intelligentObjectDefinition.PropertyChangeError(this.getProperties().AbsPropertyObject, name);
+                        intelligentObjectDefinition.PropertyChangeError(this.getProperties().propertyObject, name);
                         return;
                     }
                     intelligentObjectDefinition.NotifyIntelligentObjectPropertyErrorEvent(this);
                     return;
                 case One:
                     if (name != null) {
-                        intelligentObjectDefinition.PropertyChange(this.getProperties().AbsPropertyObject, name);
+                        intelligentObjectDefinition.PropertyChange(this.getProperties().propertyObject, name);
                         return;
                     }
                     intelligentObjectDefinition.NotifyIntelligentObjectPropertyChangeEvent(this);
@@ -567,10 +567,10 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         if (this.getIntelligentObjectFacility() != null) {
             return this.getIntelligentObjectFacility();
         }
-        if (this.getProperties() == null || this.getProperties().AbsPropertyObject == null) {
+        if (this.getProperties() == null || this.getProperties().propertyObject == null) {
             return null;
         }
-        GridObjectDefinition gridObjectDefinition = this.getProperties().AbsPropertyObject.objectDefinition;
+        GridObjectDefinition gridObjectDefinition = this.getProperties().propertyObject.assignerDefinition;
         if (gridObjectDefinition instanceof ExperimentConstraintsDefinition) {
             ExperimentConstraintsDefinition experimentConstraintsDefinition =
                     (ExperimentConstraintsDefinition) gridObjectDefinition;
@@ -810,7 +810,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         }
         IntelligentObjectDefinition intelligentObjectDefinition = null;
         if (this.getPropertyObject() != null) {
-            intelligentObjectDefinition = (IntelligentObjectDefinition) (this.getPropertyObject().objectDefinition);
+            intelligentObjectDefinition = (IntelligentObjectDefinition) (this.getPropertyObject().assignerDefinition);
         }
         if (intelligentObjectDefinition != null && intelligentObjectDefinition.IntelligentObject == this.getPropertyObject() && intelligentObjectDefinition.activeModel != null && !intelligentObjectDefinition.activeModel.Runnable()) {
             return false;
@@ -819,7 +819,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
             return false;
         }
         PropertyDefinitions propertyDefinitions = (this.getProperties() != null) ?
-                this.getProperties().PropertyDefinitions : null;
+                this.getProperties().propertyDefinitions : null;
         if (this.getStringPropertyDefinition().GetSwitchNumericProperty(propertyDefinitions) == null) {
             return true;
         }
@@ -918,12 +918,12 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     private IntelligentObjectDefinition getIntelligentObjectDefinition() {
-        if (this.getProperties() != null && this.getProperties().AbsPropertyObject != null) {
-            if (this.getProperties().AbsPropertyObject.Parent() != null) {
-                return this.getProperties().AbsPropertyObject.Parent();
+        if (this.getProperties() != null && this.getProperties().propertyObject != null) {
+            if (this.getProperties().propertyObject.Parent() != null) {
+                return this.getProperties().propertyObject.Parent();
             }
-            if (!this.getProperties().PropertyDefinitions.notHaveRepeatingProperty()) {
-                return (IntelligentObjectDefinition) this.getProperties().AbsPropertyObject.objectDefinition;
+            if (!this.getProperties().propertyDefinitions.notHaveRepeatingProperty()) {
+                return (IntelligentObjectDefinition) this.getProperties().propertyObject.assignerDefinition;
             }
         }
         return null;
@@ -945,7 +945,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     public void ReportError(String error, IRunSpace runSpace,
                             IntelligentObjectRunSpace statisticsDataSourceIntelligentObject) {
         IRunSpace _runSpace = runSpace != null ? runSpace : statisticsDataSourceIntelligentObject;
-        RuntimeErrorFullMessageDetails.reportError(_runSpace, this.getProperties().AbsPropertyObject, this,
+        RuntimeErrorFullMessageDetails.reportError(_runSpace, this.getProperties().propertyObject, this,
                 MessageFormat.format(ErrorString.RUNTIME_ERROR_UNABLE_TO_GET_VALUE_OF_PROPERTY, this.Name()) + "\n\n" + error);
 
     }
@@ -975,15 +975,15 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
                     definitionName = intelligentObject.DefinitionName();
                     if (node.Parent() != null) {
                         definitionName =
-                                node.Parent().getInternalReference().Name((IntelligentObjectDefinition) intelligentObject.objectDefinition);
+                                node.Parent().getInternalReference().Name((IntelligentObjectDefinition) intelligentObject.assignerDefinition);
                     }
                 }
             }
 
-            String name = this.getPropertyObject().objectDefinition.Name();
+            String name = this.getPropertyObject().assignerDefinition.Name();
             if (propertyObject instanceof IntelligentObject && propertyObject.Parent() != null) {
                 IntelligentObject intelligentObject = (IntelligentObject) propertyObject;
-                name = intelligentObject.Parent().getInternalReference().Name((IntelligentObjectDefinition) intelligentObject.objectDefinition);
+                name = intelligentObject.Parent().getInternalReference().Name((IntelligentObjectDefinition) intelligentObject.assignerDefinition);
             }
 
             var macros = new HashMap<String, String>();
@@ -1020,9 +1020,9 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     public IntelligentObjectDefinition getIntelligentObjectFacility() {
-        if (this.getProperties() != null && this.getProperties().getAbsPropertyObject() != null) {
-            if (this.getProperties().getAbsPropertyObject().getIntelligentObjectFacility() != null) {
-                return this.getProperties().getAbsPropertyObject().getIntelligentObjectFacility();
+        if (this.getProperties() != null && this.getProperties().getPropertyObject() != null) {
+            if (this.getProperties().getPropertyObject().getIntelligentObjectFacility() != null) {
+                return this.getProperties().getPropertyObject().getIntelligentObjectFacility();
             }
             if (!this.getProperties().getPropertyDefinitions().notHaveRepeatingProperty()) {
                 return (IntelligentObjectDefinition) this.getProperties().getPropertyDefinitions().getTargetObject();
@@ -1036,11 +1036,11 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
             return this.getIntelligentObjectFacility();
         }
 
-        if (this.getProperties() == null || this.getProperties().getAbsPropertyObject() == null) {
+        if (this.getProperties() == null || this.getProperties().getPropertyObject() == null) {
             return null;
         }
 
-        GridObjectDefinition gridObjectDefinition = this.getProperties().getAbsPropertyObject().getObjectDefinition();
+        GridObjectDefinition gridObjectDefinition = this.getProperties().getPropertyObject().getAssignerDefinition();
         ExperimentConstraintsDefinition experimentConstraintsDefinition =
                 (ExperimentConstraintsDefinition) gridObjectDefinition;
         if (!Objects.isNull(experimentConstraintsDefinition)) {
@@ -1050,7 +1050,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     public AbsPropertyObject getPropertyObject() {
-        return this.getProperties() == null ? null : this.getProperties().getAbsPropertyObject();
+        return this.getProperties() == null ? null : this.getProperties().getPropertyObject();
     }
 
     public Properties getProperties() {

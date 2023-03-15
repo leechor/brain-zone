@@ -7,7 +7,7 @@ public class StateIGridItemPropertyObjectList extends ArrayList<BaseStateIGridIt
 
     public StateIGridItemPropertyObjectList(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
         this.absIntelligentPropertyObject = absIntelligentPropertyObject;
-        AbsDefinition definition = (AbsDefinition) absIntelligentPropertyObject.getObjectDefinition();
+        AbsDefinition definition = (AbsDefinition) absIntelligentPropertyObject.getAssignerDefinition();
         StateDefinitions stateDefinitions = definition.getStateDefinitions();
         for (BaseStatePropertyObject baseStatePropertyObject : stateDefinitions.StateProperties.values) {
             this.add(baseStatePropertyObject.CreateInstance(this));
