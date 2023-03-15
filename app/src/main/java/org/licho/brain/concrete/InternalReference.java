@@ -95,7 +95,7 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
                     .orElse(null);
 
             if (standard != null) {
-                var base = standard.CreateNewBaseClassDefinition();
+                var base = standard.createDefaultParentDefinition();
                 this.registerNameDefinition(base, null, false);
                 return base;
             } else {

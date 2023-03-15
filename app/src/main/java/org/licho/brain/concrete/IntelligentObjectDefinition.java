@@ -248,20 +248,20 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     public IntelligentObjectDefinition(String name, ActiveModel activeModel,
-                                       IntelligentObjectDefinition baseClassDefinition) {
+                                       IntelligentObjectDefinition parentDefinition) {
         super(name);
         try (var ignored = this.createDefinitionOperator()) {
             this.unitFilter = new UnitFilter(this);
-            if (baseClassDefinition == null) {
-                baseClassDefinition = this.CreateNewBaseClassDefinition();
+            if (parentDefinition == null) {
+                parentDefinition = this.createDefaultParentDefinition();
             }
-            this.initIntelligentObjectDefinition(activeModel, Guid.NewGuid(), false, baseClassDefinition);
-            if (!baseClassDefinition.notHaveParent()) {
-                baseClassDefinition.childrenInstances.add(this);
+            this.initIntelligentObjectDefinition(activeModel, Guid.NewGuid(), false, parentDefinition);
+            if (!parentDefinition.notHaveParent()) {
+                parentDefinition.childrenInstances.add(this);
             }
-            this.InheritMembers(baseClassDefinition);
-            if (baseClassDefinition.notHaveParent()) {
-                this.ResourceLogic(baseClassDefinition.ResourceLogic());
+            this.InheritMembers(parentDefinition);
+            if (parentDefinition.notHaveParent()) {
+                this.ResourceLogic(parentDefinition.ResourceLogic());
             }
         }
     }
@@ -438,75 +438,75 @@ public class IntelligentObjectDefinition extends AbsDefinition
         this.bool_0 = param2;
     }
 
-    private void InheritMembers(IntelligentObjectDefinition definition) {
+    private void InheritMembers(IntelligentObjectDefinition parentDefinition) {
 
         PropertyDefinitions propertyDefinitions = super.getPropertyDefinitions();
         StateDefinitions stateDefinitions = super.getStateDefinitions();
         EventDefinitions eventDefinitions = super.getEventDefinitions();
-        for (StringPropertyDefinition stringPropertyDefinition : definition.getPropertyDefinitions().getValues()) {
+        for (StringPropertyDefinition stringPropertyDefinition : parentDefinition.getPropertyDefinitions().getValues()) {
             propertyDefinitions.addDefinition(stringPropertyDefinition);
         }
         for (PropertyDefinitionFacade propertyDefinitionFacade :
-                definition.getPropertyDefinitions().getPropertyDefinitionList()) {
+                parentDefinition.getPropertyDefinitions().getPropertyDefinitionList()) {
             propertyDefinitions.addPropertyDefinition(propertyDefinitionFacade);
         }
         for (BaseStatePropertyObject baseStatePropertyObject :
-                definition.getStateDefinitions().StateProperties.getValues()) {
+                parentDefinition.getStateDefinitions().StateProperties.getValues()) {
             stateDefinitions.addBaseStateProperty(baseStatePropertyObject);
         }
-        for (Object obj : definition.getEventDefinitions()) {
+        for (Object obj : parentDefinition.getEventDefinitions()) {
             EventDefinition eventDefinition = (EventDefinition) obj;
             eventDefinitions.addEventDefinition(eventDefinition);
         }
-        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : definition.elements.getValues()) {
+        for (AbsIntelligentPropertyObject absIntelligentPropertyObject : parentDefinition.elements.getValues()) {
             this.addAbsIntelligentPropertyObject(absIntelligentPropertyObject);
         }
-        for (AbsListProperty item : definition.Lists().getValues()) {
+        for (AbsListProperty item : parentDefinition.Lists().getValues()) {
             this.Lists().Add(item);
         }
-        for (Table table : definition.Tables().getValues()) {
+        for (Table table : parentDefinition.Tables().getValues()) {
             this.Tables().Add(table);
         }
-        for (ChangeoverMatrix changeoverMatrix : definition.getChangeoverMatrices().getValues()) {
+        for (ChangeoverMatrix changeoverMatrix : parentDefinition.getChangeoverMatrices().getValues()) {
             this.getChangeoverMatrices().Add(changeoverMatrix);
         }
-        for (DayPattern dayPattern : definition.getWorkSchedulesUtils().DayPatterns().getValues()) {
+        for (DayPattern dayPattern : parentDefinition.getWorkSchedulesUtils().DayPatterns().getValues()) {
             this.getWorkSchedulesUtils().DayPatterns().Add(dayPattern);
         }
-        for (WorkSchedule workSchedule : definition.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
+        for (WorkSchedule workSchedule : parentDefinition.getWorkSchedulesUtils().getWorkSchedules().getValues()) {
             this.getWorkSchedulesUtils().getWorkSchedules().Add(workSchedule);
         }
-        for (ExpressionFunction expressionFunction : definition.ExpressionFunctions().getValues()) {
+        for (ExpressionFunction expressionFunction : parentDefinition.ExpressionFunctions().getValues()) {
             this.ExpressionFunctions().Add(expressionFunction);
         }
-        for (AbsInputParameter absInputParameter : definition.InputParameters().getValues()) {
+        for (AbsInputParameter absInputParameter : parentDefinition.InputParameters().getValues()) {
             this.InputParameters().Add(absInputParameter);
         }
-        for (RateTable rateTable : definition.RateTables().getValues()) {
+        for (RateTable rateTable : parentDefinition.RateTables().getValues()) {
             this.RateTables().Add(rateTable);
         }
-        for (ResourceLogExpression logExpression : definition.getResourceLogExpressions().getValues()) {
+        for (ResourceLogExpression logExpression : parentDefinition.getResourceLogExpressions().getValues()) {
             this.getResourceLogExpressions().Add(logExpression);
         }
-        for (int i = 0; i < definition.processProperties.size(); i++) {
-            this.InsertProcessProperty(definition.processProperties.get(i), i);
+        for (int i = 0; i < parentDefinition.processProperties.size(); i++) {
+            this.InsertProcessProperty(parentDefinition.processProperties.get(i), i);
         }
-        for (NodeClassProperty nodeClassProperty : definition.transferPoints) {
+        for (NodeClassProperty nodeClassProperty : parentDefinition.transferPoints) {
             this.addTransferPoint(nodeClassProperty);
         }
-        for (UserFunction functionTable : definition.getFunctionTables().getValues()) {
+        for (UserFunction functionTable : parentDefinition.getFunctionTables().getValues()) {
             this.getFunctionTables().Add(functionTable);
         }
-        for (TokenDefinition tokenDefinition : definition.getTokens().getValues()) {
+        for (TokenDefinition tokenDefinition : parentDefinition.getTokens().getValues()) {
             this.getTokens().Add(tokenDefinition);
         }
-        for (IntelligentObject intelligentObject : definition.getChildrenObject()) {
+        for (IntelligentObject intelligentObject : parentDefinition.getChildrenObject()) {
             this.getChildrenObject().add(intelligentObject);
             if (intelligentObject instanceof Link link) {
                 this.NetworkProperty.addLink(link);
             }
         }
-        for (Node item : definition.getNodes()) {
+        for (Node item : parentDefinition.getNodes()) {
             this.getNodes().add(item);
         }
     }
@@ -516,7 +516,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         this.addObjectByName(absIntelligentPropertyObject.InstanceName(), absIntelligentPropertyObject);
     }
 
-    public IntelligentObjectDefinition CreateNewBaseClassDefinition() {
+    public IntelligentObjectDefinition createDefaultParentDefinition() {
         return null;
     }
 
@@ -1099,6 +1099,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
         super.DefineSchema();
         ElementPropertyDefinition parentCostCenter = new ElementPropertyDefinition("ParentCostCenter",
                 CostCenter.class);
+
         parentCostCenter.DisplayName(EngineResources.IntelligentObject_ParentCostCenter_DisplayName);
         parentCostCenter.Description(EngineResources.IntelligentObject_ParentCostCenter_Description);
         parentCostCenter.DefaultString("");

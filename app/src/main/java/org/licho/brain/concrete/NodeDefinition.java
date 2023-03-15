@@ -217,7 +217,7 @@ public class NodeDefinition extends FixedDefinition {
     }
 
     @Override
-    public IntelligentObjectDefinition CreateNewBaseClassDefinition() {
+    public IntelligentObjectDefinition createDefaultParentDefinition() {
         return NodeDefinition.create();
     }
 

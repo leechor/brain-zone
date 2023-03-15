@@ -8,16 +8,16 @@ import java.util.function.Predicate;
  *
  */
 public class ChangeoverMatrices extends BindingList<ChangeoverMatrix> {
-    private final IntelligentObjectDefinition intelligentObjectFacility;
+    private final IntelligentObjectDefinition assigner;
 
-    public ChangeoverMatrices(IntelligentObjectDefinition intelligentObjectDefinition) {
-        this.intelligentObjectFacility = intelligentObjectDefinition;
+    public ChangeoverMatrices(IntelligentObjectDefinition assigner) {
+        this.assigner = assigner;
     }
 
     public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         return SomeXmlOperator.xmlReaderElementOperator(xmlReader, "ChangeoverMatrices", null,
                 (XmlReader body) -> ChangeoverMatrix.readXml(xmlReader, intelligentObjectXml,
-						this.intelligentObjectFacility) != null);
+						this.assigner) != null);
     }
 
     public ChangeoverMatrix getChangeoverMatrix(Predicate<ChangeoverMatrix> action) {

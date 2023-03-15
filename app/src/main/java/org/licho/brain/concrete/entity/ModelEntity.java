@@ -11,6 +11,7 @@ import java.util.function.Function;
 /**
  * <b>ModelEntity</b> automatically created within a new Project Library. The ModelEntity is the default entity
  * definition in your project.
+ * @unused
  */
 public class ModelEntity extends Entity {
 

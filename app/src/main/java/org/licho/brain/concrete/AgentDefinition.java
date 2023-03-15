@@ -585,7 +585,7 @@ public class AgentDefinition extends IntelligentObjectDefinition {
     }
 
     @Override
-    public IntelligentObjectDefinition CreateNewBaseClassDefinition() {
+    public IntelligentObjectDefinition createDefaultParentDefinition() {
         return AgentDefinition.create();
     }
 

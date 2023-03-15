@@ -10,14 +10,14 @@ import java.util.Iterator;
  *
  */
 public class FunctionTables extends BindingList<UserFunction> implements IFunctionTables, IAutoComplete {
-    private IntelligentObjectDefinition parent;
+    private IntelligentObjectDefinition assigner;
 
-    public FunctionTables(IntelligentObjectDefinition iIntelligentObjects) {
-        this.parent = iIntelligentObjects;
+    public FunctionTables(IntelligentObjectDefinition assigner) {
+        this.assigner = assigner;
     }
 
     private IntelligentObjectDefinition Parent() {
-        return this.parent;
+        return this.assigner;
     }
 
 
@@ -43,7 +43,7 @@ public class FunctionTables extends BindingList<UserFunction> implements IFuncti
 
     public boolean readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml) {
         return SomeXmlOperator.xmlReaderElementOperator(xmlReader, "UserFunctions", null,
-                (XmlReader body) -> UserFunction.readXml(xmlReader, intelligentObjectXml, this.parent) != null);
+                (XmlReader body) -> UserFunction.readXml(xmlReader, intelligentObjectXml, this.assigner) != null);
     }
 
     public UserFunction getUserFunction(String name) {

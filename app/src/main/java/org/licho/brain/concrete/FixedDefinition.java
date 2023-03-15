@@ -114,7 +114,7 @@ public class FixedDefinition extends IntelligentObjectDefinition {
     }
 
     @Override
-    public IntelligentObjectDefinition CreateNewBaseClassDefinition() {
+    public IntelligentObjectDefinition createDefaultParentDefinition() {
         return FixedDefinition.create();
     }
 

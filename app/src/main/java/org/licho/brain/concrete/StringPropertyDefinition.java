@@ -1,7 +1,19 @@
 package org.licho.brain.concrete;
 
 import com.google.common.base.Strings;
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtField;
+import javassist.Modifier;
+import javassist.NotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.licho.brain.annotations.PropertyDefinitionFactory;
+import org.licho.brain.api.IPropertyDefinition;
+import org.licho.brain.brainEnums.SwitchNumericConditions;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.fake.XmlReader;
 import org.licho.brain.concrete.fake.XmlWriter;
@@ -12,18 +24,8 @@ import org.licho.brain.enu.Enum38;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.PropertyGridFeel;
 import org.licho.brain.resource.Image;
-import org.licho.brain.brainEnums.SwitchNumericConditions;
-import org.licho.brain.api.IPropertyDefinition;
 import org.licho.brain.utils.simu.IReferencedObjects;
 import org.licho.brain.utils.simu.NameDefinitionFunctionOperator;
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtField;
-import javassist.Modifier;
-import javassist.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
@@ -35,16 +37,26 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-public class StringPropertyDefinition implements INotifyPropertyChanged, IGridObject, IAutoComplete, IOwner,
-        ISearch, IItemDescriptor, IPropertyDefinition, IPropertyDefinitionFacade, IListener {
-    private static Logger logger = LoggerFactory.getLogger(StringPropertyDefinition.class);
+@Builder
+@Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
+public class StringPropertyDefinition implements INotifyPropertyChanged,
+        IGridObject,
+        IAutoComplete,
+        IOwner,
+        ISearch,
+        IItemDescriptor,
+        IPropertyDefinition,
+        IPropertyDefinitionFacade,
+        IListener {
 
     private static Map<String, Function<String, StringPropertyDefinition>> nameDefinitionFuncMap;
     private static Map<Class<?>, String> typeToName = new HashMap<>();
 
     private String name;
     private String description;
-    private boolean canBeDeleted;
+    private boolean canDeleted;
     private SwitchNumericConditions switchNumericConditions;
     public PropertyDefinitions owner;
     private boolean isTableProperty;
@@ -54,7 +66,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
     private String categoryName;
     private String nullString;
     private StringPropertyDefinition parentProperty;
-    private String parentPropertyName;
+    private String deafultDarentPropertyName;
     private NumericDataPropertyDefinition switchNumericProperty;
     private String switchNumericPropertyName;
     private final List<Double> switchNumericValue = new ArrayList<>();
@@ -73,7 +85,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
     public StringPropertyDefinition(String name) {
         this.name = name;
         this.defaultString = "";
-        this.canBeDeleted = true;
+        this.canDeleted = true;
         this.isTableProperty = false;
         this.dataFormat = DataFormat.String;
         this.switchNumericConditions = SwitchNumericConditions.Equal;
@@ -122,8 +134,9 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
             try {
                 nameDefinitionFunctionOperator =
                         (NameDefinitionFunctionOperator) propertyDefinitionFactoryAttribute.value().getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                logger.error("annotation type error");
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                log.error("annotation type error");
             }
         }
 
@@ -143,14 +156,14 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
         this.propertyChangedEventHandler("NullString");
     }
 
-    public String ParentPropertyName() {
+    public String setParentPropertyName() {
         if (this.parentProperty != null) {
-            return this.parentPropertyName;
+            return this.deafultDarentPropertyName;
         }
         return this.parentProperty.Name();
     }
 
-    public void ParentPropertyName(String value) {
+    public void setParentPropertyName(String value) {
         // TODO: 2021/11/16
     }
 
@@ -161,7 +174,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
     public void ParentPropertyDefinition(StringPropertyDefinition value) {
         if (value == null || this.predicateAboutParent(value)) {
             this.parentProperty = value;
-            this.parentPropertyName = ((this.parentProperty != null) ? this.parentProperty.Name() : "");
+            this.deafultDarentPropertyName = ((this.parentProperty != null) ? this.parentProperty.Name() : "");
             this.propertyChangedEventHandler("ParentProperty");
             this.propertyChangedEventHandler("ParentPropertyName");
         }
@@ -213,11 +226,11 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
     }
 
     public boolean CanBeDeleted() {
-        return this.canBeDeleted;
+        return this.canDeleted;
     }
 
     public void CanBeDeleted(boolean value) {
-        this.canBeDeleted = value;
+        this.canDeleted = value;
         this.propertyChangedEventHandler("CanBeDeleted");
     }
 
@@ -1293,7 +1306,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
         }
         String parent = xmlReader.GetAttribute("Parent");
         if (!Strings.isNullOrEmpty(parent)) {
-            this.ParentPropertyName(parent);
+            this.setParentPropertyName(parent);
         }
         return defaultValue;
 
@@ -1467,7 +1480,8 @@ public class StringPropertyDefinition implements INotifyPropertyChanged, IGridOb
                     tmp.func = t -> {
                         try {
                             return newClass.getConstructor().newInstance();
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                                 NoSuchMethodException e) {
                             e.printStackTrace();
                         }
                         return null;

@@ -86,7 +86,7 @@ public class TransporterDefinition extends EntityDefinition {
     }
 
     @Override
-    public IntelligentObjectDefinition CreateNewBaseClassDefinition() {
+    public IntelligentObjectDefinition createDefaultParentDefinition() {
         return TransporterDefinition.create();
     }
 

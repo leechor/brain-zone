@@ -1,5 +1,7 @@
 package org.licho.brain.concrete;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.licho.brain.annotations.PropertyDefinitionFactory;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
@@ -11,6 +13,7 @@ import java.text.MessageFormat;
 
 @PropertyDefinitionName("ElementProperty")
 @PropertyDefinitionFactory(ElementPropertyFactory.class)
+@AllArgsConstructor
 public class ElementPropertyDefinition extends StringPropertyDefinition {
     private Class<?> type;
     private AbsDefinition absDefinition;

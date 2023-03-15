@@ -195,7 +195,7 @@ public class EntityDefinition extends AgentDefinition {
     }
 
     @Override
-    public IntelligentObjectDefinition CreateNewBaseClassDefinition() {
+    public IntelligentObjectDefinition createDefaultParentDefinition() {
         return EntityDefinition.create();
     }
 

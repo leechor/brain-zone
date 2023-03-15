@@ -7,11 +7,11 @@ import org.licho.brain.concrete.fake.XmlReader;
  */
 public class UnitFilter {
     private final CurrencyFilter currencyFilter;
-    private final IntelligentObjectDefinition intelligentObjectDefinition;
+    private final IntelligentObjectDefinition assigner;
 
-    public UnitFilter(IntelligentObjectDefinition intelligentObjectDefinition) {
+    public UnitFilter(IntelligentObjectDefinition assigner) {
         this.currencyFilter = new CurrencyFilter(this);
-        this.intelligentObjectDefinition = intelligentObjectDefinition;
+        this.assigner = assigner;
     }
 
     public CurrencyFilter CurrencyFilter() {
