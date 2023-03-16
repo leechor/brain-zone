@@ -9,7 +9,6 @@ import org.licho.brain.annotations.PopulationFunction;
 import org.licho.brain.annotations.ResourceFunction;
 import org.licho.brain.annotations.UnitClass;
 import org.licho.brain.concrete.annotation.AbsBaseElementFunction;
-import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.ExpressionValue;
 import org.licho.brain.enu.ProductComplexityLevel;
 import org.licho.brain.enu.UnitType;
@@ -27,12 +26,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.licho.brain.concrete.cont.EngineResources.*;
+
+
 @Slf4j
 public abstract class AbstractGridObjectDefinition extends GridObjectDefinition implements IIdentityName {
     private static Action<Class<?>> newDefinitionFunction;
-    private StateDefinitions stateDefinitions;
 
+    private StateDefinitions stateDefinitions;
     private EventDefinitions eventDefinitions;
+
     static List<AbstractGridObjectDefinition> abstractGridObjectDefinitions;
 
     private static Object lock = new Object();
@@ -58,43 +61,43 @@ public abstract class AbstractGridObjectDefinition extends GridObjectDefinition 
     }
 
     private void initBasicPropertyDefinition() {
-        var basicLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_BasicLogic);
-        var processLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_ProcessLogic);
-        var crossingLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_CrossingLogic);
-        var transportLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_TransportLogic);
-        var travelLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_TravelLogic);
-        var routingLogic = new PropertyDefinitionFacade(EngineResources.CategoryName_RoutingLogic);
-        var population = new PropertyDefinitionFacade(EngineResources.CategoryName_Population, false);
+        var basicLogic = new PropertyDefinitionFacade(CategoryName_BasicLogic);
+        var processLogic = new PropertyDefinitionFacade(CategoryName_ProcessLogic);
+        var crossingLogic = new PropertyDefinitionFacade(CategoryName_CrossingLogic);
+        var transportLogic = new PropertyDefinitionFacade(CategoryName_TransportLogic);
+        var travelLogic = new PropertyDefinitionFacade(CategoryName_TravelLogic);
+        var routingLogic = new PropertyDefinitionFacade(CategoryName_RoutingLogic);
+        var population = new PropertyDefinitionFacade(CategoryName_Population, false);
         var resultsClassification =
-                new PropertyDefinitionFacade(EngineResources.CategoryName_ResultsClassification, false);
+                new PropertyDefinitionFacade(CategoryName_ResultsClassification, false);
         var stoppingConditions =
-                new PropertyDefinitionFacade(EngineResources.CategoryName_StoppingConditions, false);
+                new PropertyDefinitionFacade(CategoryName_StoppingConditions, false);
         var inputFlowControl =
-                new PropertyDefinitionFacade(EngineResources.CategoryName_InputFlowControl, false);
+                new PropertyDefinitionFacade(CategoryName_InputFlowControl, false);
 
-        var financials = new PropertyDefinitionFacade(EngineResources.CategoryName_Financials, false);
+        var financials = new PropertyDefinitionFacade(CategoryName_Financials, false);
 
         var financialsTransportCosts = PropertyDefinitionFacade.builder()
-                .name(EngineResources.CategoryName_FinancialsTransportCosts)
+                .name(CategoryName_FinancialsTransportCosts)
                 .parent(financials)
-                .description(EngineResources.CategoryDescription_FinancialsTransportCosts)
+                .description(CategoryDescription_FinancialsTransportCosts)
                 .initiallyExpanded(false)
                 .build();
 
         var financialsResourceCosts = PropertyDefinitionFacade.builder()
-                .name(EngineResources.CategoryName_FinancialsResourceCosts)
+                .name(CategoryName_FinancialsResourceCosts)
                 .parent(financials)
-                .description(EngineResources.CategoryDescription_FinancialsResourceCosts)
+                .description(CategoryDescription_FinancialsResourceCosts)
                 .initiallyExpanded(false)
                 .build();
 
         var advancedOptions =
-                new PropertyDefinitionFacade(EngineResources.CategoryName_AdvancedOptions, false);
+                new PropertyDefinitionFacade(CategoryName_AdvancedOptions, false);
 
         var advancedOptionsTokenActions = PropertyDefinitionFacade.builder()
-                .name(EngineResources.CategoryName_AdvancedOptionsTokenActions)
+                .name(CategoryName_AdvancedOptionsTokenActions)
                 .parent(advancedOptions)
-                .description(EngineResources.CategoryDescription_TokenActionOptions)
+                .description(CategoryDescription_TokenActionOptions)
                 .initiallyExpanded(false)
                 .build();
 
@@ -118,9 +121,9 @@ public abstract class AbstractGridObjectDefinition extends GridObjectDefinition 
 
     protected BooleanPropertyDefinition createReportStatistics() {
         BooleanPropertyDefinition reportStatistics = new BooleanPropertyDefinition("ReportStatistics");
-        reportStatistics.DisplayName(EngineResources.Element_ReportStatistics_DisplayName);
-        reportStatistics.Description(EngineResources.Element_ReportStatistics_Description);
-        reportStatistics.CategoryName(EngineResources.CategoryName_General);
+        reportStatistics.DisplayName(Element_ReportStatistics_DisplayName);
+        reportStatistics.Description(Element_ReportStatistics_Description);
+        reportStatistics.CategoryName(CategoryName_General);
         reportStatistics.DefaultString("True");
         reportStatistics.ComplexityLevel(ProductComplexityLevel.Advanced);
         return reportStatistics;
@@ -132,7 +135,7 @@ public abstract class AbstractGridObjectDefinition extends GridObjectDefinition 
     }
 
     public String getObjectClassName() {
-        return MessageFormat.format(EngineResources.ElementDefinition_ClassName, this.Name());
+        return MessageFormat.format(ElementDefinition_ClassName, this.Name());
     }
 
     public StateDefinitions getStateDefinitions() {
