@@ -22,15 +22,15 @@ public class IntelligentObjectDefinitionFactory {
                 IntelligentObjectDefinitionFactory::smethod_3);
         activeModel.Name(name);
         activeModel.Icon(icon);
-        activeModel.getIntelligentObjectDefinition().setGuid(new Guid(guidS));
+        activeModel.getDefinition().setGuid(new Guid(guidS));
         activeModel.Runnable(false);
-        activeModel.getIntelligentObjectDefinition().enterDefinitionCount();
-        return activeModel.getIntelligentObjectDefinition();
+        activeModel.getDefinition().enterDefinitionCount();
+        return activeModel.getDefinition();
     }
 
     private static void smethod_3(ActiveModel activeModel) {
-        if (activeModel.getIntelligentObjectDefinition() instanceof FixedDefinition &&
-                !(activeModel.getIntelligentObjectDefinition() instanceof NodeDefinition)) {
+        if (activeModel.getDefinition() instanceof FixedDefinition &&
+                !(activeModel.getDefinition() instanceof NodeDefinition)) {
 //            activeModel.getIntelligentObjectDefinition().getInternalReference()
 //            .updateSameIntelligentObjectDefinition(activeModel.projectDefinition[0].getIntelligentObjectDefinition());
 //            activeModel.getIntelligentObjectDefinition().getInternalReference()
@@ -92,7 +92,7 @@ public class IntelligentObjectDefinitionFactory {
         Conveyor.init((LinkDefinition) IntelligentObjectDefinitionFactory.create(simioProjectDefinition,
                 ObjectClass.Link, "{205487E1-5E9E-4b70-B80B-A6C333F7F872}", "Conveyor", Resources.conveyor));
         for (ActiveModel activeModel : simioProjectDefinition.ActiveModels) {
-            activeModel.getIntelligentObjectDefinition().exitDefinitionCount();
+            activeModel.getDefinition().exitDefinitionCount();
         }
     }
 }

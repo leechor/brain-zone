@@ -115,7 +115,7 @@ public class TableTargetPerformanceSummaryResult {
 
             if ( result && !Strings.isNullOrEmpty(tableName[0])) {
 
-                Table table = model.getIntelligentObjectDefinition().Tables().getTableByName(tableName[0]);
+                Table table = model.getDefinition().Tables().getTableByName(tableName[0]);
                 if (table != null && !Strings.isNullOrEmpty(targetName[0])) {
                     Target targetByName = table.Schema().Targets().getTargetByName(targetName[0]);
                     if (targetByName != null && bounds[0] != null && statistic[0] != null && !Double.isNaN(total[0])) {

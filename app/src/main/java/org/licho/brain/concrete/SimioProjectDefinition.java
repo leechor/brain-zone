@@ -240,7 +240,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
 
     private void falseChanged() {
         for (ActiveModel activeModel : this.ActiveModels) {
-            activeModel.getIntelligentObjectDefinition().unChanged();
+            activeModel.getDefinition().unChanged();
         }
         this.isInited = false;
     }
@@ -263,7 +263,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
 
     public ActiveModel findActiveModelByName(String name) {
         return this.ActiveModels.stream()
-                .filter(t -> t.getIntelligentObjectDefinition().Name().equals(name))
+                .filter(t -> t.getDefinition().Name().equals(name))
                 .findFirst().orElse(null);
     }
 
@@ -321,7 +321,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
         if (initializeModel != null) {
             initializeModel.apply(activeModel);
         }
-        activeModel.getIntelligentObjectDefinition().unChanged();
+        activeModel.getDefinition().unChanged();
         this.addActiveModelAndLimit(activeModel);
         return activeModel;
     }
@@ -340,7 +340,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
         }
         int count = (int) this.ActiveModels.stream().filter((ActiveModel model) -> {
             if (name == null) {
-                return model.getIntelligentObjectDefinition().ObjectClass() == objectClass;
+                return model.getDefinition().ObjectClass() == objectClass;
             }
             return model.Name().startsWith(name);
         }).count();
@@ -383,7 +383,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
     }
 
     private void SubmitToSearch(ActiveModel activeModel) {
-        activeModel.getIntelligentObjectDefinition().SubmitToSearch((ISearch search) ->
+        activeModel.getDefinition().SubmitToSearch((ISearch search) ->
                 search.SubmitToSearch(this.itemEditPolicy, activeModel));
     }
 
@@ -452,7 +452,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
         ActiveModel[] activeModels = new ActiveModel[2];
         isNewEntity[0] = false;
         for (ActiveModel activeModel : this.ActiveModels) {
-            if (activeModel.getIntelligentObjectDefinition() instanceof EntityDefinition) {
+            if (activeModel.getDefinition() instanceof EntityDefinition) {
                 activeModels[0] = activeModel;
                 break;
             }
@@ -460,17 +460,17 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
         if (activeModels[0] == null) {
             activeModels[0] = this.createActiveModel(null, ObjectClass.Entity, null, initializeModel);
             activeModels[0].Name(this.getModelEntityName(SimioProjectDefinition.objectName));
-            activeModels[0].getIntelligentObjectDefinition().Description(EngineResources.ModelEntityDescription);
-            this.SetupDefaultEntityDefinition((EntityDefinition) activeModels[0].getIntelligentObjectDefinition());
+            activeModels[0].getDefinition().Description(EngineResources.ModelEntityDescription);
+            this.SetupDefaultEntityDefinition((EntityDefinition) activeModels[0].getDefinition());
             isNewEntity[0] = true;
         }
         activeModels[1] = this.createActiveModel(null, ObjectClass.Fixed, null, initializeModel);
-        Entity entity = ((FixedDefinition) activeModels[1].getIntelligentObjectDefinition())
-                .createEntity((EntityDefinition) activeModels[0].getIntelligentObjectDefinition());
+        Entity entity = ((FixedDefinition) activeModels[1].getDefinition())
+                .createEntity((EntityDefinition) activeModels[0].getDefinition());
         this.SetupDefaultEntityInstance(entity);
-        activeModels[1].getIntelligentObjectDefinition().getWorkSchedulesUtils().setScheduleTime();
+        activeModels[1].getDefinition().getWorkSchedulesUtils().setScheduleTime();
         PropertyDefinitions propertyDefinitions =
-                activeModels[1].getIntelligentObjectDefinition().getPropertyDefinitions();
+                activeModels[1].getDefinition().getPropertyDefinitions();
         propertyDefinitions.findStringPropertyDefinitionInfoByName("ReportStatistics").SetLocalVisible(false,
                 propertyDefinitions);
         propertyDefinitions.findStringPropertyDefinitionInfoByName("ParentCostCenter").SetLocalVisible(false,
@@ -487,7 +487,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
                 propertyDefinitions);
         propertyDefinitions.findStringPropertyDefinitionInfoByName("CurrentSizeIndex").SetLocalVisible(false,
                 propertyDefinitions);
-        activeModels[1].getIntelligentObjectDefinition().ResourceLogic(false);
+        activeModels[1].getDefinition().ResourceLogic(false);
         return activeModels;
     }
 

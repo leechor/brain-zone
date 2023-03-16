@@ -347,7 +347,7 @@ public class IntelligentObjectXml {
     private void recordWarning() {
         this.activeModelWarning.forEach((key, v) -> v.forEach(warning -> {
             if (warning.getInstanceNamePeek() != null) {
-                key.getIntelligentObjectDefinition().recordWarning(warning);
+                key.getDefinition().recordWarning(warning);
             } else {
                 key.recordWarning(warning, null);
             }
@@ -356,7 +356,7 @@ public class IntelligentObjectXml {
 
     private void readRunnableInstanceXml() {
         this.runnableInstanceXml.forEach(runnableInstanceOutXml -> {
-            IntelligentObject intelligentObject = runnableInstanceOutXml.ActiveModel.getIntelligentObjectDefinition().IntelligentObject;
+            IntelligentObject intelligentObject = runnableInstanceOutXml.ActiveModel.getDefinition().instance;
             intelligentObject.properties.values.forEach(p -> {
                 p.SetStringValue(p.getDefaultName(intelligentObject.assignerDefinition.getPropertyDefinitions()), null,
                         IntelligentObjectProperty.ValueVersion.userVersion(this.FileVersion()));

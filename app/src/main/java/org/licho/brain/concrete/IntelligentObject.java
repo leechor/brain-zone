@@ -181,7 +181,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     }
 
     public boolean isEqual() {
-        return ((IntelligentObjectDefinition) this.assignerDefinition).IntelligentObject == this;
+        return ((IntelligentObjectDefinition) this.assignerDefinition).instance == this;
     }
 
     @Override

@@ -652,7 +652,7 @@ public abstract class AbsPropertyObject implements IGridObject, INotifyPropertyC
 
     public void PropertyUpdating(IntelligentObjectProperty intelligentObjectProperty) {
         if (this.Parent() != null && this.Parent().activeModel != null &&
-                this.Parent().activeModel.getIntelligentObjectDefinition() ==
+                this.Parent().activeModel.getDefinition() ==
                         this.Parent() &&
                 this.Parent().activeModel.projectDefinition != null) {
             ISearch param = intelligentObjectProperty.getStringPropertyDefinition().IsTableProperty() ?

@@ -23,7 +23,7 @@ public class BasicNode {
         nodeDefinition.setColor(Color.Gray);
         nodeDefinition.Description(Resources.BasicNode_Description);
         nodeDefinition.ResourceLogic(false);
-        nodeDefinition.IntelligentObject = (IntelligentObject) nodeDefinition.CreateInstance("BasicNode");
+        nodeDefinition.instance = (IntelligentObject) nodeDefinition.CreateInstance("BasicNode");
         nodeDefinition.getPropertyDefinitions().getPropertyDefinitionList().clear();
         PropertyDefinitionFacade crossingLogic = new PropertyDefinitionFacade();
         crossingLogic.Name(Resources.CategoryName_CrossingLogic);

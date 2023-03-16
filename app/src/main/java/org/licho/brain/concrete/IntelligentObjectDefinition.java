@@ -133,7 +133,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     private String author;
     private double version;
     private boolean checkBaseForAdvancedProperties;
-    public IntelligentObject IntelligentObject;
+    public IntelligentObject instance;
     private String keywords;
     private String categories;
     private UnitFilter unitFilter;
@@ -391,7 +391,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
             }
             intelligentObjectXml.initContextBound(objectDefinition);
             objectDefinition.readXmlDefinition(xmlReader, intelligentObjectXml, enum8);
-            objectDefinition.activeModel.initIntelligentObject();
+            objectDefinition.activeModel.initInstance();
             return objectDefinition;
         }
         return null;
@@ -685,8 +685,8 @@ public class IntelligentObjectDefinition extends AbsDefinition
     public void Name(String value) {
         String name = this.Name();
         super.Name(value);
-        if (this.IntelligentObject != null) {
-            this.IntelligentObject.InstanceName(this.Name());
+        if (this.instance != null) {
+            this.instance.InstanceName(this.Name());
         }
         this.sendDefinitionNameChangeEvent(name);
     }
@@ -953,12 +953,12 @@ public class IntelligentObjectDefinition extends AbsDefinition
 
         if (param1 &&
                 !this.getActionRun().empty() && this.activeModel != null &&
-                this.activeModel.getIntelligentObjectDefinition() == this &&
+                this.activeModel.getDefinition() == this &&
                 this.activeModel.parentProjectDefinition != null) {
             for (ActiveModel model : this.activeModel.parentProjectDefinition.ActiveModels) {
-                if ((model != this.activeModel || this.activeModel.getIntelligentObjectDefinition() != this) &&
-                        model.getIntelligentObjectDefinition() != null) {
-                    model.getIntelligentObjectDefinition().resetChildrenTable(this);
+                if ((model != this.activeModel || this.activeModel.getDefinition() != this) &&
+                        model.getDefinition() != null) {
+                    model.getDefinition().resetChildrenTable(this);
                 }
             }
         }
@@ -1485,7 +1485,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     @Override
     public void DestroyInstance(AbsPropertyObject absPropertyObject) {
         super.DestroyInstance(absPropertyObject);
-        if (super.getAssociatedInstances().size() == 1 && super.getAssociatedInstances().get(0) == this.IntelligentObject) {
+        if (super.getAssociatedInstances().size() == 1 && super.getAssociatedInstances().get(0) == this.instance) {
             this.sendDefinitionRemovedEvent();
         }
     }
@@ -2726,7 +2726,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     private void addProcessPropertyByName(String instanceName, Object processProperty) {
         this.getNameUtil().addObjectByName(name, processProperty);
         if (processProperty instanceof ISearch search) {
-            if (this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() == this && this.activeModel.parentProjectDefinition != null) {
+            if (this.activeModel != null && this.activeModel.getDefinition() == this && this.activeModel.parentProjectDefinition != null) {
                 this.activeModel.parentProjectDefinition.getItemEditPolicy().method_0(search, ItemEditPolicy.name,
                         this.activeModel);
             }
@@ -2769,9 +2769,9 @@ public class IntelligentObjectDefinition extends AbsDefinition
         List<IntelligentObjectDefinition> result = new ArrayList<>();
         if (this.activeModel != null && this.activeModel.parentProjectDefinition != null) {
             for (ActiveModel activeModel : this.activeModel.parentProjectDefinition.ActiveModels) {
-                if ((activeModel != this.activeModel || this.activeModel.getIntelligentObjectDefinition() != this)
-                        && activeModel.getIntelligentObjectDefinition() != null) {
-                    result.add(activeModel.getIntelligentObjectDefinition());
+                if ((activeModel != this.activeModel || this.activeModel.getDefinition() != this)
+                        && activeModel.getDefinition() != null) {
+                    result.add(activeModel.getDefinition());
                 }
             }
         }
@@ -3150,8 +3150,8 @@ public class IntelligentObjectDefinition extends AbsDefinition
         for (AbsListProperty absListProperty : this.Lists().getValues()) {
             action.apply(absListProperty);
         }
-        if (this.IntelligentObject != null) {
-            action.apply(this.IntelligentObject);
+        if (this.instance != null) {
+            action.apply(this.instance);
         }
     }
 
@@ -3587,13 +3587,13 @@ public class IntelligentObjectDefinition extends AbsDefinition
                                 ProcessProperty.Enum50.Zero) != null) ||
                 SomeXmlOperator.xmlReaderElementOperator(xmlReader, "Objects", null, (XmlReader body) ->
                 {
-                    IntelligentObject intelligentObject = IntelligentObject.readXml(xmlReader, intelligentObjectXml
+                    IntelligentObject intelligentObject = instance.readXml(xmlReader, intelligentObjectXml
                             , this);
                     if (intelligentObject != null) {
                         return true;
                     }
                     return intelligentObjectXml.xmlReaderOutXmlOperator(xmlReader,
-                            (XmlReader x) -> IntelligentObject.readXml(x, intelligentObjectXml, this) != null);
+                            (XmlReader x) -> instance.readXml(x, intelligentObjectXml, this) != null);
                 }) ||
                 this.Lists().readXml(xmlReader, intelligentObjectXml) ||
                 this.getTokens().readXml(xmlReader, intelligentObjectXml) ||
@@ -3709,7 +3709,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     private void updateObjectName(String oldName, String newName, Object target) {
         this.getNameUtil().updateObjectName(oldName, newName, target);
         ISearch search = (ISearch) target;
-        if (search != null && this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() == this && this.activeModel.projectDefinition != null) {
+        if (search != null && this.activeModel != null && this.activeModel.getDefinition() == this && this.activeModel.projectDefinition != null) {
             this.activeModel.projectDefinition.getItemEditPolicy().method_0(search, ItemEditPolicy.name,
                     this.activeModel);
         }
@@ -3823,7 +3823,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     private void removeObjectByName(String instanceName, Object target) {
         this.getNameUtil().removeObjectByName(name, target);
         ISearch search = (ISearch) target;
-        if (search != null && this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() == this && this.activeModel.projectDefinition != null) {
+        if (search != null && this.activeModel != null && this.activeModel.getDefinition() == this && this.activeModel.projectDefinition != null) {
             this.activeModel.projectDefinition.getItemEditPolicy().remove(search);
         }
 

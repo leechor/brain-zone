@@ -409,8 +409,8 @@ public class RunSetup {
 
     public void RiskAnalysisConfidenceLevel(StatisticConfidenceIntervalType value) {
         this.riskAnalysisConfidenceLevel = value;
-        if (this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() != null) {
-            for (Table table : this.activeModel.getIntelligentObjectDefinition().Tables().values) {
+        if (this.activeModel != null && this.activeModel.getDefinition() != null) {
+            for (Table table : this.activeModel.getDefinition().Tables().values) {
                 table.resetTable();
             }
         }
@@ -436,8 +436,8 @@ public class RunSetup {
     }
 
     private void resetTable(int resultType) {
-        if (this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() != null) {
-            this.activeModel.getIntelligentObjectDefinition().resetTable(resultType);
+        if (this.activeModel != null && this.activeModel.getDefinition() != null) {
+            this.activeModel.getDefinition().resetTable(resultType);
         }
     }
 
@@ -759,9 +759,9 @@ public class RunSetup {
 
     public void initUnitCurrency() {
         int unitType = CurrencyWrapper.unitType;
-        if (this.activeModel != null && this.activeModel.getIntelligentObjectDefinition() != null) {
+        if (this.activeModel != null && this.activeModel.getDefinition() != null) {
             unitType =
-                    this.activeModel.getIntelligentObjectDefinition().UnitFilter().CurrencyFilter().getUnitTypeIndex();
+                    this.activeModel.getDefinition().UnitFilter().CurrencyFilter().getUnitTypeIndex();
         }
         this.initUnitCurrency(unitType);
         this.initUnitCurrencyPerTimeUnit(AboutUnit.getUnitTypeIndex(unitType, this.getTimeLevel()));

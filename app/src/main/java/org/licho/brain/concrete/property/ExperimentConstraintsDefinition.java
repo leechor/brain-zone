@@ -55,9 +55,9 @@ public final class ExperimentConstraintsDefinition extends GridObjectDefinition 
         super(name);
         this.activeModel = activeModel;
         for (StringPropertyDefinition stringPropertyDefinition :
-                activeModel.getIntelligentObjectDefinition().getPropertyDefinitions().values) {
+                activeModel.getDefinition().getPropertyDefinitions().values) {
             super.getPropertyDefinitions().addDefinition(stringPropertyDefinition);
-            if (!stringPropertyDefinition.IsOwnedBy(activeModel.getIntelligentObjectDefinition())) {
+            if (!stringPropertyDefinition.IsOwnedBy(activeModel.getDefinition())) {
                 stringPropertyDefinition.SetLocalVisible(false, super.getPropertyDefinitions());
             }
         }
@@ -65,7 +65,7 @@ public final class ExperimentConstraintsDefinition extends GridObjectDefinition 
     }
 
     private void initEvent() {
-        this.activeModel.getIntelligentObjectDefinition().getPropertyDefinitions().addListChanged(this::
+        this.activeModel.getDefinition().getPropertyDefinitions().addListChanged(this::
                 onPropertyListChanged);
         this.responses.addListChanged(this::onResponsesListChanged);
         this.constraints.addListChanged(this::onConstraintsListChanged);

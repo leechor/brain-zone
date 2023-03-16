@@ -240,7 +240,7 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
 
                 @Override
                 public String Description() {
-                    return this.activeModel.getIntelligentObjectDefinition().Description();
+                    return this.activeModel.getDefinition().Description();
                 }
 
                 @Override
@@ -250,7 +250,7 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
 
                 @Override
                 public IntelligentObjectDefinition getIntelligentObjectDefinition() {
-                    return this.activeModel.getIntelligentObjectDefinition();
+                    return this.activeModel.getDefinition();
                 }
 
                 @Override
@@ -260,7 +260,7 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
 
                 @Override
                 public String getId() {
-                    return this.activeModel.getIntelligentObjectDefinition().getGuid().toString();
+                    return this.activeModel.getDefinition().getGuid().toString();
                 }
             }
         }

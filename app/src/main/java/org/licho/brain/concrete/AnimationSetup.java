@@ -10,7 +10,7 @@ import org.licho.brain.utils.simu.IReferencedObjects;
 public class AnimationSetup extends AbsContextBound implements IListener, IObjectRunSpace {
 
     public AnimationSetup(ActiveModel activeModel, Interface197 param1) {
-        this((activeModel == null) ? null : activeModel.getIntelligentObjectDefinition(), param1);
+        this((activeModel == null) ? null : activeModel.getDefinition(), param1);
         super.setActiveModel(activeModel);
     }
 

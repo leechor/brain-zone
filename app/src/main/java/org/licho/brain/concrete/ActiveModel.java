@@ -114,7 +114,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     private EventHandler<EventArgs> stopEvent;
 
     public IGridObject changeObject(IGridObject gridObject) {
-        if (gridObject == this.getIntelligentObjectDefinition().IntelligentObject) {
+        if (gridObject == this.getDefinition().instance) {
             return this;
         }
         // TODO: 2022/1/6
@@ -188,14 +188,14 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                 this.resetStatistics(this.getDateAttributeOther().Data());
                 this.getTableTargetPerformanceSummaryResults().flush();
                 this.getPropertiesTypeList().reloadTableDataOuter();
-                this.planResultsVersion = this.getIntelligentObjectDefinition().getPlanResultsVersion();
+                this.planResultsVersion = this.getDefinition().getPlanResultsVersion();
             } else {
                 this.resetStatistics(this.getDataAttribute().Data());
-                this.interactiveVersion = this.getIntelligentObjectDefinition().getInteractiveVersion();
+                this.interactiveVersion = this.getDefinition().getInteractiveVersion();
             }
         }
         if (this.cancellationTokenSource != null) {
-            this.riskResultsVersion = this.getIntelligentObjectDefinition().getRiskResultsVersion();
+            this.riskResultsVersion = this.getDefinition().getRiskResultsVersion();
         }
 
     }
@@ -222,12 +222,12 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                     }
                 }
             }
-            for (Table table : this.getIntelligentObjectDefinition().Tables().getValues()) {
+            for (Table table : this.getDefinition().Tables().getValues()) {
                 TargetResults.Enum68 enum68 = (this.getRunModel() == RunModel.RunPlan) ?
                         (TargetResults.Enum68.One) : (TargetResults.Enum68.Zero);
                 int version = (this.getRunModel() == ActiveModel.RunModel.RunPlan) ?
-                        this.getIntelligentObjectDefinition().getPlanResultsVersion() :
-                        this.getIntelligentObjectDefinition().getInteractiveVersion();
+                        this.getDefinition().getPlanResultsVersion() :
+                        this.getDefinition().getInteractiveVersion();
                 if (table.TargetResults().method_7(this.application.getFixedRunSpace(), enum68, version)) {
                     table.ResetBindings();
                 }
@@ -326,7 +326,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     private void method_104() {
-        for (Table table : this.getIntelligentObjectDefinition().Tables().getValues()) {
+        for (Table table : this.getDefinition().Tables().getValues()) {
             table.TargetResults().init();
             table.Data().Rows().ResetBindings();
         }
@@ -366,12 +366,12 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             return;
         }
 
-        this.getIntelligentObjectDefinition().method_428();
+        this.getDefinition().method_428();
         if (this.projectDefinition != null && this.projectDefinition.ActiveModels != null) {
             List<ActiveModel> source = this.projectDefinition.ActiveModels;
             for (ActiveModel activeModel : source.stream().filter(activeModel -> activeModel != this &&
                     !activeModel.Runnable()).toList()) {
-                activeModel.getIntelligentObjectDefinition().method_428();
+                activeModel.getDefinition().method_428();
             }
         }
     }
@@ -530,20 +530,20 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             case Agent -> this.reRegisterEvent(new AgentDefinition(name, this, intelligentObjectDefinition));
             case Node -> this.reRegisterEvent(new NodeDefinition(name, this, intelligentObjectDefinition));
         }
-        this.getIntelligentObjectDefinition().resetNameCollections();
+        this.getDefinition().resetNameCollections();
         String userName = "licho";
         if (!Strings.isNullOrEmpty(userName)) {
-            this.getIntelligentObjectDefinition().Author(userName);
+            this.getDefinition().Author(userName);
         }
-        this.initIntelligentObject();
+        this.initInstance();
         if (intelligentObjectDefinition == null) {
-            this.Runnable(this.getIntelligentObjectDefinition().DefaultRunnable());
+            this.Runnable(this.getDefinition().DefaultRunnable());
         } else {
             this.Runnable(intelligentObjectDefinition.activeModel.Runnable());
         }
-        if (visible && this.getIntelligentObjectDefinition().getChildrenObject().isEmpty()) {
+        if (visible && this.getDefinition().getChildrenObject().isEmpty()) {
             IntelligentObject intelligentObject =
-                    this.getIntelligentObjectDefinition().createIntelligentObject(EntityDefinition.create(),
+                    this.getDefinition().createIntelligentObject(EntityDefinition.create(),
                             EngineResources.DefaultEntityInstanceName, ElementScope.Public);
             if (intelligentObject != null) {
                 intelligentObject.getSizeStateGridItemProperties().setHeight(0.5);
@@ -642,8 +642,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public String Name() {
-        if (this.getIntelligentObjectDefinition() != null) {
-            return this.getIntelligentObjectDefinition().Name();
+        if (this.getDefinition() != null) {
+            return this.getDefinition().Name();
         }
         return "";
     }
@@ -652,7 +652,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
     }
 
-    public IntelligentObjectDefinition getIntelligentObjectDefinition() {
+    public IntelligentObjectDefinition getDefinition() {
         return this.intelligentObjectDefinition;
     }
 
@@ -702,8 +702,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                 if (enum46 == Enum46.Zero) {
                     Guid guid = intelligentObjectXml.getGuidByName(definitionName);
                     ActiveModel am = simioProjectDefinition.ActiveModels.stream()
-                            .filter(model -> model.getIntelligentObjectDefinition() != null &&
-                                    model.getIntelligentObjectDefinition().getGuid() == guid)
+                            .filter(model -> model.getDefinition() != null &&
+                                    model.getDefinition().getGuid() == guid)
                             .findFirst()
                             .orElse(null);
 
@@ -719,7 +719,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                     int num = 1;
                     String name = objectDefinition.Name();
                     while (simioProjectDefinition.ActiveModels.stream()
-                            .anyMatch(model -> Objects.equals(model.getIntelligentObjectDefinition().Name(), name))) {
+                            .anyMatch(model -> Objects.equals(model.getDefinition().Name(), name))) {
                         objectDefinition.Name(name + num);
                         num++;
                     }
@@ -739,8 +739,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                 }
                 activeM.reRegisterEvent(objectDefinition);
                 objectDefinition.activeModel = activeM;
-                if (objectDefinition.IntelligentObject == null) {
-                    activeM.initIntelligentObject();
+                if (objectDefinition.instance == null) {
+                    activeM.initInstance();
                     objectDefinition.flashStateFalse();
                 }
                 activeM.MasterModel(activeModel);
@@ -761,7 +761,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                                         SimioProjectDefinition simioProjectDefinition,
                                         SimioProjectDefinition.IntelligentObjectXmlReader intelligentObjectXmlReader,
                                         SimioProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
-        try (var a = this.getIntelligentObjectDefinition().createModelOperatorCounter()) {
+        try (var a = this.getDefinition().createModelOperatorCounter()) {
             SomeXmlOperator.xmlReaderElementOperator(xmlReader, "Model", attr -> {
                 SomeXmlOperator.readXmlBooleanAttribute(xmlReader, "Runnable", this::Runnable);
                 if (this.activateRunSetup == null) {
@@ -940,10 +940,10 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         return this.masterModel != null;
     }
 
-    public void initIntelligentObject() {
-        this.getIntelligentObjectDefinition().IntelligentObject =
-                (IntelligentObject) this.getIntelligentObjectDefinition().CreateInstance(this.getIntelligentObjectDefinition().Name());
-        this.getIntelligentObjectDefinition().IntelligentObject.properties.init();
+    public void initInstance() {
+        this.getDefinition().instance =
+                (IntelligentObject) this.getDefinition().CreateInstance(this.getDefinition().Name());
+        this.getDefinition().instance.properties.init();
     }
 
 
@@ -959,7 +959,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
     @Override
     public String Group() {
-        return this.getIntelligentObjectDefinition().ObjectClass().toString();
+        return this.getDefinition().ObjectClass().toString();
     }
 
     @Override
@@ -1081,8 +1081,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             case Time -> runSetup.getTimeLevel();
             case TravelRate -> runSetup.getTravelRateLevel();
             case Length -> runSetup.getLength();
-            case Currency -> this.getIntelligentObjectDefinition().UnitFilter().CurrencyFilter().getUnitTypeIndex();
-            case CurrencyPerTimeUnit -> AboutUnit.getUnitTypeIndex(this.getIntelligentObjectDefinition()
+            case Currency -> this.getDefinition().UnitFilter().CurrencyFilter().getUnitTypeIndex();
+            case CurrencyPerTimeUnit -> AboutUnit.getUnitTypeIndex(this.getDefinition()
                     .UnitFilter().CurrencyFilter().getUnitTypeIndex(), runSetup.getTimeLevel());
             case Volume -> runSetup.getVolumeLevel();
             case Weight -> runSetup.getWeightLevel();
@@ -1129,8 +1129,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public Image Icon() {
-        if (this.icon == null && this.getIntelligentObjectDefinition() != null) {
-            return ActiveModel.getImageByObjectType(this.getIntelligentObjectDefinition().ObjectClass());
+        if (this.icon == null && this.getDefinition() != null) {
+            return ActiveModel.getImageByObjectType(this.getDefinition().ObjectClass());
         }
         return this.icon;
     }
@@ -1165,7 +1165,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public void limit(ActiveModel activeModel) {
-        this.getIntelligentObjectDefinition().limit(activeModel);
+        this.getDefinition().limit(activeModel);
     }
 
     private void triggerRunnableChangeEvent() {
@@ -1182,7 +1182,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             }
         } catch (Exception ignored) {
         }
-        this.getIntelligentObjectDefinition().flushResourceLogExpressionTable();
+        this.getDefinition().flushResourceLogExpressionTable();
         this.getRunPlanLogWrapper().ResetBindings();
         this.getRunLogWrapper().ResetBindings();
         this.ResetBindingsEvent();
@@ -1221,7 +1221,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public void flush() {
-        this.getIntelligentObjectDefinition().flashStateFalse();
+        this.getDefinition().flashStateFalse();
         if (this.masterModelStr != null) {
             this.masterModel = this.parentProjectDefinition.get(this.masterModelStr);
             this.masterModelStr = null;
@@ -1236,7 +1236,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
     private PropertiesTypeList getPropertiesTypeList() {
         if (this.propertiesTypeList == null) {
-            var tables = this.getIntelligentObjectDefinition().Tables();
+            var tables = this.getDefinition().Tables();
             this.propertiesTypeList =
                     new PropertiesTypeList(tables.values.stream().
                             filter(t -> t.Schema().Targets().Count() != 0).findFirst().orElse(null));
@@ -1295,7 +1295,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
     public void recordWarning(Warning warning, IntelligentObject intelligentObject) {
         if (intelligentObject != null) {
-            this.getIntelligentObjectDefinition().recordWarning(warning, intelligentObject);
+            this.getDefinition().recordWarning(warning, intelligentObject);
         } else {
             if (this.suppressedWarnings == null) {
                 this.suppressedWarnings = new ArrayList<>();

@@ -56,7 +56,7 @@ public class Game {
         StepDefinitionWrapper.init();
 
 //        var path = "C:\\Users\\Public\\Documents\\Simio\\SimBits\\AnimatePathDensity.spfx";
-        var path = "/Users/sunlichao/project/code/me/brain-zone/app/src/main/resources/AnimatePathDensity.spfx";
+        var path = "/Users/sunlichao/Downloads/Model.spfx";
         projectManager.loadProject(path, 0, null);
 
         projectManager.execute();

@@ -63,13 +63,13 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
      */
     public List<NameIntelligentObjectDefinition> getActiveModelNameDefinitions() {
         if (this.intelligentObjectDefinition.activeModel == null ||
-                this.intelligentObjectDefinition.activeModel.getIntelligentObjectDefinition() != this.intelligentObjectDefinition ||
+                this.intelligentObjectDefinition.activeModel.getDefinition() != this.intelligentObjectDefinition ||
                 this.intelligentObjectDefinition.activeModel.parentProjectDefinition == null) {
             return new ArrayList<>();
         }
 
         var activeModels = this.intelligentObjectDefinition.activeModel.parentProjectDefinition.ActiveModels;
-        var definitionOfActiveModel = activeModels.stream().map(ActiveModel::getIntelligentObjectDefinition).toList();
+        var definitionOfActiveModel = activeModels.stream().map(ActiveModel::getDefinition).toList();
 
         if (!definitionOfActiveModel.contains(this.intelligentObjectDefinition)) {
             definitionOfActiveModel.add(this.intelligentObjectDefinition);
@@ -390,7 +390,7 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
 
             absPropertyObjects.stream().filter(func).forEach(absPropertyObject -> {
                 IntelligentObject intelligentObject = (IntelligentObject) absPropertyObject;
-                if (intelligentObject != objectDefinition.IntelligentObject) {
+                if (intelligentObject != objectDefinition.instance) {
                     intelligentObject.updateDefinition(intelligentObjectDefinition);
                 }
             });

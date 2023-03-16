@@ -574,7 +574,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         if (gridObjectDefinition instanceof ExperimentConstraintsDefinition) {
             ExperimentConstraintsDefinition experimentConstraintsDefinition =
                     (ExperimentConstraintsDefinition) gridObjectDefinition;
-            return experimentConstraintsDefinition.getActiveModel().getIntelligentObjectDefinition();
+            return experimentConstraintsDefinition.getActiveModel().getDefinition();
         }
         return (IntelligentObjectDefinition) gridObjectDefinition;
     }
@@ -812,7 +812,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         if (this.getPropertyObject() != null) {
             intelligentObjectDefinition = (IntelligentObjectDefinition) (this.getPropertyObject().assignerDefinition);
         }
-        if (intelligentObjectDefinition != null && intelligentObjectDefinition.IntelligentObject == this.getPropertyObject() && intelligentObjectDefinition.activeModel != null && !intelligentObjectDefinition.activeModel.Runnable()) {
+        if (intelligentObjectDefinition != null && intelligentObjectDefinition.instance == this.getPropertyObject() && intelligentObjectDefinition.activeModel != null && !intelligentObjectDefinition.activeModel.Runnable()) {
             return false;
         }
         if (this.getPropertyObject() != null && !this.getPropertyObject().IsVisible(this)) {

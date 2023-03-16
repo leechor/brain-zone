@@ -23,9 +23,9 @@ public class ObjectInstancePropertyDefinitionValueProvider implements IValueProv
         }
 
         List<String> list = new ArrayList<>(4);
-        this.addInstanceName(intelligentObjectDefinition.activeModel.getIntelligentObjectDefinition().childrenObject,
+        this.addInstanceName(intelligentObjectDefinition.activeModel.getDefinition().childrenObject,
                 list, this.target);
-        this.addInstanceName(intelligentObjectDefinition.activeModel.getIntelligentObjectDefinition().nodes, list,
+        this.addInstanceName(intelligentObjectDefinition.activeModel.getDefinition().nodes, list,
                 this.target);
         list.sort(String::compareTo);
         List<String> list2 = list;
