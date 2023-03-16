@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.ItemTypeEnum;
-import org.licho.brain.utils.simu.IProject;
+import org.licho.brain.utils.simu.IProjectOperator;
 
 /**
  *
@@ -12,10 +12,10 @@ public interface IItemView {
 	Object HostView();
 	boolean OpenIfClosed();
 	boolean IsSubView();
-	Object CreateViewIfNeeded(IProject param0);
-	void ShowView(IProject param0);
-	void CloseView(IProject project);
-	void UpdateName(IProject param0, String param1);
+	Object CreateViewIfNeeded(IProjectOperator param0);
+	void ShowView(IProjectOperator param0);
+	void CloseView(IProjectOperator project);
+	void UpdateName(IProjectOperator param0, String param1);
 	boolean CheckCloseView(Object param0);
 	boolean RemoveViewOnClose();
 	IViewInfo ViewUI();

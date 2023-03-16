@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.concrete.enu.Enum86;
-import org.licho.brain.utils.simu.IProject;
+import org.licho.brain.utils.simu.IProjectOperator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public abstract class AbsSubItemView extends AbsBaseSubItemView {
     }
 
     @Override
-    public Object CreateViewIfNeeded(IProject project) {
+    public Object CreateViewIfNeeded(IProjectOperator project) {
         Object obj = null;
         if (this.hostView == null) {
             super.CreateViewIfNeeded(project);
@@ -42,12 +42,12 @@ public abstract class AbsSubItemView extends AbsBaseSubItemView {
     }
 
     @Override
-    public Object CreateSubViewIfNeeded(IProject project) {
+    public Object CreateSubViewIfNeeded(IProjectOperator project) {
         return this.CreateViewIfNeeded(project);
     }
 
     @Override
-    public void UpdateSubViewName(IProject project, String name) {
+    public void UpdateSubViewName(IProjectOperator project, String name) {
         this.updateProjectViewName(project, name);
     }
 
@@ -58,7 +58,7 @@ public abstract class AbsSubItemView extends AbsBaseSubItemView {
 
 
     @Override
-    protected Object CreateHostView(IProject project) {
+    protected Object CreateHostView(IProjectOperator project) {
         if (super.Parent() == null && project != null && project.PrimaryViewContainer() != null) {
             return this.CreateViewUsing(project.PrimaryViewContainer());
         }
@@ -72,7 +72,7 @@ public abstract class AbsSubItemView extends AbsBaseSubItemView {
     }
 
     @Override
-    public void CloseView(IProject project) {
+    public void CloseView(IProjectOperator project) {
         List<AbsBaseSubItemView> absBaseSubItemViews = new ArrayList<>(this.absBaseSubItemViews);
         for (AbsBaseSubItemView absBaseSubItemView : absBaseSubItemViews) {
             absBaseSubItemView.CloseView(project);
@@ -81,11 +81,11 @@ public abstract class AbsSubItemView extends AbsBaseSubItemView {
     }
 
     @Override
-    public void UpdateName(IProject param0, String param1) {
+    public void UpdateName(IProjectOperator param0, String param1) {
         this.updateProjectViewName(param0, param1);
     }
 
-    private void updateProjectViewName(IProject project, String name) {
+    private void updateProjectViewName(IProjectOperator project, String name) {
         if (!this.bool_0) {
             this.bool_0 = true;
             super.UpdateName(project, name);

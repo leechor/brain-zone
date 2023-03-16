@@ -3,7 +3,7 @@ package org.licho.brain.example.war;
 import org.licho.brain.IFunction.Action;
 import org.licho.brain.concrete.IntelligentObjectDefinitionFactory;
 import org.licho.brain.concrete.LibraryInfo;
-import org.licho.brain.concrete.Project;
+import org.licho.brain.concrete.ProjectOperator;
 import org.licho.brain.concrete.ProjectDefinition;
 import org.licho.brain.concrete.BaseProjectDefinition;
 import org.licho.brain.concrete.ProjectManager;
@@ -50,7 +50,7 @@ public class Game {
     public static void main(String[] args) {
         Logger logger = LoggerFactory.getLogger(Game.class);
         logger.info("Hello World !!");
-        Project project = new Project();
+        ProjectOperator project = new ProjectOperator();
         ProjectManager projectManager = new ProjectManager(project);
 
         StepDefinitionWrapper.init();

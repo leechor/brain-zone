@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.ItemTypeEnum;
-import org.licho.brain.utils.simu.IProject;
+import org.licho.brain.utils.simu.IProjectOperator;
 import org.licho.brain.utils.simu.system.IDisposable;
 
 import java.util.List;
@@ -40,11 +40,11 @@ public abstract class AbsView<T> implements IDisposable {
         return null;
     }
 
-    public Object createView(T type, IProject project, String name) {
+    public Object createView(T type, IProjectOperator project, String name) {
         return this.createView(type, project, name, false);
     }
 
-    public Object createView(T type, IProject project, String name, boolean param3) {
+    public Object createView(T type, IProjectOperator project, String name, boolean param3) {
         IItemView view = this.ProjectViews.stream()
                 .filter((IItemView itemView) -> itemView.ViewType() == this.modelViewTypeToInt(type))
                 .findFirst().orElse(null);
@@ -66,7 +66,7 @@ public abstract class AbsView<T> implements IDisposable {
         return view.HostView();
     }
 
-    public void updateViewsName(IProject project, String name) {
+    public void updateViewsName(IProjectOperator project, String name) {
         this.ProjectViews.forEach(view -> view.UpdateName(project, name));
     }
 
@@ -88,7 +88,7 @@ public abstract class AbsView<T> implements IDisposable {
         }
     }
 
-    public void showView(Object param, IProject project) {
+    public void showView(Object param, IProjectOperator project) {
         // TODO: 2022/2/11 
     }
 }

@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.ItemTypeEnum;
-import org.licho.brain.utils.simu.IProject;
+import org.licho.brain.utils.simu.IProjectOperator;
 import org.licho.brain.utils.simu.system.IDisposable;
 
 import java.text.MessageFormat;
@@ -13,7 +13,7 @@ public abstract class AbsBaseItemView implements IDisposable, IItemView {
     public static String string_1 = "__HOST_VIEW_NOT_FOUND__";
     protected String hostView;
 
-    protected abstract Object CreateHostView(IProject project);
+    protected abstract Object CreateHostView(IProjectOperator project);
 
     protected  void OnCreatedHostView(){};
 
@@ -38,7 +38,7 @@ public abstract class AbsBaseItemView implements IDisposable, IItemView {
         return false;
     }
 
-    public Object CreateViewIfNeeded(IProject project) {
+    public Object CreateViewIfNeeded(IProjectOperator project) {
         if (this.hostView == null) {
             this.hostView = (String) this.CreateHostView(project);
             if (this.hostView == null) {
@@ -50,7 +50,7 @@ public abstract class AbsBaseItemView implements IDisposable, IItemView {
         return null;
     }
 
-    protected IViewControl ViewContainerFrom(IProject project) {
+    protected IViewControl ViewContainerFrom(IProjectOperator project) {
         if (project != null) {
             return project.PrimaryViewContainer();
         }
@@ -60,7 +60,7 @@ public abstract class AbsBaseItemView implements IDisposable, IItemView {
     public abstract IViewInfo ViewUI();
 
     @Override
-    public void ShowView(IProject project) {
+    public void ShowView(IProjectOperator project) {
         this.CreateViewIfNeeded(project);
         IViewControl viewControl = this.ViewContainerFrom(project);
         if (viewControl != null) {
@@ -69,7 +69,7 @@ public abstract class AbsBaseItemView implements IDisposable, IItemView {
     }
 
     @Override
-    public void CloseView(IProject project) {
+    public void CloseView(IProjectOperator project) {
         if (this.hostView != null) {
             if (project != null) {
                 IViewControl viewControl = this.ViewContainerFrom(project);
@@ -82,7 +82,7 @@ public abstract class AbsBaseItemView implements IDisposable, IItemView {
     }
 
     @Override
-    public void UpdateName(IProject project, String name) {
+    public void UpdateName(IProjectOperator project, String name) {
         if (this.hostView != null) {
             IViewControl viewControl = this.ViewContainerFrom(project);
             if (viewControl != null) {

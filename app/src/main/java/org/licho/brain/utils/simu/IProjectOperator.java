@@ -11,7 +11,7 @@ import java.io.InputStream;
 /**
  *
  */
-public interface IProject {
+public interface IProjectOperator {
     ILog Log();
 
     IView StaticViewContainer();

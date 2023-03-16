@@ -1,7 +1,7 @@
 package org.licho.brain.concrete;
 
 import org.licho.brain.enu.ItemTypeEnum;
-import org.licho.brain.utils.simu.IProject;
+import org.licho.brain.utils.simu.IProjectOperator;
 
 /**
  *
@@ -19,7 +19,7 @@ public class SimBitsView extends AbsBaseItemView{
 	}
 
     @Override
-	protected  Object CreateHostView(IProject project)
+	protected  Object CreateHostView(IProjectOperator project)
 	{
 		if (project != null && project.PrimaryViewContainer() != null)
 		{

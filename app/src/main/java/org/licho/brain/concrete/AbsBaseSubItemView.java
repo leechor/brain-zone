@@ -1,6 +1,6 @@
 package org.licho.brain.concrete;
 
-import org.licho.brain.utils.simu.IProject;
+import org.licho.brain.utils.simu.IProjectOperator;
 
 /**
  *
@@ -20,7 +20,7 @@ public abstract class AbsBaseSubItemView extends AbsBaseItemView {
     }
 
     @Override
-    public Object CreateViewIfNeeded(IProject project) {
+    public Object CreateViewIfNeeded(IProjectOperator project) {
         if (this.Parent() != null) {
             this.Parent().CreateViewIfNeeded(project);
         }
@@ -30,7 +30,7 @@ public abstract class AbsBaseSubItemView extends AbsBaseItemView {
         return super.HostView();
     }
 
-    public Object CreateSubViewIfNeeded(IProject project) {
+    public Object CreateSubViewIfNeeded(IProjectOperator project) {
         return super.CreateViewIfNeeded(project);
     }
 
@@ -39,19 +39,19 @@ public abstract class AbsBaseSubItemView extends AbsBaseItemView {
     }
 
     @Override
-    public void UpdateName(IProject project, String name) {
+    public void UpdateName(IProjectOperator project, String name) {
         super.UpdateName(project, name);
         if (this.Parent() != null && this.UpdateNameForParent()) {
             this.Parent().UpdateName(project, name);
         }
     }
 
-    public void UpdateSubViewName(IProject project, String name) {
+    public void UpdateSubViewName(IProjectOperator project, String name) {
         super.UpdateName(project, name);
     }
 
     @Override
-    protected Object CreateHostView(IProject project) {
+    protected Object CreateHostView(IProjectOperator project) {
         if (this.Parent() != null && this.Parent().getViewControl() != null) {
             return this.CreateViewUsing(this.Parent().getViewControl());
         }
@@ -61,7 +61,7 @@ public abstract class AbsBaseSubItemView extends AbsBaseItemView {
     protected abstract Object CreateViewUsing(IViewControl viewControl);
 
     @Override
-    public void ShowView(IProject project) {
+    public void ShowView(IProjectOperator project) {
         if (this.parent != null) {
             this.parent.ShowView(project);
             if (this.parent.getViewControl() != null) {
@@ -73,7 +73,7 @@ public abstract class AbsBaseSubItemView extends AbsBaseItemView {
 
 
     @Override
-    protected IViewControl ViewContainerFrom(IProject project) {
+    protected IViewControl ViewContainerFrom(IProjectOperator project) {
         if (this.parent != null) {
             return this.parent.getViewControl();
         }
