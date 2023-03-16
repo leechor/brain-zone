@@ -193,7 +193,7 @@ public class IntelligentObject extends AbsIntelligentPropertyObject implements I
     }
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

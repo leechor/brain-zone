@@ -5,7 +5,7 @@ import org.licho.brain.concrete.property.IntelligentObjectProperty;
 /**
  *
  */
-public class TableStateDefinition extends AbsDefinition{
+public class TableStateDefinition extends AbstractGridObjectDefinition {
 
     private Schema schema;
 
@@ -38,7 +38,7 @@ public class TableStateDefinition extends AbsDefinition{
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

@@ -1,7 +1,6 @@
 package org.licho.brain.concrete;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import org.licho.brain.annotations.PropertyDefinitionFactory;
 import org.licho.brain.concrete.cont.EngineResources;
 import org.licho.brain.concrete.property.IntelligentObjectProperty;
@@ -16,7 +15,7 @@ import java.text.MessageFormat;
 @AllArgsConstructor
 public class ElementPropertyDefinition extends StringPropertyDefinition {
     private Class<?> type;
-    private AbsDefinition absDefinition;
+    private AbstractGridObjectDefinition abstractGridObjectDefinition;
     private String name;
     private ElementReferenceType elementReferenceType;
     private PropertyGridObjectOperator propertyGridObjectOperator;
@@ -46,18 +45,18 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
         return new ElementPropertyRow(this, properties);
     }
 
-    AbsDefinition getAbsDefinition() {
-        if (this.absDefinition == null) {
-            this.absDefinition =
-                    AbsDefinition.getDefinitions().stream().filter(t -> t.ElementType() == this.type)
+    AbstractGridObjectDefinition getAbstractGridObjectDefinition() {
+        if (this.abstractGridObjectDefinition == null) {
+            this.abstractGridObjectDefinition =
+                    AbstractGridObjectDefinition.getDefinitions().stream().filter(t -> t.ElementType() == this.type)
                             .findFirst().orElse(null);
         }
-        return this.absDefinition;
+        return this.abstractGridObjectDefinition;
     }
 
     public String getName() {
         if (this.name == null) {
-            AbsDefinition definition = this.getAbsDefinition();
+            AbstractGridObjectDefinition definition = this.getAbstractGridObjectDefinition();
             if (definition != null) {
                 this.name = definition.Name();
             }
@@ -82,8 +81,8 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
     }
 
     @Override
-    public AbsDefinition ElementReferenceValueType() {
-        return this.getAbsDefinition();
+    public AbstractGridObjectDefinition ElementReferenceValueType() {
+        return this.getAbstractGridObjectDefinition();
     }
 
     @Override
@@ -142,7 +141,7 @@ public class ElementPropertyDefinition extends StringPropertyDefinition {
     public PropertyGridObjectOperator getPropertyGridObjectOperator() {
         if (this.propertyGridObjectOperator == null) {
             this.propertyGridObjectOperator = new PropertyGridObjectOperator(null, false,
-                    () -> this.getAbsDefinition().getPropertyDefinitions());
+                    () -> this.getAbstractGridObjectDefinition().getPropertyDefinitions());
         }
         return this.propertyGridObjectOperator;
     }

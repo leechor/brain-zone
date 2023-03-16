@@ -15,7 +15,7 @@ import org.licho.brain.brainEnums.SwitchNumericConditions;
 /**
  *
  */
-public class MaterialDefinition extends AbsDefinition {
+public class MaterialDefinition extends AbstractGridObjectDefinition {
 
     public static final MaterialDefinition Definition = new MaterialDefinition();
 
@@ -111,7 +111,7 @@ public class MaterialDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return MaterialDefinition.Definition;
     }
 

@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class EventDefinitions implements IEventDefinitions {
     // AbsDefinition
-    public AbsDefinition parent;
+    public AbstractGridObjectDefinition parent;
     private BindingList<EventDefinition> eventDefinitions;
     private ActionRun actionRun;
     public BindingList<EventDefinition> EventDefinitionBindingList;
 
-    public EventDefinitions(AbsDefinition absDefinition) {
-        this.parent = absDefinition;
+    public EventDefinitions(AbstractGridObjectDefinition abstractGridObjectDefinition) {
+        this.parent = abstractGridObjectDefinition;
         this.EventDefinitionBindingList = new BindingList<>();
     }
 
@@ -27,7 +27,7 @@ public class EventDefinitions implements IEventDefinitions {
         return null;
     }
 
-    public AbsDefinition getParent() {
+    public AbstractGridObjectDefinition getParent() {
         return parent;
     }
 

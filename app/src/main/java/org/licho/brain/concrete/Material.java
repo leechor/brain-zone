@@ -64,7 +64,7 @@ public class Material extends AbsIntelligentPropertyObject {
 
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return MaterialDefinition.Definition;
     }
 

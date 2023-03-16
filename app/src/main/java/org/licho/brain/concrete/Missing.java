@@ -25,7 +25,7 @@ public class Missing extends AbsIntelligentPropertyObject {
 
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return MissingDefinition.Instance;
     }
 

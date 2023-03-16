@@ -11,7 +11,7 @@ import org.licho.brain.utils.simu.TimerIntervalType;
 /**
  *
  */
-public class TimerDefinition extends AbsDefinition {
+public class TimerDefinition extends AbstractGridObjectDefinition {
     public TimerDefinition(String name) {
         super(name);
 
@@ -217,7 +217,7 @@ public class TimerDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 }

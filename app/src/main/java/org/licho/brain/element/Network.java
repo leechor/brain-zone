@@ -1,6 +1,6 @@
 package org.licho.brain.element;
 
-import org.licho.brain.concrete.AbsDefinition;
+import org.licho.brain.concrete.AbstractGridObjectDefinition;
 import org.licho.brain.concrete.AbsIntelligentPropertyObject;
 import org.licho.brain.concrete.ActiveModel;
 import org.licho.brain.concrete.BooleanPropertyRow;
@@ -161,7 +161,7 @@ public class Network extends AbsIntelligentPropertyObject implements INetworkEle
     }
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

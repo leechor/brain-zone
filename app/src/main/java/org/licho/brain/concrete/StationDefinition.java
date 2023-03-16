@@ -16,7 +16,7 @@ import org.licho.brain.brainEnums.SwitchNumericConditions;
 /**
  *
  */
-public class StationDefinition extends AbsDefinition {
+public class StationDefinition extends AbstractGridObjectDefinition {
     private static StationDefinition stationDefinition = new StationDefinition();
     private BaseStatePropertyObject baseState;
 
@@ -163,7 +163,7 @@ public class StationDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return StationDefinition.stationDefinition;
     }
 

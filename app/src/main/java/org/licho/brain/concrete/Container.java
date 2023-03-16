@@ -62,7 +62,7 @@ public class Container extends AbsIntelligentPropertyObject {
     }
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return ContainerDefinition.Instance;
     }
 

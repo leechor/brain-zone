@@ -36,7 +36,7 @@ public class DynamicObjectInstancePropertyDefinition extends ObjectInstancePrope
     }
 
     @Override
-    public AbsDefinition ElementReferenceValueType() {
+    public AbstractGridObjectDefinition ElementReferenceValueType() {
         return AgentDefinition.AgentFacility;
     }
 

@@ -120,15 +120,15 @@ public class ElementRunSpaceOperator {
         }
 
         if (absBaseRunSpace == null || !absBaseRunSpace.getClass().isAssignableFrom(t)) {
-            AbsDefinition absDefinition =
+            AbstractGridObjectDefinition abstractGridObjectDefinition =
                     ElementRunSpaceOperator.getDefaultDefinitionByRunSpaceType(t);
             IntelligentObjectProperty intelligentObjectProperty =
                     (objectType == ElementRunSpaceOperator.ObjectType.SpecificObject || objectType == ElementRunSpaceOperator.ObjectType.SpecificObjectOrElement) ? objectProperty : enumPropertyRow;
             RuntimeErrorFullMessageDetails.reportError(runSpace, intelligentObjectProperty,
                     MessageFormat.format(EngineResources.Error_RuntimeReference_ElementReferenceTypeMismatchException,
                             absBaseRunSpace.HierarchicalDisplayName(), (intelligentObjectProperty != null) ?
-                                    intelligentObjectProperty.getDisplay() : "undefined", (absDefinition != null) ?
-                                    absDefinition.Name() : "undefined"));
+                                    intelligentObjectProperty.getDisplay() : "undefined", (abstractGridObjectDefinition != null) ?
+                                    abstractGridObjectDefinition.Name() : "undefined"));
         }
         T telementRunSpace = (T) absBaseRunSpace;
         if (telementRunSpace.IsAgentPopulationStaticParent() && !param5) {
@@ -142,28 +142,28 @@ public class ElementRunSpaceOperator {
         return telementRunSpace;
     }
 
-    private static AbsDefinition getDefaultDefinitionByRunSpaceType(Class<?> runSpace) {
-        AbsDefinition absDefinition =
-                AbsDefinition.getDefinitions().stream().filter(t -> t.RunSpaceType() == runSpace).findFirst().orElse(null);
+    private static AbstractGridObjectDefinition getDefaultDefinitionByRunSpaceType(Class<?> runSpace) {
+        AbstractGridObjectDefinition abstractGridObjectDefinition =
+                AbstractGridObjectDefinition.getDefinitions().stream().filter(t -> t.RunSpaceType() == runSpace).findFirst().orElse(null);
 
-        if (absDefinition == null) {
+        if (abstractGridObjectDefinition == null) {
             if (runSpace == IntelligentObjectRunSpace.class) {
-                absDefinition = IntelligentObjectDefinition.Instance;
+                abstractGridObjectDefinition = IntelligentObjectDefinition.Instance;
             } else if (runSpace == FixedRunSpace.class) {
-                absDefinition = FixedDefinition.FixedFacility;
+                abstractGridObjectDefinition = FixedDefinition.FixedFacility;
             } else if (runSpace == LinkRunSpace.class) {
-                absDefinition = LinkDefinition.LinkFacility;
+                abstractGridObjectDefinition = LinkDefinition.LinkFacility;
             } else if (runSpace == NodeRunSpace.class) {
-                absDefinition = NodeDefinition.NodeFacility;
+                abstractGridObjectDefinition = NodeDefinition.NodeFacility;
             } else if (runSpace == AgentElementRunSpace.class) {
-                absDefinition = AgentDefinition.AgentFacility;
+                abstractGridObjectDefinition = AgentDefinition.AgentFacility;
             } else if (runSpace == EntityRunSpace.class) {
-                absDefinition = EntityDefinition.EntityFacility;
+                abstractGridObjectDefinition = EntityDefinition.EntityFacility;
             } else if (runSpace == TransporterRunSpace.class) {
-                absDefinition = TransporterDefinition.transporterFacility;
+                abstractGridObjectDefinition = TransporterDefinition.transporterFacility;
             }
         }
-        return absDefinition;
+        return abstractGridObjectDefinition;
     }
 
     public enum ObjectType {

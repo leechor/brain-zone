@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  *
  */
-public class TokenDefinition extends AbsDefinition implements INotifyPropertyChanged, IOwner, ISearch, IItemDescriptor,
+public class TokenDefinition extends AbstractGridObjectDefinition implements INotifyPropertyChanged, IOwner, ISearch, IItemDescriptor,
         IListData {
     private IntelligentObjectDefinition parent;
     private Guid guid;
@@ -102,7 +102,7 @@ public class TokenDefinition extends AbsDefinition implements INotifyPropertyCha
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return TokenDefinition.Instance;
     }
 

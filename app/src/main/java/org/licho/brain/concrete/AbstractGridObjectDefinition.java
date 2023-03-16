@@ -28,18 +28,18 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-public abstract class AbsDefinition extends GridObjectDefinition implements IIdentityName {
+public abstract class AbstractGridObjectDefinition extends GridObjectDefinition implements IIdentityName {
     private static Action<Class<?>> newDefinitionFunction;
     private StateDefinitions stateDefinitions;
 
     private EventDefinitions eventDefinitions;
-    static List<AbsDefinition> absDefinitions;
+    static List<AbstractGridObjectDefinition> abstractGridObjectDefinitions;
 
     private static Object lock = new Object();
     private Map<String, FunctionInfo> nameToFunctionMap;
     private static Map<Class<?>, Map<String, FunctionInfo>> typeNameFunctionMap = new HashMap<>();
 
-    public AbsDefinition(String name) {
+    public AbstractGridObjectDefinition(String name) {
 
         super(name);
         this.stateDefinitions = new StateDefinitions(this);
@@ -150,25 +150,25 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
         }
 
         try {
-            synchronized (AbsDefinition.typeNameFunctionMap) {
+            synchronized (AbstractGridObjectDefinition.typeNameFunctionMap) {
                 if (this.nameToFunctionMap != null) {
                     return this.nameToFunctionMap;
                 }
 
                 Class<?> type = this.getClass();
-                if (AbsDefinition.typeNameFunctionMap.containsKey(type)) {
-                    this.nameToFunctionMap = AbsDefinition.typeNameFunctionMap.get(type);
+                if (AbstractGridObjectDefinition.typeNameFunctionMap.containsKey(type)) {
+                    this.nameToFunctionMap = AbstractGridObjectDefinition.typeNameFunctionMap.get(type);
                     return this.nameToFunctionMap;
                 }
 
                 Map<String, FunctionInfo> nfm = new HashMap<>();
-                AbsDefinition.typeNameFunctionMap.put(type, nfm);
+                AbstractGridObjectDefinition.typeNameFunctionMap.put(type, nfm);
                 Method[] methods =
                         Arrays.stream(type.getMethods()).filter(t -> Modifier.isStatic(t.getModifiers())).toArray(Method[]::new);
 
                 for (var methodInfo : methods) {
                     Annotation[] customAttributes = methodInfo.getDeclaredAnnotations();
-                    AbsDefinition.FunctionInfo functionInfo = AbsDefinition.FunctionInfo.Instance;
+                    AbstractGridObjectDefinition.FunctionInfo functionInfo = AbstractGridObjectDefinition.FunctionInfo.Instance;
                     functionInfo.methodInfo = methodInfo;
                     functionInfo.classType = type;
 
@@ -255,10 +255,10 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                             } else if (methodInfo.getDeclaringClass() == TokenDefinition.class) {
                                 className = "Token";
                             } else {
-                                AbsDefinition absDefinition =
-                                        AbsDefinition.getDefinitions().stream().filter(t -> t.getClass() == type).findFirst().orElse(null);
-                                if (absDefinition != null) {
-                                    className = absDefinition.Name();
+                                AbstractGridObjectDefinition abstractGridObjectDefinition =
+                                        AbstractGridObjectDefinition.getDefinitions().stream().filter(t -> t.getClass() == type).findFirst().orElse(null);
+                                if (abstractGridObjectDefinition != null) {
+                                    className = abstractGridObjectDefinition.Name();
                                 }
                             }
 
@@ -295,8 +295,8 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                                             .asAnnotationAttributes().get("Type");
                             functionInfo.elementFunction = true;
                             if (tt != null) {
-                                functionInfo.AbsDefinition =
-                                        AbsDefinition.getDefinitions().stream()
+                                functionInfo.AbstractGridObjectDefinition =
+                                        AbstractGridObjectDefinition.getDefinitions().stream()
                                                 .filter(t -> t.getClass() == tt).findFirst().orElse(null);
                                 functionInfo.ReturnType = tt;
                             }
@@ -322,30 +322,30 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
             infoResult.resourceFunction = functionInfo.resourceFunction;
             infoResult.methodInfo = functionInfo.methodInfo;
             infoResult.classType = functionInfo.classType;
-            if (functionInfo.AbsDefinition == null && functionInfo.ReturnType != null) {
+            if (functionInfo.AbstractGridObjectDefinition == null && functionInfo.ReturnType != null) {
                 Class<?> type_ = functionInfo.ReturnType;
-                AbsDefinition absDefinition = null;
+                AbstractGridObjectDefinition abstractGridObjectDefinition = null;
                 if (type_ == IntelligentObjectDefinition.class) {
-                    absDefinition = IntelligentObjectDefinition.Instance;
+                    abstractGridObjectDefinition = IntelligentObjectDefinition.Instance;
                 } else if (type_ == FixedDefinition.class) {
-                    absDefinition = FixedDefinition.FixedFacility;
+                    abstractGridObjectDefinition = FixedDefinition.FixedFacility;
                 } else if (type_ == LinkDefinition.class) {
-                    absDefinition = LinkDefinition.LinkFacility;
+                    abstractGridObjectDefinition = LinkDefinition.LinkFacility;
                 } else if (type_ == NodeDefinition.class) {
-                    absDefinition = NodeDefinition.NodeFacility;
+                    abstractGridObjectDefinition = NodeDefinition.NodeFacility;
                 } else if (type_ == AgentDefinition.class) {
-                    absDefinition = AgentDefinition.AgentFacility;
+                    abstractGridObjectDefinition = AgentDefinition.AgentFacility;
                 } else if (type_ == EntityDefinition.class) {
-                    absDefinition = EntityDefinition.EntityFacility;
+                    abstractGridObjectDefinition = EntityDefinition.EntityFacility;
                 } else if (type_ == TransporterDefinition.class) {
-                    absDefinition = TransporterDefinition.transporterFacility;
+                    abstractGridObjectDefinition = TransporterDefinition.transporterFacility;
                 }
-                if (absDefinition != null) {
-                    functionInfo.AbsDefinition = absDefinition;
+                if (abstractGridObjectDefinition != null) {
+                    functionInfo.AbstractGridObjectDefinition = abstractGridObjectDefinition;
                     this.NameToFunctionMap().put(name, functionInfo);
                 }
             }
-            infoResult.AbsDefinition = functionInfo.AbsDefinition;
+            infoResult.AbstractGridObjectDefinition = functionInfo.AbstractGridObjectDefinition;
             infoResult.elementFunction = functionInfo.elementFunction;
         }
         return infoResult;
@@ -353,7 +353,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
 
     public String[] getFunctionArgumentsByName(String name) {
         if (this.NameToFunctionMap().containsKey(name)) {
-            AbsDefinition.FunctionInfo functionInfo = this.NameToFunctionMap().get(name);
+            AbstractGridObjectDefinition.FunctionInfo functionInfo = this.NameToFunctionMap().get(name);
             return functionInfo.arguments;
         }
         return new String[0];
@@ -361,27 +361,27 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
 
     public String getFunctionDescriptionByName(String name) {
         if (this.NameToFunctionMap().containsKey(name)) {
-            AbsDefinition.FunctionInfo functionInfo = this.NameToFunctionMap().get(name);
+            AbstractGridObjectDefinition.FunctionInfo functionInfo = this.NameToFunctionMap().get(name);
             return functionInfo.description;
         }
         return null;
     }
 
-    public static List<AbsDefinition> getDefinitions() {
-        List<AbsDefinition> result;
+    public static List<AbstractGridObjectDefinition> getDefinitions() {
+        List<AbstractGridObjectDefinition> result;
         synchronized (lock) {
-            if (AgentDefinition.absDefinitions == null) {
-                AbsDefinition.absDefinitions = new ArrayList<>();
-                if (AbsDefinition.newDefinitionFunction == null) {
-                    AbsDefinition.newDefinitionFunction = AbsDefinition::newDefinition;
+            if (AgentDefinition.abstractGridObjectDefinitions == null) {
+                AbstractGridObjectDefinition.abstractGridObjectDefinitions = new ArrayList<>();
+                if (AbstractGridObjectDefinition.newDefinitionFunction == null) {
+                    AbstractGridObjectDefinition.newDefinitionFunction = AbstractGridObjectDefinition::newDefinition;
                 }
             }
-            result = AbsDefinition.absDefinitions;
+            result = AbstractGridObjectDefinition.abstractGridObjectDefinitions;
         }
         return result;
     }
 
-    public static AbsDefinition getUserDefinition(String name) {
+    public static AbstractGridObjectDefinition getUserDefinition(String name) {
         return null;
     }
 
@@ -393,9 +393,9 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
                 type != IntelligentObjectDefinition.class &&
                 !IntelligentObjectDefinition.class.isAssignableFrom(type)) {
             try {
-                AbsDefinition absDefinition = (AbsDefinition) type.getDeclaredConstructor().newInstance();
-                if (absDefinition.DefaultDefinition() != null) {
-                    AbsDefinition.absDefinitions.add(absDefinition.DefaultDefinition());
+                AbstractGridObjectDefinition abstractGridObjectDefinition = (AbstractGridObjectDefinition) type.getDeclaredConstructor().newInstance();
+                if (abstractGridObjectDefinition.DefaultDefinition() != null) {
+                    AbstractGridObjectDefinition.abstractGridObjectDefinitions.add(abstractGridObjectDefinition.DefaultDefinition());
                 }
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
                      NoSuchMethodException e) {
@@ -419,7 +419,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
 
     public abstract Class<?> RunSpaceType();
 
-    public abstract AbsDefinition DefaultDefinition();
+    public abstract AbstractGridObjectDefinition DefaultDefinition();
 
 
     public BaseStatePropertyObject StateForBinding(String param0) {
@@ -538,7 +538,7 @@ public abstract class AbsDefinition extends GridObjectDefinition implements IIde
 
         public boolean resourceFunction;
 
-        public AbsDefinition AbsDefinition;
+        public AbstractGridObjectDefinition AbstractGridObjectDefinition;
 
         public Class<?> ReturnType;
 

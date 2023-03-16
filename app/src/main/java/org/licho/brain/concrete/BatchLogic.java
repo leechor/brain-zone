@@ -18,7 +18,7 @@ public class BatchLogic extends AbsIntelligentPropertyObject{
     }
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

@@ -29,7 +29,7 @@ public class LinkPropertyDefinition extends ObjectInstancePropertyDefinition {
 
 
     @Override
-    public AbsDefinition ElementReferenceValueType()
+    public AbstractGridObjectDefinition ElementReferenceValueType()
 
     {
         return LinkDefinition.LinkFacility;

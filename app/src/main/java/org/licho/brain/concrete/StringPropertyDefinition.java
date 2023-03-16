@@ -519,7 +519,7 @@ public class StringPropertyDefinition implements INotifyPropertyChanged,
 
     ;
 
-    public AbsDefinition ElementReferenceValueType() {
+    public AbstractGridObjectDefinition ElementReferenceValueType() {
         return null;
     }
 

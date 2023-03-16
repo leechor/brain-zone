@@ -21,11 +21,11 @@ public class EventDefinition implements INotifyPropertyChanged, IGridObject, IOw
     private String description;
 
     public static EventDefinition readXmlEventDefinition(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
-                                                         AbsDefinition absDefinition) {
+                                                         AbstractGridObjectDefinition abstractGridObjectDefinition) {
         EventDefinition eventDefinition = null;
         if (Objects.equals(xmlReader.Name(), "Event")) {
             eventDefinition = new EventDefinition("__TEMP_EVENT___", false);
-            absDefinition.getEventDefinitions().InsertEventDefinition(eventDefinition);
+            abstractGridObjectDefinition.getEventDefinitions().InsertEventDefinition(eventDefinition);
             eventDefinition.readXml(xmlReader, intelligentObjectXml);
         }
         return eventDefinition;
@@ -73,7 +73,7 @@ public class EventDefinition implements INotifyPropertyChanged, IGridObject, IOw
         // TODO: 2021/11/11
     }
 
-    private AbsDefinition getAbsDefinition() {
+    private AbstractGridObjectDefinition getAbsDefinition() {
         if (this.eventDefinitions != null) {
             return this.eventDefinitions.getParent();
         }

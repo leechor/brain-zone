@@ -8,7 +8,7 @@ import org.licho.brain.enu.PropertyGridFeel;
  *
  */
 public class TokenClassPropertyRow extends IntelligentObjectProperty {
-    private AbsDefinition absDefinition;
+    private AbstractGridObjectDefinition abstractGridObjectDefinition;
 
     public TokenClassPropertyRow(TokenClassPropertyDefinition tokenClassPropertyDefinition, Properties properties) {
         super(tokenClassPropertyDefinition, properties);
@@ -27,8 +27,8 @@ public class TokenClassPropertyRow extends IntelligentObjectProperty {
 
     @Override
     public String StringValue() {
-        if (this.absDefinition != null) {
-            return this.absDefinition.Name();
+        if (this.abstractGridObjectDefinition != null) {
+            return this.abstractGridObjectDefinition.Name();
         }
         return super.StringValue();
     }
@@ -40,7 +40,7 @@ public class TokenClassPropertyRow extends IntelligentObjectProperty {
 
     @Override
     public String CompileValue() {
-        this.absDefinition = null;
+        this.abstractGridObjectDefinition = null;
         String objectName = super.formatName(super.getObjectName());
         if (super.isInvalidObjectValue(null)) {
             if (super.getStringPropertyDefinition().RequiredValue()) {
@@ -49,13 +49,13 @@ public class TokenClassPropertyRow extends IntelligentObjectProperty {
             return null;
         } else {
             if (objectName.equalsIgnoreCase(TokenDefinition.objectName)) {
-                this.absDefinition = TokenDefinition.Instance;
+                this.abstractGridObjectDefinition = TokenDefinition.Instance;
             }
-            if (this.absDefinition == null) {
-                this.absDefinition =
+            if (this.abstractGridObjectDefinition == null) {
+                this.abstractGridObjectDefinition =
                         super.getExperimentConstraintsIntelligentObjectDefinition().getTokens().getTokenDefinitionByName(objectName);
             }
-            if (this.absDefinition == null) {
+            if (this.abstractGridObjectDefinition == null) {
                 return EngineResources.ErrorTheSpecifiedNameWasNotFound;
             }
             return null;

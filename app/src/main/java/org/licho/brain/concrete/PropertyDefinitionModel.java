@@ -7,31 +7,31 @@ import org.licho.brain.enu.Enum36;
  */
 public class PropertyDefinitionModel {
 
-	private PropertyDefinitionModel(AbsDefinition absDefinition, AbsIntelligentPropertyObject absIntelligentPropertyObject, Enum36 enum36)
+	private PropertyDefinitionModel(AbstractGridObjectDefinition abstractGridObjectDefinition, AbsIntelligentPropertyObject absIntelligentPropertyObject, Enum36 enum36)
 	{
-		this.AbsDefinition = absDefinition;
+		this.AbstractGridObjectDefinition = abstractGridObjectDefinition;
 		this.AbsIntelligentPropertyObject = absIntelligentPropertyObject;
 		this.enum36 = enum36;
 	}
 
-	public static PropertyDefinitionModel create(AbsDefinition absDefinition)
+	public static PropertyDefinitionModel create(AbstractGridObjectDefinition abstractGridObjectDefinition)
 	{
-		return new PropertyDefinitionModel(absDefinition, null, Enum36.Zero);
+		return new PropertyDefinitionModel(abstractGridObjectDefinition, null, Enum36.Zero);
 	}
 
-	public static PropertyDefinitionModel createZero(AbsDefinition absDefinition, AbsIntelligentPropertyObject absIntelligentPropertyObject)
+	public static PropertyDefinitionModel createZero(AbstractGridObjectDefinition abstractGridObjectDefinition, AbsIntelligentPropertyObject absIntelligentPropertyObject)
 	{
-		return new PropertyDefinitionModel(absDefinition, absIntelligentPropertyObject, Enum36.Zero);
+		return new PropertyDefinitionModel(abstractGridObjectDefinition, absIntelligentPropertyObject, Enum36.Zero);
 	}
 
-	public static PropertyDefinitionModel createOne(AbsDefinition absDefinition, AbsIntelligentPropertyObject absIntelligentPropertyObject)
+	public static PropertyDefinitionModel createOne(AbstractGridObjectDefinition abstractGridObjectDefinition, AbsIntelligentPropertyObject absIntelligentPropertyObject)
 	{
-		return new PropertyDefinitionModel(absDefinition, absIntelligentPropertyObject, Enum36.One);
+		return new PropertyDefinitionModel(abstractGridObjectDefinition, absIntelligentPropertyObject, Enum36.One);
 	}
 
-	public static PropertyDefinitionModel create(PropertyDefinitionModel propertyDefinitionModel, AbsDefinition absDefinition)
+	public static PropertyDefinitionModel create(PropertyDefinitionModel propertyDefinitionModel, AbstractGridObjectDefinition abstractGridObjectDefinition)
 	{
-		return new PropertyDefinitionModel(absDefinition, propertyDefinitionModel.AbsIntelligentPropertyObject, propertyDefinitionModel.enum36);
+		return new PropertyDefinitionModel(abstractGridObjectDefinition, propertyDefinitionModel.AbsIntelligentPropertyObject, propertyDefinitionModel.enum36);
 	}
 
 	public static PropertyDefinitionModel create()
@@ -41,7 +41,7 @@ public class PropertyDefinitionModel {
 
 	 boolean method_0()
 	{
-		return this.enum36 == Enum36.Zero && this.AbsDefinition == null;
+		return this.enum36 == Enum36.Zero && this.AbstractGridObjectDefinition == null;
 	}
 
 	 boolean method_1()
@@ -49,7 +49,7 @@ public class PropertyDefinitionModel {
 		return this.enum36 == Enum36.Zero || this.enum36 == Enum36.Two || this.enum36 == Enum36.One;
 	}
 
-	public final AbsDefinition AbsDefinition;
+	public final AbstractGridObjectDefinition AbstractGridObjectDefinition;
 
 	public final AbsIntelligentPropertyObject AbsIntelligentPropertyObject;
 

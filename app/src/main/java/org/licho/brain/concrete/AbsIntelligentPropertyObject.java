@@ -100,7 +100,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
         }
     }
 
-    protected abstract AbsDefinition DefaultDefinition();
+    protected abstract AbstractGridObjectDefinition DefaultDefinition();
 
     public ElementScope getScope() {
         return scope;
@@ -293,7 +293,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
     @Override
     public final IntelligentObjectProperty GetPropertyForLoad(String s1, IntelligentObjectXml intelligentObjectXml) {
         StringPropertyDefinition propertyDefinitionInfoForLoad =
-                ((AbsDefinition) this.assignerDefinition).GetPropertyForLoad(s1, intelligentObjectXml);
+                ((AbstractGridObjectDefinition) this.assignerDefinition).GetPropertyForLoad(s1, intelligentObjectXml);
         if (propertyDefinitionInfoForLoad == null) {
             return super.GetPropertyForLoad(s1, intelligentObjectXml);
         }
@@ -311,7 +311,7 @@ public abstract class AbsIntelligentPropertyObject extends AbsPropertyObject imp
     }
 
     protected String getXmlType() {
-        return ((AbsDefinition) this.assignerDefinition).Name();
+        return ((AbstractGridObjectDefinition) this.assignerDefinition).Name();
     }
 
     protected String getReadableXmlType() {

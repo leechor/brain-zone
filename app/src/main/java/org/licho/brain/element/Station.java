@@ -3,7 +3,7 @@ package org.licho.brain.element;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.licho.brain.concrete.AbsDefinition;
+import org.licho.brain.concrete.AbstractGridObjectDefinition;
 import org.licho.brain.concrete.AbsIntelligentPropertyObject;
 import org.licho.brain.concrete.ActiveModel;
 import org.licho.brain.concrete.ElementPropertyRow;
@@ -80,7 +80,7 @@ public class Station extends AbsIntelligentPropertyObject {
     }
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

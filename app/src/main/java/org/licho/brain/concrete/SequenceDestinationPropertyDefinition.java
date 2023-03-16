@@ -69,7 +69,7 @@ public class SequenceDestinationPropertyDefinition extends StringPropertyDefinit
     }
 
     @Override
-    public AbsDefinition ElementReferenceValueType() {
+    public AbstractGridObjectDefinition ElementReferenceValueType() {
         return NodeDefinition.NodeFacility;
     }
 

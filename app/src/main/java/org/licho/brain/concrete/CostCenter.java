@@ -82,7 +82,7 @@ public class CostCenter extends AbsIntelligentPropertyObject {
     }
 
     @Override
-    protected AbsDefinition DefaultDefinition() {
+    protected AbstractGridObjectDefinition DefaultDefinition() {
         return CostCenterDefinition.Instance;
     }
 

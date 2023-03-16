@@ -3,7 +3,7 @@ package org.licho.brain.concrete;
 /**
  *
  */
-public class TableStatesDefinition extends AbsDefinition{
+public class TableStatesDefinition extends AbstractGridObjectDefinition {
     private Schema schema;
 
     public TableStatesDefinition(Schema schema) {
@@ -26,7 +26,7 @@ public class TableStatesDefinition extends AbsDefinition{
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

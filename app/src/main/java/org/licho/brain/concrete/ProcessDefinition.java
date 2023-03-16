@@ -14,7 +14,7 @@ import org.licho.brain.brainEnums.ElementScope;
 /**
  *
  */
-public class ProcessDefinition extends AbsDefinition {
+public class ProcessDefinition extends AbstractGridObjectDefinition {
 
     public static ProcessDefinition processDefinition = new ProcessDefinition();
 
@@ -92,7 +92,7 @@ public class ProcessDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return ProcessDefinition.processDefinition;
     }
 

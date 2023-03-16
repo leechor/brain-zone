@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class StateDefinitions implements IIdentityName, IStateDefinitions {
     // AbsDefinition
-    public AbsDefinition parent;
+    public AbstractGridObjectDefinition parent;
 
     public BindingList<BaseStatePropertyObject> StateProperties;
 
-    public StateDefinitions(AbsDefinition absDefinition) {
-        this.parent = absDefinition;
+    public StateDefinitions(AbstractGridObjectDefinition abstractGridObjectDefinition) {
+        this.parent = abstractGridObjectDefinition;
         this.StateProperties = new BindingList<>();
     }
 
@@ -104,11 +104,11 @@ public class StateDefinitions implements IIdentityName, IStateDefinitions {
         return null;
     }
 
-    public AbsDefinition getParent() {
+    public AbstractGridObjectDefinition getParent() {
         return parent;
     }
 
-    public void setParent(AbsDefinition parent) {
+    public void setParent(AbstractGridObjectDefinition parent) {
         this.parent = parent;
     }
 

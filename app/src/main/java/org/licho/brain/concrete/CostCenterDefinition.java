@@ -7,7 +7,7 @@ import org.licho.brain.brainEnums.ElementScope;
 /**
  *
  */
-public class CostCenterDefinition extends AbsDefinition {
+public class CostCenterDefinition extends AbstractGridObjectDefinition {
     public static final CostCenterDefinition Instance = new CostCenterDefinition();
 
     public CostCenterDefinition() {
@@ -97,7 +97,7 @@ public class CostCenterDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return CostCenterDefinition.Instance;
     }
 }

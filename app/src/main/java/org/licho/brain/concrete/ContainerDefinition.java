@@ -12,7 +12,7 @@ import org.licho.brain.brainEnums.SwitchNumericConditions;
 /**
  *
  */
-public class ContainerDefinition extends AbsDefinition {
+public class ContainerDefinition extends AbstractGridObjectDefinition {
     public static final ContainerDefinition Instance = new ContainerDefinition();
 
     public ContainerDefinition() {
@@ -136,7 +136,7 @@ public class ContainerDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return ContainerDefinition.Instance;
     }
 }

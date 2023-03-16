@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  *
  */
 public class FunctionInfoResult {
-    public static org.licho.brain.concrete.AbsDefinition.FunctionInfo Instance = new AbsDefinition.FunctionInfo();
+    public static AbstractGridObjectDefinition.FunctionInfo Instance = new AbstractGridObjectDefinition.FunctionInfo();
     public ExpressionHandler ExpressionHandler;
 
     public ArgsExpressionHandler ArgsExpressionHandler;
@@ -29,7 +29,7 @@ public class FunctionInfoResult {
 
     public boolean resourceFunction;
 
-    public AbsDefinition AbsDefinition;
+    public AbstractGridObjectDefinition AbstractGridObjectDefinition;
 
     public Class<?> ReturnType;
 

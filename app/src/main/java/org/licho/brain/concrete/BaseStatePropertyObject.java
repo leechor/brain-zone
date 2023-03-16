@@ -72,7 +72,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
     }
 
     public static BaseStatePropertyObject readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
-                                                  AbsDefinition absDefinition) {
+                                                  AbstractGridObjectDefinition abstractGridObjectDefinition) {
         BaseStatePropertyObject baseStatePropertyObject = null;
         String name = xmlReader.Name();
         for (BaseStatePropertyObject.StatePropertyTypeOperator statePropertyTypeOperator :
@@ -83,7 +83,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
             }
         }
         if (baseStatePropertyObject != null) {
-            absDefinition.getStateDefinitions().addStateProperty(baseStatePropertyObject);
+            abstractGridObjectDefinition.getStateDefinitions().addStateProperty(baseStatePropertyObject);
             baseStatePropertyObject.readXml(xmlReader, intelligentObjectXml);
         }
         if (baseStatePropertyObject == null) {
@@ -516,7 +516,7 @@ public class BaseStatePropertyObject implements INotifyPropertyChanged, IGridObj
 
     }
 
-    private AbsDefinition getAbsDefinition() {
+    private AbstractGridObjectDefinition getAbsDefinition() {
         if (this.StateDefinitions != null) {
             return this.StateDefinitions.parent;
         }

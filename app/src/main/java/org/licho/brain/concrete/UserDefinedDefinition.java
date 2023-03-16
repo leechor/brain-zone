@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  *
  */
-public class UserDefinedDefinition extends AbsDefinition{
+public class UserDefinedDefinition extends AbstractGridObjectDefinition {
     private final UUID guid;
 
     public UserDefinedDefinition(UUID uuid) {
@@ -25,7 +25,7 @@ public class UserDefinedDefinition extends AbsDefinition{
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

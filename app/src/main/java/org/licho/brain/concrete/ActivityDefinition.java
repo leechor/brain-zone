@@ -3,7 +3,7 @@ package org.licho.brain.concrete;
 /**
  *
  */
-public class ActivityDefinition extends AbsDefinition {
+public class ActivityDefinition extends AbstractGridObjectDefinition {
     private ActivityDefinition() {
         super("Activity");
     }
@@ -19,7 +19,7 @@ public class ActivityDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 }

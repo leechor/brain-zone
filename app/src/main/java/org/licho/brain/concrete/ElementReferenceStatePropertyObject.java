@@ -8,32 +8,32 @@ import java.text.MessageFormat;
  *
  */
 public class ElementReferenceStatePropertyObject extends BaseStatePropertyObject {
-    private AbsDefinition absDefinition;
+    private AbstractGridObjectDefinition abstractGridObjectDefinition;
 
     public ElementReferenceStatePropertyObject(String name, boolean isReadOnly, boolean IsPrivate) {
         super(name, isReadOnly, IsPrivate);
     }
 
     public ElementReferenceStatePropertyObject(String name, boolean isReadOnly, boolean IsPrivate,
-                                               AbsDefinition absDefinition) {
+                                               AbstractGridObjectDefinition abstractGridObjectDefinition) {
         this(name, isReadOnly, IsPrivate);
-        this.absDefinition = absDefinition;
+        this.abstractGridObjectDefinition = abstractGridObjectDefinition;
     }
 
-    public AbsDefinition ElementType() {
-        return this.absDefinition;
+    public AbstractGridObjectDefinition ElementType() {
+        return this.abstractGridObjectDefinition;
     }
 
-    private void changePropertyIconIndex(AbsDefinition absDefinition) {
-        this.absDefinition = absDefinition;
+    private void changePropertyIconIndex(AbstractGridObjectDefinition abstractGridObjectDefinition) {
+        this.abstractGridObjectDefinition = abstractGridObjectDefinition;
         super.propertyChanged("IconIndex");
     }
 
     @Override
     public String getObjectClassName() {
-        if (this.absDefinition != null) {
+        if (this.abstractGridObjectDefinition != null) {
             return MessageFormat.format(EngineResources.TypedElementReferenceState_ClassName,
-                    this.absDefinition.ExpressionIdentifier());
+                    this.abstractGridObjectDefinition.ExpressionIdentifier());
         }
         return EngineResources.ElementReferenceState_ClassName;
     }
@@ -61,7 +61,7 @@ public class ElementReferenceStatePropertyObject extends BaseStatePropertyObject
 
     @Override
     public int IconIndex() {
-        if (this.absDefinition instanceof IntelligentObjectDefinition) {
+        if (this.abstractGridObjectDefinition instanceof IntelligentObjectDefinition) {
             return 15;
         }
         return 14;

@@ -24,7 +24,7 @@ import java.text.MessageFormat;
 /**
  *
  */
-public class RegulatorDefinition extends AbsDefinition {
+public class RegulatorDefinition extends AbstractGridObjectDefinition {
     public static final RegulatorDefinition Instance = new RegulatorDefinition();
 
     private RegulatorDefinition() {
@@ -183,7 +183,7 @@ public class RegulatorDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return RegulatorDefinition.Instance;
     }
 

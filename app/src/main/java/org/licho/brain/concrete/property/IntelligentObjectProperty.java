@@ -2,7 +2,7 @@ package org.licho.brain.concrete.property;
 
 import com.google.common.base.Strings;
 import org.licho.brain.IFunction.Action;
-import org.licho.brain.concrete.AbsDefinition;
+import org.licho.brain.concrete.AbstractGridObjectDefinition;
 import org.licho.brain.concrete.AbsInputParameter;
 import org.licho.brain.concrete.AbsIntelligentPropertyObject;
 import org.licho.brain.concrete.AbsListProperty;
@@ -82,7 +82,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     private Properties properties;
     private String objectValue;
     private boolean nullable;
-    private AbsDefinition absDefinition;
+    private AbstractGridObjectDefinition abstractGridObjectDefinition;
     private Boolean invalidObjectName;
     private AbsPropertyObject absPropertyObject;
     private RepeatingPropertyDefinition repeatingProperty;
@@ -190,7 +190,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
                     return this.getReference().Name();
                 case ActiveToken:
                 case AssociatedObject:
-                    return this.absDefinition.Name() + "." + this.getReference().Name();
+                    return this.abstractGridObjectDefinition.Name() + "." + this.getReference().Name();
                 case DataTable:
                     if (this.getTable() != null) {
                         return this.getTable().Name() + "." + this.getReference().Name();
@@ -279,7 +279,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
     }
 
     protected void clear() {
-        this.absDefinition = null;
+        this.abstractGridObjectDefinition = null;
         this.elementType = ElementType.nullElement;
         this.reference = null;
         this.table = null;
@@ -882,7 +882,7 @@ public class IntelligentObjectProperty implements INotifyPropertyChanged, IItemD
         }
         String result;
         if (valueSplits.length == 1) {
-            this.absDefinition = intelligentObjectDefinition;
+            this.abstractGridObjectDefinition = intelligentObjectDefinition;
             this.elementType = ElementType.Object;
             result = valueSplits[0];
         } else {

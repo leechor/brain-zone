@@ -12,9 +12,9 @@ public class EventInfos extends ArrayList<EventInfo> {
 
     public EventInfos(AbsIntelligentPropertyObject absIntelligentPropertyObject) {
         this.absIntelligentPropertyObject = absIntelligentPropertyObject;
-        AbsDefinition absDefinition = (AbsDefinition) absIntelligentPropertyObject.assignerDefinition;
-        if (absDefinition != null) {
-            for (IEventDefinition obj : absDefinition.getEventDefinitions()) {
+        AbstractGridObjectDefinition abstractGridObjectDefinition = (AbstractGridObjectDefinition) absIntelligentPropertyObject.assignerDefinition;
+        if (abstractGridObjectDefinition != null) {
+            for (IEventDefinition obj : abstractGridObjectDefinition.getEventDefinitions()) {
                 EventDefinition eventDefinition = (EventDefinition) obj;
                 this.add(new EventInfo(eventDefinition, this));
             }

@@ -21,7 +21,7 @@ import java.text.MessageFormat;
 /**
  *
  */
-public class NetworkDefinition extends AbsDefinition {
+public class NetworkDefinition extends AbstractGridObjectDefinition {
     public static final NetworkDefinition Instance = new NetworkDefinition();
     public static final String name = "Global";
 
@@ -91,7 +91,7 @@ public class NetworkDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return NetworkDefinition.Instance;
     }
 

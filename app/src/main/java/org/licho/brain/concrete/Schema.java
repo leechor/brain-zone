@@ -19,7 +19,7 @@ public class Schema implements IIdentityName, ITableColumns, IListener {
     private Table parent;
     private TableDefinition tableDefinition;
     private Targets targets;
-    private AbsDefinition absDefinition;
+    private AbstractGridObjectDefinition abstractGridObjectDefinition;
     private Integer index;
 
 
@@ -76,11 +76,11 @@ public class Schema implements IIdentityName, ITableColumns, IListener {
         }
     }
 
-    public AbsDefinition getTableStatesDefinition() {
-        if (this.absDefinition == null) {
-            this.absDefinition = new TableStatesDefinition(this);
+    public AbstractGridObjectDefinition getTableStatesDefinition() {
+        if (this.abstractGridObjectDefinition == null) {
+            this.abstractGridObjectDefinition = new TableStatesDefinition(this);
         }
-        return this.absDefinition;
+        return this.abstractGridObjectDefinition;
     }
 
     @Override
@@ -234,7 +234,7 @@ public class Schema implements IIdentityName, ITableColumns, IListener {
         }
         this.Properties().add(stringPropertyDefinition);
         stringPropertyDefinition.IsTableProperty(true);
-        if (this.absDefinition != null && this.absDefinition.getStateDefinitions().StateProperties.values.size() > 0) {
+        if (this.abstractGridObjectDefinition != null && this.abstractGridObjectDefinition.getStateDefinitions().StateProperties.values.size() > 0) {
             // TODO: 2021/11/17
             return;
         }

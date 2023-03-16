@@ -3,7 +3,7 @@ package org.licho.brain.concrete;
 /**
  *
  */
-public class MissingDefinition extends AbsDefinition {
+public class MissingDefinition extends AbstractGridObjectDefinition {
     public static MissingDefinition Instance = new MissingDefinition();
 
     public MissingDefinition() {
@@ -21,7 +21,7 @@ public class MissingDefinition extends AbsDefinition {
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 

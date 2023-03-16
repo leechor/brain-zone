@@ -97,7 +97,7 @@ import java.util.stream.Collectors;
  * general object definition
  */
 @Slf4j
-public class IntelligentObjectDefinition extends AbsDefinition
+public class IntelligentObjectDefinition extends AbstractGridObjectDefinition
         implements IFacility, IIntelligentObjects, IModel, IRunSetup, IPlan {
 
     private static final String name = "IntelligentObject";
@@ -692,7 +692,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
     @Override
-    public AbsDefinition DefaultDefinition() {
+    public AbstractGridObjectDefinition DefaultDefinition() {
         return null;
     }
 
@@ -2116,7 +2116,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
 
-    @ElementFunctionReferenceReturnType(AbsDefinition.class)
+    @ElementFunctionReferenceReturnType(AbstractGridObjectDefinition.class)
 
     @BaseElementFunction("Elements.FirstItem")
     public static ExpressionValue elementsFirstItem(AbsBaseRunSpace absBaseRunSpace, IRunSpace runSpace) {
@@ -2129,7 +2129,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
 
-    @ElementFunctionReferenceReturnType(AbsDefinition.class)
+    @ElementFunctionReferenceReturnType(AbstractGridObjectDefinition.class)
     @BaseElementFunction("Elements.LastItem")
     public static ExpressionValue elementsLastItem(AbsBaseRunSpace absBaseRunSpace, IRunSpace runSpace) {
         IntelligentObjectRunSpace intelligentObjectRunSpace = (IntelligentObjectRunSpace) absBaseRunSpace;
@@ -2141,7 +2141,7 @@ public class IntelligentObjectDefinition extends AbsDefinition
     }
 
 
-    @ElementFunctionReferenceReturnType(AbsDefinition.class)
+    @ElementFunctionReferenceReturnType(AbstractGridObjectDefinition.class)
     @BaseElementFunction(value = "Elements.ItemAtIndex", Arguments = "index")
     public static ExpressionValue elementsItemAtIndex(AbsBaseRunSpace absBaseRunSpace, IRunSpace runSpace,
                                                       ExpressionValue[] expressionValues) {
