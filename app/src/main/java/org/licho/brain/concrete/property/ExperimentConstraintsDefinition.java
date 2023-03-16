@@ -10,7 +10,7 @@ import org.licho.brain.concrete.GridObjectDefinition;
 import org.licho.brain.concrete.INotifyPropertyChanged;
 import org.licho.brain.concrete.IntelligentObjectXml;
 import org.licho.brain.concrete.Scenario;
-import org.licho.brain.concrete.SimioProjectDefinition;
+import org.licho.brain.concrete.BaseProjectDefinition;
 import org.licho.brain.concrete.StringPropertyDefinition;
 import org.licho.brain.concrete.UnitConversions;
 import org.licho.brain.concrete.fake.TimeSpan;
@@ -87,7 +87,7 @@ public final class ExperimentConstraintsDefinition extends GridObjectDefinition 
     public static ExperimentConstraintsDefinition readXml(XmlReader xmlReader,
                                                           IntelligentObjectXml intelligentObjectXml,
                                                           ActiveModel activeModel,
-                                                          SimioProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
+                                                          BaseProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
         if (Objects.equals(xmlReader.Name(), "Experiment") && activeModel != null) {
             ExperimentConstraintsDefinition experimentConstraintsDefinition = activeModel.addExperimentConstraints();
             experimentConstraintsDefinition.readXml(xmlReader, intelligentObjectXml, experimentConstraintsXmlReader);
@@ -104,7 +104,7 @@ public final class ExperimentConstraintsDefinition extends GridObjectDefinition 
     }
 
     private void readXml(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
-                         SimioProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
+                         BaseProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
 
     }
 

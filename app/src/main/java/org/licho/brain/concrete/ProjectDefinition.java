@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class SimioProject extends SimioProjectDefinition implements IDisposable {
+public class ProjectDefinition extends BaseProjectDefinition implements IDisposable {
     private Guid guid;
     private SymbolDecorator symbolDecorator;
     private PathDecorator pathDecorator;
@@ -26,12 +26,12 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
     private boolean bool_1;
     private EventHandler<EventArgs60> eventHandler_1;
     public static boolean bool_2;
-    private SimioProject.LibrariesClass libraries;
+    private ProjectDefinition.LibrariesClass libraries;
     private List<Symbol> symbols;
     private List<AbsBaseMaterial> absBaseMaterials;
     private List<Decorator> decorators;
 
-    public SimioProject() {
+    public ProjectDefinition() {
         this.guid = Guid.Empty;
         this.symbolDecorator = new SymbolDecorator();
         this.pathDecorator = new PathDecorator();
@@ -41,7 +41,7 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
         this.symbols = new ArrayList<>();
         this.absBaseMaterials = new ArrayList<>();
         this.decorators = new ArrayList<>();
-        this.libraries = new SimioProject.LibrariesClass(this);
+        this.libraries = new ProjectDefinition.LibrariesClass(this);
         this.guid = Guid.NewGuid();
         SymbolDecorator symbolDecorator = this.symbolDecorator;
     }
@@ -89,12 +89,12 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
     }
 
     private static class LibrariesClass implements IDisposable, ILibraries {
-        private SimioProject simioProject;
+        private ProjectDefinition simioProject;
         private List<ILibrary> libraries = new ArrayList<>();
         private List<InnerLibraryRef> libRefs = new ArrayList<>();
 
 
-        public LibrariesClass(SimioProject simioProject) {
+        public LibrariesClass(ProjectDefinition simioProject) {
             this.simioProject = simioProject;
             this.libraries.add(new LibrariesClass.InnerLibrary(simioProject, this));
         }
@@ -167,13 +167,13 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
         }
 
         private class InnerLibrary extends LibrariesClass.AbsLibrary {
-            public InnerLibrary(SimioProject simioProject, LibrariesClass librariesClass) {
+            public InnerLibrary(ProjectDefinition simioProject, LibrariesClass librariesClass) {
                 super(simioProject, librariesClass);
                 // TODO: 2022/1/28
             }
 
             @Override
-            public SimioProject Project() {
+            public ProjectDefinition Project() {
                 return this.simioProject;
             }
 
@@ -195,20 +195,20 @@ public class SimioProject extends SimioProjectDefinition implements IDisposable 
         }
 
         private abstract class AbsLibrary implements ILibrary {
-            private SimioProject.LibrariesClass librariesClass;
+            private ProjectDefinition.LibrariesClass librariesClass;
 
-            protected SimioProject simioProject;
+            protected ProjectDefinition simioProject;
 
-            protected SimioProject.LibrariesClass getLibrariesClass() {
+            protected ProjectDefinition.LibrariesClass getLibrariesClass() {
                 return this.librariesClass;
             }
 
-            public AbsLibrary(SimioProject simioProject, SimioProject.LibrariesClass librariesClass) {
+            public AbsLibrary(ProjectDefinition simioProject, ProjectDefinition.LibrariesClass librariesClass) {
                 this.simioProject = simioProject;
                 this.librariesClass = librariesClass;
             }
 
-            public abstract SimioProject Project();
+            public abstract ProjectDefinition Project();
 
 
             @Override

@@ -52,7 +52,7 @@ public class SimioProjectManager {
     private CommandHanderBinderComponent commandHanderBinderComponent;
     public ProductComplexityLevel ComplexityLevel;
 
-    private Project_1 _project10;
+    private Project_1 currentProject;
     private IProject project;
     private Map<ActiveModel, String> activeModelMap = new HashMap();
     private ActiveModel activeModel;
@@ -66,7 +66,7 @@ public class SimioProjectManager {
     private Map<ActiveModel, ModelViewTypeView> modelViewTypeViews;
     private EventHandler<EventArgs> runEventHandler;
     private EventHandler<ActiveModel> ActiveModelChangeEventHandler;
-    private EventHandler<SimioProject> removeObjectEvent;
+    private EventHandler<ProjectDefinition> removeObjectEvent;
     private ProjectViewTypeView projectViewTypeView;
     private Object actionTarget;
     private ActionRun actionRun;
@@ -201,9 +201,9 @@ public class SimioProjectManager {
                     try (SimioProjectManager.ProjectFileOperator projectFileOperator =
                                  new SimioProjectManager.ProjectFileOperator(this, filesStream)) {
                         boolean shift = false;
-                        SimioProject simioProject = new SimioProject();
+                        ProjectDefinition simioProject = new ProjectDefinition();
                         projectFileOperator.Project(simioProject);
-                        SimioProjectDefinition.LoadOperator loadOperator = simioProject.loadXml(filesStream,
+                        BaseProjectDefinition.LoadOperator loadOperator = simioProject.loadXml(filesStream,
                                 projectFileOperator::readModelXml,
                                 projectFileOperator::readExperimentConstraintsXml, shift);
                         this.switchToProject(simioProject, _fileName.toString());
@@ -235,10 +235,10 @@ public class SimioProjectManager {
     }
 
     public Project_1 Project() {
-        if (this._project10 == null) {
-            this._project10 = new Project_1(this, (this.project != null) ? this.project.Log() : null);
+        if (this.currentProject == null) {
+            this.currentProject = new Project_1(this, (this.project != null) ? this.project.Log() : null);
         }
-        return this._project10;
+        return this.currentProject;
     }
 
     public ActiveModel getActiveModel() {
@@ -379,12 +379,12 @@ public class SimioProjectManager {
         if (!this.closeProject(false)) {
             return;
         }
-        SimioProject simioProject = new SimioProject();
+        ProjectDefinition simioProject = new ProjectDefinition();
         this.switchToProject(simioProject, "");
         this.reInitProjectModels(simioProject);
     }
 
-    public void reInitProjectModels(SimioProject simioProject) throws InvalidOperationException {
+    public void reInitProjectModels(ProjectDefinition simioProject) throws InvalidOperationException {
         try (var t = this.actionRunDisposable()) {
             try (var tmp = this.showInitialModelViewAction.disposable()) {
                 simioProject.initProjectModels(null);
@@ -430,7 +430,7 @@ public class SimioProjectManager {
         return this.propertyStatusStack.peek();
     }
 
-    private void switchToProject(SimioProject simioProject, String fileName) {
+    private void switchToProject(ProjectDefinition simioProject, String fileName) {
         if (this.removeObjectEvent != null) {
             this.removeObjectEvent.fire(null, simioProject);
         }
@@ -456,7 +456,7 @@ public class SimioProjectManager {
                 this.getProjectName()));
     }
 
-    private void registerEvents(SimioProject simioProject) {
+    private void registerEvents(ProjectDefinition simioProject) {
         EventHandler.subscribe(simioProject.getAddActiveModelEvent(), this.limitEventHandler);
         // TODO: 2022/2/9 
     }
@@ -482,12 +482,12 @@ public class SimioProjectManager {
 
         activeModel.addStartEvent((o, e) -> this.startTimer((ActiveModel) o));
         activeModel.addStopEvent((o, e) -> this.stopTimer());
-        activeModel.errorHandler = this::method_16;
+        activeModel.errorHandler = this::errorHandler;
         // TODO: 2022/2/9 ignored some view display event
     }
 
-    public void method_16(double unitCarry, IRunSpace runSpace, AbsPropertyObject absPropertyObject,
-                          IntelligentObjectProperty intelligentObjectProperty, String param4) {
+    public void errorHandler(double unitCarry, IRunSpace runSpace, AbsPropertyObject absPropertyObject,
+                             IntelligentObjectProperty intelligentObjectProperty, String param4) {
         StringBuilder text = new StringBuilder();
         if (!RuntimeErrorFullMessageDetails.IsError(this.actionRun, unitCarry, runSpace, absPropertyObject,
                 intelligentObjectProperty, param4, text)) {
@@ -740,7 +740,7 @@ public class SimioProjectManager {
 
         private final SimioProjectManager simioProjectManager;
         private final IFilesStream filesStream;
-        private SimioProjectDefinition simioProject;
+        private BaseProjectDefinition simioProject;
         private Map<ActiveModel, String> activeModelMap = new HashMap<>();
         private Map<ExperimentConstraintsDefinition, String> experimentConstraintsXmlMap = new HashMap<>();
         private boolean haveConfigure;
@@ -785,11 +785,11 @@ public class SimioProjectManager {
             return null;
         }
 
-        public SimioProjectDefinition Project() {
+        public BaseProjectDefinition Project() {
             return this.simioProject;
         }
 
-        public void Project(SimioProject simioProject) {
+        public void Project(ProjectDefinition simioProject) {
             this.simioProject = simioProject;
         }
 

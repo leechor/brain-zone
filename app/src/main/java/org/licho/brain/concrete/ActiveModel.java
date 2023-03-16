@@ -45,7 +45,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     private static final Image nodeImage = EngineResources.NodeModelLarge;
     private static final Image transporterImage = EngineResources.TransporterModelLarge;
     private static final String interactiveScenarioName = EngineResources.InteractiveScenarioName;
-    public SimioProjectDefinition projectDefinition;
+    public BaseProjectDefinition projectDefinition;
 
     private BindingList<ExperimentConstraintsDefinition> experimentConstraints = new BindingList<>();
 
@@ -54,7 +54,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     private ActiveModel compareToModel;
 
 
-    public SimioProjectDefinition parentProjectDefinition;
+    public BaseProjectDefinition parentProjectDefinition;
     private SimioApplicationContext applicationContext;
     private RunSetup activateRunSetup;
     public MayApplication MayApplication;
@@ -583,15 +583,15 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         this(null, applicationContext);
     }
 
-    public ActiveModel(SimioProjectDefinition simioProjectDefinition) {
-        this.projectDefinition = simioProjectDefinition;
+    public ActiveModel(BaseProjectDefinition baseProjectDefinition) {
+        this.projectDefinition = baseProjectDefinition;
         this.setActivateRunSetup(new RunSetup(this));
         this.TraceFlag(false);
         this.normalRun = true;
         this.errorHandler = this::handleError;
     }
 
-    private ActiveModel(SimioProjectDefinition parentProjectDefinition,
+    private ActiveModel(BaseProjectDefinition parentProjectDefinition,
                         SimioApplicationContext applicationContext) {
         this.parentProjectDefinition = parentProjectDefinition;
         this.setActivateRunSetup(new RunSetup(this));
@@ -689,10 +689,10 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public static ActiveModel readXmlModel(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
-                                           SimioProjectDefinition simioProjectDefinition, ActiveModel activeModel,
+                                           BaseProjectDefinition baseProjectDefinition, ActiveModel activeModel,
                                            ActiveModel.Enum46 enum46,
-                                           SimioProjectDefinition.IntelligentObjectXmlReader intelligentObjectXmlReader,
-                                           SimioProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
+                                           BaseProjectDefinition.IntelligentObjectXmlReader intelligentObjectXmlReader,
+                                           BaseProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
         if (Objects.equals(xmlReader.Name(), "Model")) {
             IntelligentObjectDefinition objectDefinition = null;
             ActiveModel activeM = null;
@@ -701,7 +701,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             if (!Strings.isNullOrEmpty(definitionName)) {
                 if (enum46 == Enum46.Zero) {
                     Guid guid = intelligentObjectXml.getGuidByName(definitionName);
-                    ActiveModel am = simioProjectDefinition.ActiveModels.stream()
+                    ActiveModel am = baseProjectDefinition.ActiveModels.stream()
                             .filter(model -> model.getDefinition() != null &&
                                     model.getDefinition().getGuid() == guid)
                             .findFirst()
@@ -709,23 +709,23 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
                     if (am != null) {
                         objectDefinition = intelligentObjectXml.readIntelligentObjectDefinitionByName(
-                                definitionName, null, simioProjectDefinition, true, false);
+                                definitionName, null, baseProjectDefinition, true, false);
                         objectDefinition.setGuid(Guid.NewGuid());
                     } else {
                         objectDefinition = intelligentObjectXml.readIntelligentObjectDefinitionByName(
-                                definitionName, null, simioProjectDefinition, false, false);
+                                definitionName, null, baseProjectDefinition, false, false);
                     }
 
                     int num = 1;
                     String name = objectDefinition.Name();
-                    while (simioProjectDefinition.ActiveModels.stream()
+                    while (baseProjectDefinition.ActiveModels.stream()
                             .anyMatch(model -> Objects.equals(model.getDefinition().Name(), name))) {
                         objectDefinition.Name(name + num);
                         num++;
                     }
                 } else {
                     objectDefinition = intelligentObjectXml.readIntelligentObjectDefinitionByName(definitionName,
-                            null, simioProjectDefinition, false, false);
+                            null, baseProjectDefinition, false, false);
                 }
 
                 if (objectDefinition != null) {
@@ -735,7 +735,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
             if (objectDefinition != null) {
                 if (activeM == null) {
-                    activeM = new ActiveModel(simioProjectDefinition);
+                    activeM = new ActiveModel(baseProjectDefinition);
                 }
                 activeM.reRegisterEvent(objectDefinition);
                 objectDefinition.activeModel = activeM;
@@ -744,12 +744,12 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                     objectDefinition.flashStateFalse();
                 }
                 activeM.MasterModel(activeModel);
-                if (simioProjectDefinition != null) {
-                    simioProjectDefinition.addActiveModelAndLimitOuter(activeM);
+                if (baseProjectDefinition != null) {
+                    baseProjectDefinition.addActiveModelAndLimitOuter(activeM);
                 }
             }
             if (activeM != null) {
-                activeM.readXmlDefinitionModel(xmlReader, intelligentObjectXml, simioProjectDefinition,
+                activeM.readXmlDefinitionModel(xmlReader, intelligentObjectXml, baseProjectDefinition,
                         intelligentObjectXmlReader, experimentConstraintsXmlReader);
             }
             return activeM;
@@ -758,9 +758,9 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     private void readXmlDefinitionModel(XmlReader xmlReader, IntelligentObjectXml intelligentObjectXml,
-                                        SimioProjectDefinition simioProjectDefinition,
-                                        SimioProjectDefinition.IntelligentObjectXmlReader intelligentObjectXmlReader,
-                                        SimioProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
+                                        BaseProjectDefinition baseProjectDefinition,
+                                        BaseProjectDefinition.IntelligentObjectXmlReader intelligentObjectXmlReader,
+                                        BaseProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
         try (var a = this.getDefinition().createModelOperatorCounter()) {
             SomeXmlOperator.xmlReaderElementOperator(xmlReader, "Model", attr -> {
                 SomeXmlOperator.readXmlBooleanAttribute(xmlReader, "Runnable", this::Runnable);
@@ -853,7 +853,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                                         SomeXmlOperator.xmlReaderElementOperator(body, "Experiments", null, expBody -> {
                                             String readOuterXml = expBody.ReadOuterXml();
                                             intelligentObjectXml.Experiments(readOuterXml, this,
-                                                    simioProjectDefinition, experimentConstraintsXmlReader);
+                                                    baseProjectDefinition, experimentConstraintsXmlReader);
                                             return true;
                                         }) ||
                                         this.getDashboardReports().readXml(xmlReader, intelligentObjectXml) ||

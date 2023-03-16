@@ -9,7 +9,7 @@ import org.licho.brain.utils.simu.system.IDisposable;
 public class Project_1 implements IDisposable {
     private final SimioProjectManager simioProjectManager;
     private final ILog log;
-    public SimioProject SimioProject = new SimioProject();
+    public ProjectDefinition SimioProject = new ProjectDefinition();
 	private OperatorRecord operatorRecord;
 
     public Project_1(SimioProjectManager simioProjectManager, ILog log) {

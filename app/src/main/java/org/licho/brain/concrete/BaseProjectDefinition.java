@@ -34,7 +34,7 @@ import java.util.Objects;
  */
 @Setter
 @Getter
-public class SimioProjectDefinition implements ISimioProject, IModels {
+public class BaseProjectDefinition implements ISimioProject, IModels {
     public static final String objectName = "ModelEntity";
     public static final String pictureName = "Picture";
     public static final String animationStateName = "Animation";
@@ -55,14 +55,14 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
     private DocumentInfo documentInfo;
     private EventHandler<AddActiveModelEventArgs> addActiveModelEvent = new EventHandler<>();
     private String localName;
-    private EventHandler<SimioProjectDefinition> libraryChangedEventHandler;
+    private EventHandler<BaseProjectDefinition> libraryChangedEventHandler;
     private EventHandler<PropertyChangedEventArgs> propertyChangedEventHandler;
 
 
-    public SimioProjectDefinition() {
+    public BaseProjectDefinition() {
     }
 
-    public SimioProjectDefinition(SimioApplicationContext applicationContext) {
+    public BaseProjectDefinition(SimioApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -138,7 +138,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
 
     public LoadOperator loadXml(IFilesStream filesStream, IntelligentObjectXmlReader intelligentObjectXmlReader,
                                 ExperimentConstraintsXmlReader experimentConstraintsXmlReader, boolean multi) {
-        SimioProjectDefinition.LoadOperator result;
+        BaseProjectDefinition.LoadOperator result;
         try (InOutputStream stream = filesStream.OpenMainStream()) {
             if (stream == null) {
                 throw new IllegalArgumentException("Unable to get XML contents");
@@ -412,7 +412,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
     }
 
     public String Name() {
-        return SimioProjectDefinition.getName(this.localName, this.fileName);
+        return BaseProjectDefinition.getName(this.localName, this.fileName);
     }
 
     public void Name(String value) {
@@ -459,7 +459,7 @@ public class SimioProjectDefinition implements ISimioProject, IModels {
         }
         if (activeModels[0] == null) {
             activeModels[0] = this.createActiveModel(null, ObjectClass.Entity, null, initializeModel);
-            activeModels[0].Name(this.getModelEntityName(SimioProjectDefinition.objectName));
+            activeModels[0].Name(this.getModelEntityName(BaseProjectDefinition.objectName));
             activeModels[0].getDefinition().Description(EngineResources.ModelEntityDescription);
             this.SetupDefaultEntityDefinition((EntityDefinition) activeModels[0].getDefinition());
             isNewEntity[0] = true;

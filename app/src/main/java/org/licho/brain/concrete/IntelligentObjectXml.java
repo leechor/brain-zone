@@ -187,7 +187,7 @@ public class IntelligentObjectXml {
 
     public IntelligentObjectDefinition readIntelligentObjectDefinitionByName(String definitionName,
                                                                              ActiveModel activeModel,
-                                                                             SimioProjectDefinition simioProjectDefinition,
+                                                                             BaseProjectDefinition baseProjectDefinition,
                                                                              boolean alreadyHaveModel,
                                                                              boolean b1) {
         IntelligentObjectDefinition objectDefinition = this.allIntelligentObjectDefinitionNameMap.get(definitionName);
@@ -205,7 +205,7 @@ public class IntelligentObjectXml {
                             try (XmlReader xmlReader = XmlReader.Create(stringReader, XmlSettings.Pure)) {
                                 xmlReader.MoveToContent();
                                 objectDefinition = IntelligentObjectDefinition.readXmlDefinition(xmlReader,
-                                        this, simioProjectDefinition, IntelligentObjectDefinition.Enum8.One);
+                                        this, baseProjectDefinition, IntelligentObjectDefinition.Enum8.One);
                                 if (objectDefinition != null && !alreadyHaveModel) {
                                     this.allIntelligentObjectDefinitionNameMap.put(definitionName, objectDefinition);
                                 }
@@ -322,8 +322,8 @@ public class IntelligentObjectXml {
     }
 
     public void Experiments(String readOuterXml, ActiveModel activeModel,
-                            SimioProjectDefinition simioProjectDefinition,
-                            SimioProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
+                            BaseProjectDefinition baseProjectDefinition,
+                            BaseProjectDefinition.ExperimentConstraintsXmlReader experimentConstraintsXmlReader) {
     }
 
     public boolean readXmlCommonItemsNode(XmlReader xmlReader) {
@@ -576,8 +576,8 @@ public class IntelligentObjectXml {
     public class InnerExperimentConstraint {
         public String xmlContext;
         public ActiveModel ActiveModel;
-        public SimioProjectDefinition SimioProjectDefinition;
-        public SimioProjectDefinition.ExperimentConstraintsXmlReader ExperimentConstraintsXmlReader;
+        public BaseProjectDefinition BaseProjectDefinition;
+        public BaseProjectDefinition.ExperimentConstraintsXmlReader ExperimentConstraintsXmlReader;
     }
 
     public class OutXmlOperator {

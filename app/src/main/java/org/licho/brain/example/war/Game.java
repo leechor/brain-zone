@@ -4,8 +4,8 @@ import org.licho.brain.IFunction.Action;
 import org.licho.brain.concrete.IntelligentObjectDefinitionFactory;
 import org.licho.brain.concrete.LibraryInfo;
 import org.licho.brain.concrete.Project;
-import org.licho.brain.concrete.SimioProject;
-import org.licho.brain.concrete.SimioProjectDefinition;
+import org.licho.brain.concrete.ProjectDefinition;
+import org.licho.brain.concrete.BaseProjectDefinition;
 import org.licho.brain.concrete.SimioProjectManager;
 import org.licho.brain.concrete.StepDefinitionWrapper;
 import org.licho.brain.enu.StandardType;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class Game {
 
-    private void initStartSimioProjectManager(SimioProjectDefinition simioProjectDefinition) {
+    private void initStartSimioProjectManager(BaseProjectDefinition baseProjectDefinition) {
         List<LibraryInfo> libraryInfos = new ArrayList<>();
         libraryInfos.add(this.loadStandardLibrary());
         libraryInfos.add(this.loadFlowLibrary());
@@ -36,14 +36,14 @@ public class Game {
     private LibraryInfo loadStandardLibrary() {
         String fileName = "StandardLibrary.spfx";
         String libraryName = "Standard Library";
-        return this.loadLibrary(fileName, libraryName, (SimioProject simioProject) -> {
+        return this.loadLibrary(fileName, libraryName, (ProjectDefinition simioProject) -> {
             IntelligentObjectDefinitionFactory.initStandardLibrary(simioProject,
                     EnumSet.allOf(StandardType.class));
         });
 
     }
 
-    private LibraryInfo loadLibrary(String fileName, String libraryName, Action<SimioProject> createLibAction) {
+    private LibraryInfo loadLibrary(String fileName, String libraryName, Action<ProjectDefinition> createLibAction) {
         return null;
     }
 

@@ -349,7 +349,7 @@ public class IntelligentObjectDefinition extends AbstractGridObjectDefinition
 
     public static IntelligentObjectDefinition readXmlDefinition(XmlReader xmlReader,
                                                                 IntelligentObjectXml intelligentObjectXml,
-                                                                SimioProjectDefinition simioProjectDefinition,
+                                                                BaseProjectDefinition baseProjectDefinition,
                                                                 Enum8 enum8) {
         String name = xmlReader.Name();
         if (!name.endsWith("Definition")) {
@@ -387,7 +387,7 @@ public class IntelligentObjectDefinition extends AbstractGridObjectDefinition
         if (objectDefinition != null) {
             if (objectDefinition.activeModel == null) {
                 objectDefinition.activeModel = new ActiveModel(objectDefinition);
-                objectDefinition.activeModel.parentProjectDefinition = simioProjectDefinition;
+                objectDefinition.activeModel.parentProjectDefinition = baseProjectDefinition;
             }
             intelligentObjectXml.initContextBound(objectDefinition);
             objectDefinition.readXmlDefinition(xmlReader, intelligentObjectXml, enum8);
