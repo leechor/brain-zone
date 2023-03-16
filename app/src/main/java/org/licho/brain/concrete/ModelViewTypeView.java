@@ -9,8 +9,8 @@ import org.licho.brain.brainEnums.ModelViewType;
 public class ModelViewTypeView extends AbsView<ModelViewType>{
     public BaseViewInfo BaseSelectObject;
 
-    public ModelViewTypeView(SimioProjectManager simioProjectManager, ActiveModel activeModel) {
-        super(simioProjectManager);
+    public ModelViewTypeView(ProjectManager projectManager, ActiveModel activeModel) {
+        super(projectManager);
 
     }
 

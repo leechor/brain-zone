@@ -4,14 +4,14 @@ package org.licho.brain.concrete;
  *
  */
 public class SomViewUI implements IViewInfo {
-    private final SimioProjectManager simioProjectManager;
+    private final ProjectManager projectManager;
 
-    public SomViewUI(SimioProjectManager simioProjectManager) {
-        this.simioProjectManager = simioProjectManager;
+    public SomViewUI(ProjectManager projectManager) {
+        this.projectManager = projectManager;
     }
 
-    public SimioProjectManager getSimioProjectManager() {
-        return this.simioProjectManager;
+    public ProjectManager getSimioProjectManager() {
+        return this.projectManager;
     }
 
 

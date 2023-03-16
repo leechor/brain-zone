@@ -25,13 +25,13 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
     private IGridObject gridObject;
     private Map<String, Object> gridObjectClassNameStates = new HashMap<>();
     private GridObjectDefinition gridObjectDefinition;
-    private SimioProjectManager simioProjectManager;
+    private ProjectManager projectManager;
     private boolean bool_0;
     private Map<GridItemProperty, Object> gridItemPropertyObjectMap = new HashMap<>();
     private Map<Object, GridItemProperty> objectGridItemPropertyMap = new HashMap<>();
 
-    public PropertyStatus(SimioProjectManager simioProjectManager) {
-        this.simioProjectManager = simioProjectManager;
+    public PropertyStatus(ProjectManager projectManager) {
+        this.projectManager = projectManager;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
         if (this.gridObject instanceof IAdvancedProperties) {
             Boolean hasAdvancedProperties = ((IAdvancedProperties) this.gridObject).HasAdvancedProperties();
             if (hasAdvancedProperties != null) {
-                this.simioProjectManager.isHasAdvancedProperties(hasAdvancedProperties);
+                this.projectManager.isHasAdvancedProperties(hasAdvancedProperties);
                 return;
             }
         }
@@ -135,7 +135,7 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
         } else {
             haveAdvanced = false;
         }
-        this.simioProjectManager.isHasAdvancedProperties(haveAdvanced);
+        this.projectManager.isHasAdvancedProperties(haveAdvanced);
     }
 
     private int method_8(GridItemProperty gridItemProperty) {
@@ -234,7 +234,7 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
                 gridItemProperties.add(entry.getValue());
             }
 
-            ActiveModel activeModel = this.simioProjectManager.getActiveModel();
+            ActiveModel activeModel = this.projectManager.getActiveModel();
             if (activeModel != null) {
                 if (this.gridObject instanceof IReferencedObjectOperator) {
                     IReferencedObjectOperator referencedObjectOperator = (IReferencedObjectOperator) this.gridObject;
@@ -309,13 +309,13 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
             visibleChildren = new HashMap<>();
         }
 
-        if (this.simioProjectManager.isHasAdvancedProperties() && this.simioProjectManager.ComplexityLevel != ProductComplexityLevel.Advanced) {
+        if (this.projectManager.isHasAdvancedProperties() && this.projectManager.ComplexityLevel != ProductComplexityLevel.Advanced) {
             List<GridItemProperty> itemProperties = new ArrayList<>();
             for (GridItemProperty gridItemProperty : gridItemProperties) {
                 if (gridItemProperty.type == null) {
                     itemProperties.add(gridItemProperty);
                     gridItemProperty.setInitiallyExpanded(true);
-                } else if (gridItemProperty.ComplexityLevel().ordinal() <= this.simioProjectManager.ComplexityLevel.ordinal()) {
+                } else if (gridItemProperty.ComplexityLevel().ordinal() <= this.projectManager.ComplexityLevel.ordinal()) {
                     itemProperties.add(gridItemProperty);
                 } else if (!gridItemProperty.method_13()) {
                     itemProperties.add(gridItemProperty);
@@ -446,8 +446,8 @@ public class PropertyStatus implements IDisposable, IPropertyStatus {
     }
 
     private boolean method_2() {
-        if (this.simioProjectManager != null && this.simioProjectManager.getPropertyStatus() != null) {
-            return this.simioProjectManager.getPropertyStatus().bool_0;
+        if (this.projectManager != null && this.projectManager.getPropertyStatus() != null) {
+            return this.projectManager.getPropertyStatus().bool_0;
         }
         return this.bool_0;
     }

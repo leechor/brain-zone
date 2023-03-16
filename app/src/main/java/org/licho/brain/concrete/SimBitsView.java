@@ -8,9 +8,9 @@ import org.licho.brain.utils.simu.IProject;
  */
 public class SimBitsView extends AbsBaseItemView{
 
-	public SimBitsView(SimioProjectManager simioProjectManager)
+	public SimBitsView(ProjectManager projectManager)
 	{
-		this.simBitsViewUi = new SimBitsViewUI(simioProjectManager);
+		this.simBitsViewUi = new SimBitsViewUI(projectManager);
 	}
 
 	public SimBitsViewUI SimBitsViewUI()

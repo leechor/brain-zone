@@ -24,8 +24,8 @@ public class ProjectViewTypeView extends AbsView<ProjectViewType> {
         return ItemTypeEnum.values()[3];
     }
 
-    public ProjectViewTypeView(SimioProjectManager simioProjectManager) {
-        super(simioProjectManager);
+    public ProjectViewTypeView(ProjectManager projectManager) {
+        super(projectManager);
         ProjectViewItemView projectViewItemView = new ProjectViewItemView();
 //		ModelsViewItemView modelsViewItemView = new ModelsViewItemView(projectViewItemView, simioProjectManager,
 //		simioProjectManager.Project.SimioProject);

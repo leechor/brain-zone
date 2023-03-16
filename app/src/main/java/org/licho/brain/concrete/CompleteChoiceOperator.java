@@ -5,11 +5,11 @@ package org.licho.brain.concrete;
  */
 public class CompleteChoiceOperator {
     private IntelligentObjectDefinition intelligentObjectDefinition;
-    private SimioProjectManager simioProjectManager;
+    private ProjectManager projectManager;
 
     public CompleteChoiceOperator(IntelligentObjectDefinition intelligentObjectDefinition,
-								  SimioProjectManager simioProjectManager) {
+								  ProjectManager projectManager) {
         this.intelligentObjectDefinition = intelligentObjectDefinition;
-        this.simioProjectManager = simioProjectManager;
+        this.projectManager = projectManager;
     }
 }

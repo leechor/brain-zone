@@ -4,10 +4,10 @@ package org.licho.brain.concrete;
  *
  */
 public class SimBitsViewUI implements IViewInfo {
-    private SimioProjectManager simioProjectManager;
+    private ProjectManager projectManager;
 
-    public SimBitsViewUI(SimioProjectManager simioProjectManager) {
-        this.simioProjectManager = simioProjectManager;
+    public SimBitsViewUI(ProjectManager projectManager) {
+        this.projectManager = projectManager;
     }
 
     @Override

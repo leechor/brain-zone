@@ -9,8 +9,8 @@ import org.licho.brain.utils.simu.IProject;
 public class StartView extends AbsBaseItemView {
     private SomViewUI somViewUi;
 
-    public StartView(SimioProjectManager simioProjectManager) {
-        this.somViewUi = new SomViewUI(simioProjectManager);
+    public StartView(ProjectManager projectManager) {
+        this.somViewUi = new SomViewUI(projectManager);
     }
 
     public SomViewUI getSomViewUI() {

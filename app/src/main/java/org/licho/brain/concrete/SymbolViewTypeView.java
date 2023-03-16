@@ -22,8 +22,8 @@ public class SymbolViewTypeView extends AbsView<SymbolViewType>{
         return null;
     }
 
-    public SymbolViewTypeView(SimioProjectManager simioProjectManager) {
-        super(simioProjectManager);
+    public SymbolViewTypeView(ProjectManager projectManager) {
+        super(projectManager);
     }
 
     @Override

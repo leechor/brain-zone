@@ -11,7 +11,7 @@ import java.util.List;
  */
 public abstract class AbsView<T> implements IDisposable {
 
-    private SimioProjectManager simioProjectManager;
+    private ProjectManager projectManager;
 
     protected abstract T NoneType();
 
@@ -20,8 +20,8 @@ public abstract class AbsView<T> implements IDisposable {
     protected abstract ItemTypeEnum ItemType();
 
 
-    public AbsView(SimioProjectManager simioProjectManager) {
-        this.simioProjectManager = simioProjectManager;
+    public AbsView(ProjectManager projectManager) {
+        this.projectManager = projectManager;
     }
 
     protected abstract int modelViewTypeToInt(T target);

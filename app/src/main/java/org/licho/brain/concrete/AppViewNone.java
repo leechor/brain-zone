@@ -12,11 +12,11 @@ public class AppViewNone extends AbsView<AppViewType> {
     public final SomViewUI SomViewUi;
     public final SimBitsViewUI SimBitsViewUi;
 
-    public AppViewNone(SimioProjectManager simioProjectManager) {
-        super(simioProjectManager);
-        StartView startView = new StartView(simioProjectManager);
+    public AppViewNone(ProjectManager projectManager) {
+        super(projectManager);
+        StartView startView = new StartView(projectManager);
         this.SomViewUi = startView.getSomViewUI();
-        SimBitsView simBitsView = new SimBitsView(simioProjectManager);
+        SimBitsView simBitsView = new SimBitsView(projectManager);
         this.SimBitsViewUi = simBitsView.SimBitsViewUI();
         this.ProjectViews = new ArrayList<>();
         this.ProjectViews.add(startView);

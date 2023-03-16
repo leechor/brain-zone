@@ -6,7 +6,7 @@ import org.licho.brain.concrete.LibraryInfo;
 import org.licho.brain.concrete.Project;
 import org.licho.brain.concrete.ProjectDefinition;
 import org.licho.brain.concrete.BaseProjectDefinition;
-import org.licho.brain.concrete.SimioProjectManager;
+import org.licho.brain.concrete.ProjectManager;
 import org.licho.brain.concrete.StepDefinitionWrapper;
 import org.licho.brain.enu.StandardType;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class Game {
         Logger logger = LoggerFactory.getLogger(Game.class);
         logger.info("Hello World !!");
         Project project = new Project();
-        SimioProjectManager projectManager = new SimioProjectManager(project);
+        ProjectManager projectManager = new ProjectManager(project);
 
         StepDefinitionWrapper.init();
 

@@ -40,8 +40,8 @@ import java.util.Stack;
 /**
  *
  */
-public class SimioProjectManager {
-    private static Logger logger = LoggerFactory.getLogger(SimioProjectManager.class);
+public class ProjectManager {
+    private static Logger logger = LoggerFactory.getLogger(ProjectManager.class);
     private SimioProjectManagerWrapper simioProjectManagerWrapper;
     private Enum90 enum90;
     private ProductComplexityLevel productComplexityLevel;
@@ -86,7 +86,7 @@ public class SimioProjectManager {
     private AppViewNone appViewNone;
     private boolean bool_2;
 
-    public SimioProjectManager(IProject project) {
+    public ProjectManager(IProject project) {
         this.project = project;
         this.exceptions = new ArrayList<>();
         this.actionRun = new ActionRun(null);
@@ -161,7 +161,7 @@ public class SimioProjectManager {
     }
 
     public Object method_78(ModelViewType modelViewType) {
-        return this.method_79(modelViewType, SimioProjectManager.Enum78.Zero);
+        return this.method_79(modelViewType, ProjectManager.Enum78.Zero);
     }
 
     private Object method_79(ModelViewType modelViewType, Enum78 zero) {
@@ -198,8 +198,8 @@ public class SimioProjectManager {
             if (fileStreamOperator != null) {
                 DateTime now = DateTime.Now();
                 try (IFilesStream filesStream = fileStreamOperator.getFilesStream(stream)) {
-                    try (SimioProjectManager.ProjectFileOperator projectFileOperator =
-                                 new SimioProjectManager.ProjectFileOperator(this, filesStream)) {
+                    try (ProjectManager.ProjectFileOperator projectFileOperator =
+                                 new ProjectManager.ProjectFileOperator(this, filesStream)) {
                         boolean shift = false;
                         ProjectDefinition simioProject = new ProjectDefinition();
                         projectFileOperator.Project(simioProject);
@@ -738,7 +738,7 @@ public class SimioProjectManager {
 
     public class ProjectFileOperator implements IDisposable {
 
-        private final SimioProjectManager simioProjectManager;
+        private final ProjectManager projectManager;
         private final IFilesStream filesStream;
         private BaseProjectDefinition simioProject;
         private Map<ActiveModel, String> activeModelMap = new HashMap<>();
@@ -746,8 +746,8 @@ public class SimioProjectManager {
         private boolean haveConfigure;
 
 
-        public ProjectFileOperator(SimioProjectManager simioProjectManager, IFilesStream filesStream) {
-            this.simioProjectManager = simioProjectManager;
+        public ProjectFileOperator(ProjectManager projectManager, IFilesStream filesStream) {
+            this.projectManager = projectManager;
             this.filesStream = filesStream;
         }
 
