@@ -9,6 +9,7 @@ import org.licho.brain.concrete.BaseProjectDefinition;
 import org.licho.brain.concrete.ProjectManager;
 import org.licho.brain.concrete.StepDefinitionWrapper;
 import org.licho.brain.enu.StandardType;
+import org.licho.brain.utils.simu.system.ModelLoadAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,8 @@ public class Game {
 //        var path = "C:\\Users\\Public\\Documents\\Simio\\SimBits\\AnimatePathDensity.spfx";
         var path = "/Users/sunlichao/Downloads/Model.spfx";
         projectManager.loadProject(path, 0, null);
-
+//todo: test
+        projectManager.getActiveModel().getRunSetup().setLoadAction(ModelLoadAction.Run);
         projectManager.execute();
     }
 }

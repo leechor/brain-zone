@@ -239,14 +239,13 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         return null;
     }
 
-    public void run(SomeRun.RunEventHandler triggerRunEventHandler, RunModel runModel, int maxValue) {
-        this.run(RunStatus.Two, triggerRunEventHandler, runModel, Integer.MAX_VALUE, false, false);
-
+    public void execute(SomeRun.RunEventHandler triggerRunEventHandler, RunModel runModel, int maxValue) {
+        this.execute(RunStatus.Two, triggerRunEventHandler, runModel, Integer.MAX_VALUE, false, false);
     }
 
-    private void run(RunStatus runStatus, SomeRun.RunEventHandler triggerRunEventHandler, RunModel model, int maxSome,
-                     boolean bool_0,
-                     boolean isFastForward) {
+    private void execute(RunStatus runStatus, SomeRun.RunEventHandler triggerRunEventHandler, RunModel model, int maxSome,
+                         boolean bool_0,
+                         boolean isFastForward) {
         this.normalRun = runStatus == RunStatus.NormalRun;
         if (this.canModify()) {
             if (this.normalRun && !this.haveCalendarItem()) {
@@ -273,7 +272,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
         boolean flag = false;
         if (!this.canModify()) {
-            flag = this.method_54(this.getRunSetup().SpecificReplicationNumber(), model, isFastForward);
+            flag = this.execute(this.getRunSetup().SpecificReplicationNumber(), model, isFastForward);
             if (!flag) {
                 return;
             }
@@ -281,7 +280,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         this.triggerRunStatusEvent(runStatus);
     }
 
-    private boolean method_54(int specificReplicationNumber, RunModel model, boolean isFastForward) {
+    private boolean execute(int specificReplicationNumber, RunModel model, boolean isFastForward) {
         if (this.application != null) {
             this.method_58();
         }
@@ -616,7 +615,6 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     public ActiveModel(IntelligentObjectDefinition currentModel) {
         this(null, null);
         this.reRegisterEvent(currentModel);
-
     }
 
     public boolean TraceFlag() {

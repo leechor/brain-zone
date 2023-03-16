@@ -289,7 +289,7 @@ public class RunSetup {
             SomeXmlOperator.readXmlBooleanAttribute(xmlReader, "LogInteractiveRuntimeData",
                     this::LogInteractiveRuntimeData);
             SomeXmlOperator.readXmlBooleanAttribute(xmlReader, "GenerateProfileReport", this::GenerateProfileReport);
-            SomeXmlOperator.readEnumAttribute(xmlReader, "LoadAction", this::LoadAction, ModelLoadAction.class);
+            SomeXmlOperator.readEnumAttribute(xmlReader, "LoadAction", this::setLoadAction, ModelLoadAction.class);
         }, body ->
                 SomeXmlOperator.xmlReaderElementOperator(body, "StartDate", null, dateBody -> {
                     if (dateBody.NodeType() == XMLStreamConstants.CHARACTERS) {
@@ -393,7 +393,7 @@ public class RunSetup {
         return this.loadAction;
     }
 
-    public void LoadAction(ModelLoadAction value) {
+    public void setLoadAction(ModelLoadAction value) {
         this.loadAction = value;
         this.resetTable(255);
     }

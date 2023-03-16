@@ -289,7 +289,7 @@ public class ProjectManager {
                         runModel = ActiveModel.RunModel.AnimatePlan;
                     }
                     this.logger.info(runModel == ActiveModel.RunModel.AnimatePlan ? "Run (animate Plan)" : "Run");
-                    this.activeModel.run(this::triggerRunEventHandler, runModel, Integer.MAX_VALUE);
+                    this.activeModel.execute(this::triggerRunEventHandler, runModel, Integer.MAX_VALUE);
                 }
             }
         } catch (SimioRuntimeException ex) {
