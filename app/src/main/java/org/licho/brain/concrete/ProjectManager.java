@@ -170,7 +170,9 @@ public class ProjectManager {
     }
 
     public void setActiveModel(ActiveModel activeModel) {
-        if ((this.Project().projectDefinition == null && activeModel != null) || (this.Project().projectDefinition != null && !this.Project().projectDefinition.containActiveModel(activeModel))) {
+        final ProjectDefinition projectDefinition = this.Project().projectDefinition;
+        if ((projectDefinition == null && activeModel != null) ||
+                (projectDefinition != null && !projectDefinition.containActiveModel(activeModel))) {
             throw new IllegalArgumentException();
         }
         this.ActiveModel(activeModel);
@@ -447,6 +449,7 @@ public class ProjectManager {
             for (int i = 0; i < this.Project().projectDefinition.getActiveModelsCount(); i++) {
                 ActiveModel model = this.Project().projectDefinition.get(i);
                 this.registerEvent(model);
+                this.setActiveModel(model);
             }
             this.registerEvents(this.Project().projectDefinition);
             this.createProjectViewTypeView().createView(ProjectViewType.Overall, this.project, "");

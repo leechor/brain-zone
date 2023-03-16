@@ -218,7 +218,7 @@ public class ProjectDefinition extends BaseProjectDefinition implements IDisposa
 
             @Override
             public List<ILibraryInfo> Objects() {
-                List<ActiveModel> activeModels = this.Project().ActiveModels;
+                List<ActiveModel> activeModels = this.Project().activeModels;
                 return activeModels.stream().map(AbsLibrary.ActiveModelLibraryInfo::new).collect(Collectors.toList());
             }
 

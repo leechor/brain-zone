@@ -91,7 +91,7 @@ public class IntelligentObjectDefinitionFactory {
                 ObjectClass.Link, "{FF39356C-A4F9-412c-BB3D-14BAF4DC5D11}", "TimePath", Resources.timepath));
         Conveyor.init((LinkDefinition) IntelligentObjectDefinitionFactory.create(baseProjectDefinition,
                 ObjectClass.Link, "{205487E1-5E9E-4b70-B80B-A6C333F7F872}", "Conveyor", Resources.conveyor));
-        for (ActiveModel activeModel : baseProjectDefinition.ActiveModels) {
+        for (ActiveModel activeModel : baseProjectDefinition.activeModels) {
             activeModel.getDefinition().exitDefinitionCount();
         }
     }

@@ -68,7 +68,7 @@ public class InternalReference implements IIntelligentObjectDefinitionOperator {
             return new ArrayList<>();
         }
 
-        var activeModels = this.intelligentObjectDefinition.activeModel.parentProjectDefinition.ActiveModels;
+        var activeModels = this.intelligentObjectDefinition.activeModel.parentProjectDefinition.activeModels;
         var definitionOfActiveModel = activeModels.stream().map(ActiveModel::getDefinition).toList();
 
         if (!definitionOfActiveModel.contains(this.intelligentObjectDefinition)) {

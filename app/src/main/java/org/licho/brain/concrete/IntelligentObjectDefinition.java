@@ -955,7 +955,7 @@ public class IntelligentObjectDefinition extends AbstractGridObjectDefinition
                 !this.getActionRun().empty() && this.activeModel != null &&
                 this.activeModel.getDefinition() == this &&
                 this.activeModel.parentProjectDefinition != null) {
-            for (ActiveModel model : this.activeModel.parentProjectDefinition.ActiveModels) {
+            for (ActiveModel model : this.activeModel.parentProjectDefinition.activeModels) {
                 if ((model != this.activeModel || this.activeModel.getDefinition() != this) &&
                         model.getDefinition() != null) {
                     model.getDefinition().resetChildrenTable(this);
@@ -2768,7 +2768,7 @@ public class IntelligentObjectDefinition extends AbstractGridObjectDefinition
     private List<IntelligentObjectDefinition> getSiblingObjectDefinitionsInProject() {
         List<IntelligentObjectDefinition> result = new ArrayList<>();
         if (this.activeModel != null && this.activeModel.parentProjectDefinition != null) {
-            for (ActiveModel activeModel : this.activeModel.parentProjectDefinition.ActiveModels) {
+            for (ActiveModel activeModel : this.activeModel.parentProjectDefinition.activeModels) {
                 if ((activeModel != this.activeModel || this.activeModel.getDefinition() != this)
                         && activeModel.getDefinition() != null) {
                     result.add(activeModel.getDefinition());

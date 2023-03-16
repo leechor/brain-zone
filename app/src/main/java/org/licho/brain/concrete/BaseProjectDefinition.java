@@ -38,7 +38,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     public static final String objectName = "ModelEntity";
     public static final String pictureName = "Picture";
     public static final String animationStateName = "Animation";
-    public List<ActiveModel> ActiveModels = new ArrayList<>();
+    public List<ActiveModel> activeModels = new ArrayList<>();
 
     //Class591
     private String name;
@@ -167,7 +167,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
 
 
     public boolean containActiveModel(ActiveModel activeModel) {
-        return this.ActiveModels.contains(activeModel);
+        return this.activeModels.contains(activeModel);
     }
 
     public char getCsvSeparator() {
@@ -221,7 +221,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
                                             null, ActiveModel.Enum46.Zero, display.readModelInfoDel,
                                             display.readExperimentInfoDel) != null,
                                     afterModels -> {
-                                        for (ActiveModel activeModel : this.ActiveModels) {
+                                        for (ActiveModel activeModel : this.activeModels) {
                                             activeModel.flush();
                                         }
                                     }) ||
@@ -239,7 +239,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     }
 
     private void falseChanged() {
-        for (ActiveModel activeModel : this.ActiveModels) {
+        for (ActiveModel activeModel : this.activeModels) {
             activeModel.getDefinition().unChanged();
         }
         this.isInited = false;
@@ -250,7 +250,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     }
 
     private void SubmitToSearch() {
-        this.ActiveModels.forEach(this::SubmitToSearch);
+        this.activeModels.forEach(this::SubmitToSearch);
     }
 
     public ActiveModel get(String name) {
@@ -262,7 +262,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     }
 
     public ActiveModel findActiveModelByName(String name) {
-        return this.ActiveModels.stream()
+        return this.activeModels.stream()
                 .filter(t -> t.getDefinition().Name().equals(name))
                 .findFirst().orElse(null);
     }
@@ -338,7 +338,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
         } else {
             className = name;
         }
-        int count = (int) this.ActiveModels.stream().filter((ActiveModel model) -> {
+        int count = (int) this.activeModels.stream().filter((ActiveModel model) -> {
             if (name == null) {
                 return model.getDefinition().ObjectClass() == objectClass;
             }
@@ -371,15 +371,15 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     }
 
     private void limit(ActiveModel activeModel, int index) {
-        this.ActiveModels.forEach(model -> model.limit(activeModel));
+        this.activeModels.forEach(model -> model.limit(activeModel));
         EventHandler.fire(this.addActiveModelEvent, this, new AddActiveModelEventArgs(activeModel, index));
     }
 
     private int addActiveModel(ActiveModel activeModel) {
-        this.ActiveModels.add(activeModel);
+        this.activeModels.add(activeModel);
         this.inited();
         this.SubmitToSearch(activeModel);
-        return this.ActiveModels.indexOf(activeModel);
+        return this.activeModels.indexOf(activeModel);
     }
 
     private void SubmitToSearch(ActiveModel activeModel) {
@@ -400,11 +400,11 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     }
 
     public int getActiveModelsCount() {
-        return this.ActiveModels.size();
+        return this.activeModels.size();
     }
 
     public ActiveModel get(int index) {
-        return this.ActiveModels.get(index);
+        return this.activeModels.get(index);
     }
 
     public boolean getInited() {
@@ -451,7 +451,7 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     private ActiveModel[] initProjectModels(Action<ActiveModel> initializeModel, boolean[] isNewEntity) {
         ActiveModel[] activeModels = new ActiveModel[2];
         isNewEntity[0] = false;
-        for (ActiveModel activeModel : this.ActiveModels) {
+        for (ActiveModel activeModel : this.activeModels) {
             if (activeModel.getDefinition() instanceof EntityDefinition) {
                 activeModels[0] = activeModel;
                 break;
@@ -504,8 +504,8 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
     }
 
     public void updateModel(ActiveModel activeModel) {
-        if (this.ActiveModels.remove(activeModel)) {
-            this.ActiveModels.add(activeModel);
+        if (this.activeModels.remove(activeModel)) {
+            this.activeModels.add(activeModel);
         }
     }
 

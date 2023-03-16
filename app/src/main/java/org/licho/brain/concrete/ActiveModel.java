@@ -367,8 +367,8 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         }
 
         this.getDefinition().method_428();
-        if (this.projectDefinition != null && this.projectDefinition.ActiveModels != null) {
-            List<ActiveModel> source = this.projectDefinition.ActiveModels;
+        if (this.projectDefinition != null && this.projectDefinition.activeModels != null) {
+            List<ActiveModel> source = this.projectDefinition.activeModels;
             for (ActiveModel activeModel : source.stream().filter(activeModel -> activeModel != this &&
                     !activeModel.Runnable()).toList()) {
                 activeModel.getDefinition().method_428();
@@ -701,7 +701,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             if (!Strings.isNullOrEmpty(definitionName)) {
                 if (enum46 == Enum46.Zero) {
                     Guid guid = intelligentObjectXml.getGuidByName(definitionName);
-                    ActiveModel am = baseProjectDefinition.ActiveModels.stream()
+                    ActiveModel am = baseProjectDefinition.activeModels.stream()
                             .filter(model -> model.getDefinition() != null &&
                                     model.getDefinition().getGuid() == guid)
                             .findFirst()
@@ -718,7 +718,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
 
                     int num = 1;
                     String name = objectDefinition.Name();
-                    while (baseProjectDefinition.ActiveModels.stream()
+                    while (baseProjectDefinition.activeModels.stream()
                             .anyMatch(model -> Objects.equals(model.getDefinition().Name(), name))) {
                         objectDefinition.Name(name + num);
                         num++;
