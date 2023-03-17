@@ -60,7 +60,7 @@ public class ProjectOperator implements IDisposable, IProjectOperator {
         return targetTimerAction;
     }
 
-    public void CancelCountdown(Object target) {
+    public void cancelCountdown(Object target) {
         if (target instanceof ProjectOperator.TargetTimerAction) {
             ProjectOperator.TargetTimerAction targetTimerAction = (ProjectOperator.TargetTimerAction) target;
             targetTimerAction.unEnabledTimer();

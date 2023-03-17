@@ -352,7 +352,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         if (this.cancelEventHandler != null) {
             CancelEventArgs cancelEventArgs = new CancelEventArgs(false);
             this.cancelEventHandler.fire(this, cancelEventArgs);
-            if (cancelEventArgs.Cancel()) {
+            if (cancelEventArgs.cancel()) {
                 this.method_51();
                 return false;
             }

@@ -15,11 +15,11 @@ public class CancelEventArgs extends EventArgs {
         this.cancel = cancel;
     }
 
-    public void Cancel(boolean b) {
+    public void cancel(boolean b) {
         this.cancel = b;
     }
 
-    public boolean Cancel() {
+    public boolean cancel() {
         return this.cancel;
     }
 }

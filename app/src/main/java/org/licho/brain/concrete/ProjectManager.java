@@ -65,7 +65,7 @@ public class ProjectManager {
     private Object view;
     private Map<ActiveModel, ModelViewTypeView> modelViewTypeViews;
     private EventHandler<EventArgs> runEventHandler;
-    private EventHandler<ActiveModel> ActiveModelChangeEventHandler;
+    private EventHandler<ActiveModel> activeModelEventHandler;
     private EventHandler<ProjectDefinition> removeObjectEvent;
     private ProjectViewTypeView projectViewTypeView;
     private Object actionTarget;
@@ -125,7 +125,7 @@ public class ProjectManager {
             this.method_849(null, null);
         };
 
-        this.registerEvents(this.Project().projectDefinition);
+        this.registerEvents(this.project().currentProjectDefinition);
         this.bindCommandHandler();
         this.propertyStatusStack.push(new PropertyStatus(this));
         this.simioProjectManagerWrapper = new SimioProjectManagerWrapper(this);
@@ -138,7 +138,7 @@ public class ProjectManager {
     }
 
     private void createNoneAppView() {
-        this.ActiveModel(null);
+        this.activeModel(null);
         this.ActiveExperiment(null);
         this.setSymbol(null);
         Object param = this.getNoneAppView().createView(AppViewType.Start, this.project, "Simio");
@@ -170,12 +170,12 @@ public class ProjectManager {
     }
 
     public void setActiveModel(ActiveModel activeModel) {
-        final ProjectDefinition projectDefinition = this.Project().projectDefinition;
+        final ProjectDefinition projectDefinition = this.project().currentProjectDefinition;
         if ((projectDefinition == null && activeModel != null) ||
                 (projectDefinition != null && !projectDefinition.containActiveModel(activeModel))) {
             throw new IllegalArgumentException();
         }
-        this.ActiveModel(activeModel);
+        this.activeModel(activeModel);
     }
 
 
@@ -184,7 +184,7 @@ public class ProjectManager {
             return false;
         }
 
-        if (fileName.equals(this.Project().getFileName())) {
+        if (fileName.equals(this.project().getFileName())) {
             return true;
         }
 
@@ -236,7 +236,7 @@ public class ProjectManager {
         return true;
     }
 
-    public Project Project() {
+    public Project project() {
         if (this.currentProject == null) {
             this.currentProject = new Project(this, (this.project != null) ? this.project.Log() : null);
         }
@@ -244,8 +244,8 @@ public class ProjectManager {
     }
 
     public ActiveModel getActiveModel() {
-        if (this.ActiveModel() != null) {
-            return this.ActiveModel();
+        if (this.activeModel() != null) {
+            return this.activeModel();
         }
         if (this.ActiveExperiment() != null) {
             return this.ActiveExperiment().getActiveModel();
@@ -279,10 +279,10 @@ public class ProjectManager {
 
     private void runButtonAction(CommandHandlerBinder commandHandlerBinder) {
         try {
-            if (this.ActiveModel() != null) {
-                if (this.ActiveModel().beRun()) {
+            if (this.activeModel() != null) {
+                if (this.activeModel().beRun()) {
                     logger.info("Pause Run");
-                    this.ActiveModel().PauseRun();
+                    this.activeModel().PauseRun();
                 } else {
                     ActiveModel.RunModel runModel = ActiveModel.RunModel.Run;
                     if (this.getBaseSelectObject() != null) {
@@ -293,14 +293,14 @@ public class ProjectManager {
                 }
             }
         } catch (SimioRuntimeException ex) {
-            this.processSimioRuntimeException(ex);
+            this.processRuntimeException(ex);
         } catch (Exception ex) {
             this.processException(ex);
         }
     }
 
     public void execute() {
-        ActiveModel activeModel = this.ActiveModel();
+        ActiveModel activeModel = this.activeModel();
         if (activeModel == null) {
             return;
         }
@@ -348,9 +348,9 @@ public class ProjectManager {
         }
         this.logger.info((runModel == ActiveModel.RunModel.AnimatePlan) ? "Reset run (animate Plan)" : "Reset run");
         try {
-            this.ActiveModel().reset(runModel);
+            this.activeModel().reset(runModel);
         } catch (SimioRuntimeException param) {
-            this.processSimioRuntimeException(param);
+            this.processRuntimeException(param);
         } catch (Exception param2) {
             this.processException(param2);
         }
@@ -359,13 +359,13 @@ public class ProjectManager {
     private void processException(Exception ex) {
         this.method_61(ex);
         try {
-            this.ActiveModel().stop(true);
+            this.activeModel().stop(true);
         } catch (Exception ignored) {
         }
     }
 
     public void method_198(CommandHandlerBinder commandHandlerBinder) {
-        if (this.Project().projectDefinition == null) {
+        if (this.project().currentProjectDefinition == null) {
             try {
                 this.newProject(commandHandlerBinder);
             } catch (InvalidOperationException e) {
@@ -432,26 +432,27 @@ public class ProjectManager {
         return this.propertyStatusStack.peek();
     }
 
-    private void switchToProject(ProjectDefinition simioProject, String fileName) {
+    private void switchToProject(ProjectDefinition projectDefinition, String fileName) {
         if (this.removeObjectEvent != null) {
-            this.removeObjectEvent.fire(null, simioProject);
+            this.removeObjectEvent.fire(null, projectDefinition);
         }
 
-        if (this.Project().projectDefinition != null && this.Project().projectDefinition != simioProject) {
-            this.Project().projectDefinition.Dispose();
+        final Project p = this.project();
+        if (p.currentProjectDefinition != null && p.currentProjectDefinition != projectDefinition) {
+            p.currentProjectDefinition.Dispose();
         }
 
-        this.Project().projectDefinition = simioProject;
-        this.Project().setFileName(fileName);
+        p.currentProjectDefinition = projectDefinition;
+        p.setFileName(fileName);
         this.view = null;
 
-        if (this.Project().projectDefinition != null) {
-            for (int i = 0; i < this.Project().projectDefinition.getActiveModelsCount(); i++) {
-                ActiveModel model = this.Project().projectDefinition.get(i);
+        if (p.currentProjectDefinition != null) {
+            for (int i = 0; i < p.currentProjectDefinition.getActiveModelsCount(); i++) {
+                ActiveModel model = p.currentProjectDefinition.get(i);
                 this.registerEvent(model);
                 this.setActiveModel(model);
             }
-            this.registerEvents(this.Project().projectDefinition);
+            this.registerEvents(p.currentProjectDefinition);
             this.createProjectViewTypeView().createView(ProjectViewType.Overall, this.project, "");
         }
 
@@ -479,7 +480,7 @@ public class ProjectManager {
                 if (this.project != null) {
                     this.project.NotifyError(Resources.RunSetupEndTimeBeforeStartTime);
                 }
-                e.Cancel(true);
+                e.cancel(true);
             }
         });
 
@@ -516,7 +517,7 @@ public class ProjectManager {
     private void stopTimer() {
         if (this.actionTarget != null) {
             if (this.project != null) {
-                this.project.CancelCountdown(this.actionTarget);
+                this.project.cancelCountdown(this.actionTarget);
             }
             this.actionTarget = null;
         }
@@ -525,21 +526,20 @@ public class ProjectManager {
 
     private void stopActiveModel(Object target) {
         this.actionTarget = null;
-        if (target instanceof ActiveModel) {
-            ActiveModel model = (ActiveModel) target;
+        if (target instanceof ActiveModel model) {
             model.stop(false);
         }
     }
 
     private ProjectViewTypeView createProjectViewTypeView() {
-        if (this.projectViewTypeView == null && this.Project().projectDefinition != null) {
+        if (this.projectViewTypeView == null && this.project().currentProjectDefinition != null) {
             this.projectViewTypeView = new ProjectViewTypeView(this);
         }
         return this.projectViewTypeView;
     }
 
     private boolean closeProject(boolean createNoneView) {
-        if (this.Project().projectDefinition != null && !this.projectBusy()) {
+        if (this.project().currentProjectDefinition != null && !this.projectBusy()) {
             return false;
         }
         this.clearProject(createNoneView);
@@ -555,39 +555,39 @@ public class ProjectManager {
     }
 
     private String getSimioProjectName() {
-        if (this.Project().projectDefinition != null) {
-            return this.Project().projectDefinition.Name();
+        if (this.project().currentProjectDefinition != null) {
+            return this.project().currentProjectDefinition.Name();
         }
         return null;
     }
 
     private boolean projectBusy() {
-        if (this.Project().projectDefinition != null) {
+        if (this.project().currentProjectDefinition != null) {
             boolean canModify = false;
-            for (int i = 0; i < this.Project().projectDefinition.getActiveModelsCount(); i++) {
-                if (this.Project().projectDefinition.get(i).canModify()) {
+            for (int i = 0; i < this.project().currentProjectDefinition.getActiveModelsCount(); i++) {
+                if (this.project().currentProjectDefinition.get(i).canModify()) {
                     canModify = true;
                 }
                 if (canModify) {
                     if (this.project != null && !this.project.AskYesNoQuestion(Resources.CantCloseProjectBecauseModelRunning)) {
                         return false;
                     }
-                    for (int j = 0; j < this.Project().projectDefinition.getActiveModelsCount(); j++) {
+                    for (int j = 0; j < this.project().currentProjectDefinition.getActiveModelsCount(); j++) {
                         try {
-                            this.Project().projectDefinition.get(j).stop(true);
+                            this.project().currentProjectDefinition.get(j).stop(true);
                         } catch (Exception ignored) {
                         }
                     }
                 }
-                if (this.Project().projectDefinition.getInited() && this.project != null) {
+                if (this.project().currentProjectDefinition.getInited() && this.project != null) {
                     String askSaveCurrentProject = Resources.AskSaveCurrentProject;
-                    if (!Strings.isNullOrEmpty(this.Project().getFileName())) {
+                    if (!Strings.isNullOrEmpty(this.project().getFileName())) {
                         askSaveCurrentProject = MessageFormat.format(Resources.AskSaveCurrentProjectWithName,
-                                this.Project().getFileName());
+                                this.project().getFileName());
                     }
                     switch (this.project.AskYesNoCancelQuestion(askSaveCurrentProject)) {
                         case Zero:
-                            if (!this.saveProject(this.Project().getFileName(), false, false, null)) {
+                            if (!this.saveProject(this.project().getFileName(), false, false, null)) {
                                 return false;
                             }
                             break;
@@ -609,13 +609,13 @@ public class ProjectManager {
         // TODO: 2022/2/7 
     }
 
-    private void processSimioRuntimeException(SimioRuntimeException ex) {
+    private void processRuntimeException(SimioRuntimeException ex) {
         this.logger.error(MessageFormat.format("Runtime Error: {0}", ex.getMessage()));
         if (this.project != null) {
             this.project.NotifyError(ex.getMessage());
         }
         try {
-            this.ActiveModel().stop(true);
+            this.activeModel().stop(true);
         } catch (Exception ignored) {
         }
     }
@@ -634,7 +634,7 @@ public class ProjectManager {
     }
 
     private ModelViewTypeView getModelViewTypeView() {
-        return this.getModelViewTypeView(this.ActiveModel());
+        return this.getModelViewTypeView(this.activeModel());
     }
 
     private ModelViewTypeView getModelViewTypeView(ActiveModel activeModel) {
@@ -646,18 +646,19 @@ public class ProjectManager {
         return modelViewTypeView;
     }
 
-    private ActiveModel ActiveModel() {
-        if (this.Project().projectDefinition != null) {
-            return this.activeModel;
+    private ActiveModel activeModel() {
+        if (this.project().currentProjectDefinition == null) {
+            return null;
         }
-        return null;
+        return this.activeModel;
     }
 
-    private void ActiveModel(ActiveModel value) {
+    private void activeModel(ActiveModel value) {
         if (value != null) {
             this.ActiveExperiment(null);
             this.setSymbol(null);
         }
+
         if (this.activeModel != value) {
             if (this.activeModel != null && this.activeModel.canModify()) {
                 this.activeModel.PauseRun();
@@ -669,13 +670,13 @@ public class ProjectManager {
     }
 
     private void triggerActiveModelChangeEventHandler(ActiveModel activeModel) {
-        if (this.ActiveModelChangeEventHandler != null) {
-            this.ActiveModelChangeEventHandler.fire(null, activeModel);
+        if (this.activeModelEventHandler != null) {
+            this.activeModelEventHandler.fire(null, activeModel);
         }
     }
 
     private ExperimentConstraintsDefinition ActiveExperiment() {
-        if (this.Project().projectDefinition == null) {
+        if (this.project().currentProjectDefinition == null) {
             return null;
         }
         return this.activeExperiment;
@@ -683,7 +684,7 @@ public class ProjectManager {
 
     private void ActiveExperiment(ExperimentConstraintsDefinition value) {
         if (value != null) {
-            this.ActiveModel(null);
+            this.activeModel(null);
             this.setSymbol(null);
         }
 
@@ -724,7 +725,7 @@ public class ProjectManager {
 
     private void setSymbol(Symbol symbol) {
         if (symbol != null) {
-            this.ActiveModel(null);
+            this.activeModel(null);
             this.ActiveExperiment(null);
         }
         if (this.symbol != symbol) {
@@ -743,7 +744,7 @@ public class ProjectManager {
 
         private final ProjectManager projectManager;
         private final IFilesStream filesStream;
-        private BaseProjectDefinition simioProject;
+        private BaseProjectDefinition projectDefinition;
         private Map<ActiveModel, String> activeModelMap = new HashMap<>();
         private Map<ExperimentConstraintsDefinition, String> experimentConstraintsXmlMap = new HashMap<>();
         private boolean haveConfigure;
@@ -780,20 +781,21 @@ public class ProjectManager {
         }
 
         private IntelligentObjectXml createIntelligentObjectXml() {
-            if (this.Project() != null && this.filesStream != null) {
-                IntelligentObjectXml intelligentObjectXml = this.Project().CreateReadingContext();
-                intelligentObjectXml.setFiles(this.filesStream.StreamStore());
-                return intelligentObjectXml;
+            if (this.Project() == null || this.filesStream == null) {
+                return null;
             }
-            return null;
+
+            IntelligentObjectXml intelligentObjectXml = this.Project().CreateReadingContext();
+            intelligentObjectXml.setFiles(this.filesStream.StreamStore());
+            return intelligentObjectXml;
         }
 
         public BaseProjectDefinition Project() {
-            return this.simioProject;
+            return this.projectDefinition;
         }
 
-        public void Project(ProjectDefinition simioProject) {
-            this.simioProject = simioProject;
+        public void Project(ProjectDefinition projectDefinition) {
+            this.projectDefinition = projectDefinition;
         }
 
         public boolean readModelXml(ActiveModel activeModel, XmlReader xmlReader,

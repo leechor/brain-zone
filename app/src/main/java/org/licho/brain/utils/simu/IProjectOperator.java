@@ -26,7 +26,7 @@ public interface IProjectOperator {
 
     Object startTimer(int timeInterval, Object target, Action<Object> eventMethod);
 
-    void CancelCountdown(Object actionTarget);
+    void cancelCountdown(Object actionTarget);
 
     IViewControl PrimaryViewContainer();
 }

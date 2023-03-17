@@ -9,7 +9,7 @@ import org.licho.brain.utils.simu.system.IDisposable;
 public class Project implements IDisposable {
     private final ProjectManager projectManager;
     private final ILog log;
-    public ProjectDefinition projectDefinition = new ProjectDefinition();
+    public ProjectDefinition currentProjectDefinition = new ProjectDefinition();
 	private OperatorRecord operatorRecord;
 
     public Project(ProjectManager projectManager, ILog log) {
@@ -31,24 +31,24 @@ public class Project implements IDisposable {
     }
 
     public String getFileName() {
-        if (this.projectDefinition != null) {
-            return this.projectDefinition.getFileName();
+        if (this.currentProjectDefinition != null) {
+            return this.currentProjectDefinition.getFileName();
         }
         return null;
     }
 
     public void setFileName(String name) {
-        if (this.projectDefinition != null) {
-            this.projectDefinition.setFileName(name);
+        if (this.currentProjectDefinition != null) {
+            this.currentProjectDefinition.setFileName(name);
         }
     }
 
     @Override
     public void Dispose() {
-        		if (this.projectDefinition != null)
+        		if (this.currentProjectDefinition != null)
 		{
-			this.projectDefinition.Dispose();
-			this.projectDefinition = null;
+			this.currentProjectDefinition.Dispose();
+			this.currentProjectDefinition = null;
 		}
 		this.method_4();
     }
