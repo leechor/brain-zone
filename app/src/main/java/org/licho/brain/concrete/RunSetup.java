@@ -20,7 +20,7 @@ import javax.xml.stream.XMLStreamConstants;
  */
 public class RunSetup {
     // Class625
-    private static Logger logger = LoggerFactory.getLogger(XmlReader.class);
+    private static Logger logger = LoggerFactory.getLogger(RunSetup.class);
 
 
     private final double double_0 = 1E-09;
@@ -29,7 +29,7 @@ public class RunSetup {
     private final int int_1 = 10;
     final double double_1 = 1.0;
     private final int int_2 = 0;
-    private final String String_0 = "RunSetup";
+    private final String name = "RunSetup";
     private ActiveModel activeModel;
     private double frameInterval = 2.777777777777778E-05;
     private double endTimeHours;
@@ -113,7 +113,7 @@ public class RunSetup {
     public void RunEndType(RunEndType value) {
         if (this.runEndType != value) {
             this.runEndType = value;
-            if (this.activeModel.method_26()) {
+            if (this.activeModel.canCancel()) {
                 this.selectEndTime();
                 this.activeModel.MayApplication.getSomeRun().method_9(value == RunEndType.Infinite);
             }
@@ -203,7 +203,7 @@ public class RunSetup {
     public void EndTime(DateTime value) {
         this.endTime = value;
         this.endTimeHours = this.endTime.sub(this.startTime).Hours();
-        if (this.activeModel.method_26()) {
+        if (this.activeModel.canCancel()) {
             this.selectEndTime();
             this.activeModel.MayApplication.getSomeRun().setEndTime(this.endTime);
         }

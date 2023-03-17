@@ -1027,7 +1027,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         this.activateRunSetup = activateRunSetup;
     }
 
-    public boolean method_26() {
+    public boolean canCancel() {
         return this.HaveCancellationTokenSource() || this.MayApplication != null;
     }
 
