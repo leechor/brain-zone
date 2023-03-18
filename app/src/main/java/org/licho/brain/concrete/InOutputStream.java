@@ -84,7 +84,7 @@ public class InOutputStream implements AutoCloseable {
 
     void reopen() {
         if (Strings.isNullOrEmpty(name)) {
-            logger.error("文件不存在");
+            logger.error("file not exist");
         }
 
         try {

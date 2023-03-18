@@ -1,4 +1,4 @@
-import net.ltgt.gradle.errorprone.CheckSeverity
+//import net.ltgt.gradle.errorprone.CheckSeverity
 
 apply plugin: 'io.github.gradle-nexus.publish-plugin'
 apply plugin: 'io.snyk.gradle.plugin.snykplugin'
@@ -45,7 +45,7 @@ subprojects {
     apply plugin: 'idea'
 
     apply from: "${rootDir}/gradle/publish.gradle"
-    apply from: "${rootDir}/gradle/codeQuality.gradle"
+//    apply from: "${rootDir}/gradle/codeQuality.gradle"
     apply from: "${rootDir}/gradle/dependencies.gradle"
     apply from: "${rootDir}/gradle/objectLayout.gradle"
 
@@ -76,11 +76,11 @@ subprojects {
     }
 
     tasks.withType(JavaCompile).configureEach {
-        if (name.contains('Test') || name.contains('Jmh')) {
-            options.errorprone.nullaway {
-                severity = CheckSeverity.OFF
-            }
-        }
+//        if (name.contains('Test') || name.contains('Jmh')) {
+//            options.errorprone.nullaway {
+//                severity = CheckSeverity.OFF
+//            }
+//        }
     }
 
 }

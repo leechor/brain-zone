@@ -26,7 +26,7 @@ import org.licho.brain.step.Transfer;
  * discrete items. The {@link Transfer} step is used to transfer entities into and out of a station, the
  * {@link EndTransfer} step should be used to end the entity transfer into a Station.
  * <br>
- * If the <i>Balk Entering Decision Type</i> is ‘Blocked’, then an entity’s transfer attempt into the station will be
+ * If the <i>Balk Entering Decision Type</i> is 'Blocked', then an entity’s transfer attempt into the station will be
  * allowed to proceed as normal. This includes being redirected to another station or to a parent external node if
  * the station’s capacity is zero and a redirect location has been specified. However, a late priority event will
  * also be scheduled on the current events calendar for the entity. When that event is processed, the following

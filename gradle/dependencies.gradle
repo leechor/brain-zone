@@ -23,7 +23,7 @@
  */
 ext {
     versions = [
-            errorprone      : '2.13.1',
+            errorprone      : '2.18.0',
             expiringMap     : '0.5.10',
             flipTables      : '1.1.0',
             googleJavaFormat: '1.14.0',

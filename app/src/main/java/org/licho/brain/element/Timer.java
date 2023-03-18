@@ -111,7 +111,7 @@ public class Timer extends Element {
     private String resetEventName;
     /**
      * Indicates whether the timer is enabled when the system is initialized.
-     * </p><b>NOTE</b>: Refer to the user-assignable ‘Enabled’ state variable of a timer to dynamically enable
+     * </p><b>NOTE</b>: Refer to the user-assignable 'Enabled' state variable of a timer to dynamically enable
      * or disable it during a simulation run.
      */
     private boolean initiallyEnabled;

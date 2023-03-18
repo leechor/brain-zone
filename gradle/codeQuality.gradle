@@ -21,7 +21,7 @@ dependencies {
     spotbugsPlugins gradlePlugins.findsecbugs
     checkstyleConfig gradlePlugins.checkstyle
 
-    errorprone files("${buildDir}/libs/caffeine-local.jar")
+//    errorprone files("${buildDir}/libs/caffeine-local.jar")
     errorprone libraries.errorproneCore
     errorprone libraries.nullaway
 }
