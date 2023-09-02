@@ -56,8 +56,8 @@ public class Game {
 
         StepDefinitionWrapper.init();
 
-//        var path = "C:\\Users\\Public\\Documents\\Simio\\SimBits\\AnimatePathDensity.spfx";
-        var path = "C:/Users/hp/Documents/Model.spfx";
+        var path = "C:\\Users\\Public\\Documents\\Simio\\SimBits\\AnimatePathDensity.spfx";
+//        var path = "C:/Users/hp/Documents/Model.spfx";
         projectManager.loadProject(path, 0, null);
 //todo: test
         projectManager.getActiveModel().getRunSetup().setLoadAction(ModelLoadAction.Run);

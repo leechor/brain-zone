@@ -160,10 +160,10 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public boolean canPauseRun() {
-        return this.beRun() && !this.HaveCancellationTokenSource();
+        return this.isRunning() && !this.HaveCancellationTokenSource();
     }
 
-    public boolean beRun() {
+    public boolean isRunning() {
         return this.HaveCancellationTokenSource() || (this.application != null && this.application.getSomeRun().beRun());
     }
 
@@ -264,7 +264,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
             };
         }
 
-        if (this.beRun()) {
+        if (this.isRunning()) {
             this.application.getSomeRun().method_27(maxSome);
             this.triggerRunStatusEvent(runStatus);
             return;
@@ -284,36 +284,38 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
         if (this.application != null) {
             this.method_58();
         }
-        if (this.haveCancelEvent()) {
-            this.method_51();
-            this.application = new MayApplication(this, this.getRunSetup(), specificReplicationNumber, null, null,
-                    model);
-            this.application.IsFastForward(isFastForward);
-            if (model == RunModel.RunPlan) {
-                this.disposeRunPlanLogWrapper();
-            }
-            if (model == RunModel.Run) {
-                this.disposeRunLogWrapper();
-            }
 
-            this.triggerAction29Handler(this.application);
-            this.application.method_20();
-            if (this.normalRun) {
-                this.method_144();
-            }
-
-            this.getDataAttribute().close();
-            if (model == ActiveModel.RunModel.RunPlan) {
-                this.method_104();
-                this.getTableTargetPerformanceSummaryResults().clear();
-                this.getPropertiesTypeList().clear();
-                this.getDateAttributeOther().close();
-            }
-            this.method_53();
-            this.method_124();
-            return true;
+        if (!this.noHaveCancelEvent()) {
+            return false;
         }
-        return false;
+
+        this.method_51();
+        this.application = new MayApplication(this, this.getRunSetup(), specificReplicationNumber, null, null,
+                model);
+        this.application.IsFastForward(isFastForward);
+        if (model == RunModel.RunPlan) {
+            this.disposeRunPlanLogWrapper();
+        }
+        if (model == RunModel.Run) {
+            this.disposeRunLogWrapper();
+        }
+
+        this.triggerAction29Handler(this.application);
+        this.application.method_20();
+        if (this.normalRun) {
+            this.method_144();
+        }
+
+        this.getDataAttribute().close();
+        if (model == ActiveModel.RunModel.RunPlan) {
+            this.method_104();
+            this.getTableTargetPerformanceSummaryResults().clear();
+            this.getPropertiesTypeList().clear();
+            this.getDateAttributeOther().close();
+        }
+        this.method_53();
+        this.method_124();
+        return true;
     }
 
     private void method_124() {
@@ -348,15 +350,18 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
 
-    private boolean haveCancelEvent() {
-        if (this.cancelEventHandler != null) {
-            CancelEventArgs cancelEventArgs = new CancelEventArgs(false);
-            this.cancelEventHandler.fire(this, cancelEventArgs);
-            if (cancelEventArgs.cancel()) {
-                this.method_51();
-                return false;
-            }
+    private boolean noHaveCancelEvent() {
+        if (this.cancelEventHandler == null) {
+            return true;
         }
+
+        CancelEventArgs cancelEventArgs = new CancelEventArgs(false);
+        this.cancelEventHandler.fire(this, cancelEventArgs);
+        if (cancelEventArgs.cancel()) {
+            this.method_51();
+            return false;
+        }
+
         return true;
     }
 
@@ -426,7 +431,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
                 }
             }
         } finally {
-            if (this.beRun()) {
+            if (this.isRunning()) {
                 this.PauseRun();
             }
             try {
@@ -440,7 +445,7 @@ public class ActiveModel implements IDisposable, INotifyPropertyChanged, IGridOb
     }
 
     public boolean notRun() {
-        return !this.beRun();
+        return !this.isRunning();
     }
 
     private void cancel() {

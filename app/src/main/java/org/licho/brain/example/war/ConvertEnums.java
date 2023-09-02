@@ -25,18 +25,15 @@ public class ConvertEnums {
                     for (String line; (line = br.readLine()) != null; ) {
                         if (skip) {
                             skip = false;
-                            continue;
                         } else if (line.contains("using System;")) {
                             continue;
                         } else if (line.contains("namespace")) {
                             skip = true;
-                            continue;
                         } else if (line.trim().startsWith("//")) {
                             continue;
                         } else if (line.trim().endsWith("}")) {
                             sb.append(line);
                             skip = true;
-                            continue;
                         } else {
                             sb.append(line);
                             sb.append(System.lineSeparator());

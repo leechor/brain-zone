@@ -20,7 +20,6 @@ import org.licho.brain.brainEnums.ProjectViewType;
 import org.licho.brain.utils.simu.IFilesStream;
 import org.licho.brain.utils.simu.IFilesStreamOperator;
 import org.licho.brain.utils.simu.IProjectOperator;
-import org.licho.brain.utils.simu.system.DateTime;
 import org.licho.brain.utils.simu.system.IDisposable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,42 +180,44 @@ public class ProjectManager {
 
     public boolean loadProject(String fileName, int param1, String param2) {
         if (Strings.isNullOrEmpty(fileName)) {
+            logger.error("Project file name is null or empty");
             return false;
         }
 
         if (fileName.equals(this.project().getFileName())) {
+            logger.info("Project file name is same as current project file name");
             return true;
         }
 
-        boolean success = false;
         StringBuffer _fileName = new StringBuffer(fileName);
         try (InputStream stream = this.project.CreateReadStream(_fileName.toString())) {
-            if (this.haveProject(stream, _fileName)) {
+            if (this.alreadyHaveProject(stream, _fileName)) {
                 this.clearProject(false);
             }
 
             IFilesStreamOperator fileStreamOperator = ProjectConfig.Instance().getFileStreamOperator(_fileName);
-
-            if (fileStreamOperator != null) {
-                DateTime now = DateTime.Now();
-                try (IFilesStream filesStream = fileStreamOperator.getFilesStream(stream)) {
-                    try (ProjectManager.ProjectFileOperator projectFileOperator =
-                                 new ProjectManager.ProjectFileOperator(this, filesStream)) {
-                        boolean shift = false;
-                        ProjectDefinition simioProject = new ProjectDefinition();
-                        projectFileOperator.Project(simioProject);
-                        BaseProjectDefinition.LoadOperator loadOperator = simioProject.loadXml(filesStream,
-                                projectFileOperator::readModelXml,
-                                projectFileOperator::readExperimentConstraintsXml, shift);
-                        this.switchToProject(simioProject, _fileName.toString());
-                        projectFileOperator.loadConfigureFinish();
-                    }
-                }
-                success = true;
+            if (fileStreamOperator == null) {
+                return false;
             }
 
+            try (IFilesStream filesStream = fileStreamOperator.getFilesStream(stream)) {
+                try (ProjectFileOperator projectFileOperator =
+                             new ProjectFileOperator(this, filesStream)) {
+                    boolean shift = false;
+                    ProjectDefinition simioProject = new ProjectDefinition();
+                    projectFileOperator.Project(simioProject);
+                    simioProject.loadXml(filesStream,
+                            projectFileOperator::readModelXml,
+                            projectFileOperator::readExperimentConstraintsXml,
+                            shift);
+                    this.switchToProject(simioProject, _fileName.toString());
+                    projectFileOperator.loadConfigureFinish();
+                }
+            }
+            return true;
+
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to load project file: {}, exception: {}", fileName, e.getMessage());
         }
 
         return false;
@@ -224,16 +225,19 @@ public class ProjectManager {
 
 
     private void clearProject(boolean b) {
+        // TODO: 2023/9/2
     }
 
-    private boolean haveProject(InputStream stream, StringBuffer error) {
-        if (stream == null) {
-            if (this.project != null) {
-                this.project.NotifyError(MessageFormat.format(Resources.FailedToOpenProject(), error));
-            }
-            return false;
+    private boolean alreadyHaveProject(InputStream stream, StringBuffer error) {
+        if (stream != null) {
+            return true;
         }
-        return true;
+
+        if (this.project != null) {
+            logger.error("Failed to open project file, project already exists: {}", error);
+            this.project.NotifyError(MessageFormat.format(Resources.FailedToOpenProject(), error));
+        }
+        return false;
     }
 
     public Project project() {
@@ -247,6 +251,7 @@ public class ProjectManager {
         if (this.activeModel() != null) {
             return this.activeModel();
         }
+
         if (this.ActiveExperiment() != null) {
             return this.ActiveExperiment().getActiveModel();
         }
@@ -280,7 +285,7 @@ public class ProjectManager {
     private void runButtonAction(CommandHandlerBinder commandHandlerBinder) {
         try {
             if (this.activeModel() != null) {
-                if (this.activeModel().beRun()) {
+                if (this.activeModel().isRunning()) {
                     logger.info("Pause Run");
                     this.activeModel().PauseRun();
                 } else {
@@ -446,18 +451,19 @@ public class ProjectManager {
         p.setFileName(fileName);
         this.view = null;
 
-        if (p.currentProjectDefinition != null) {
-            for (int i = 0; i < p.currentProjectDefinition.getActiveModelsCount(); i++) {
-                ActiveModel model = p.currentProjectDefinition.get(i);
-                this.registerEvent(model);
-                this.setActiveModel(model);
-            }
-            this.registerEvents(p.currentProjectDefinition);
-            this.createProjectViewTypeView().createView(ProjectViewType.Overall, this.project, "");
+        if (p.currentProjectDefinition == null) {
+            return;
         }
 
-        this.logger.info(MessageFormat.format("============== Switch to project {0} ==================",
-                this.getProjectName()));
+        for (ActiveModel model : p.currentProjectDefinition.getActiveModels()) {
+            this.registerEvent(model);
+            this.setActiveModel(model);
+        }
+
+        this.registerEvents(p.currentProjectDefinition);
+        this.createProjectViewTypeView().createView(ProjectViewType.Overall, this.project, "");
+
+        logger.info("============== Switch to project {0} ================== /n {}", this.getProjectName());
     }
 
     private void registerEvents(ProjectDefinition simioProject) {
@@ -647,10 +653,7 @@ public class ProjectManager {
     }
 
     private ActiveModel activeModel() {
-        if (this.project().currentProjectDefinition == null) {
-            return null;
-        }
-        return this.activeModel;
+        return this.project().currentProjectDefinition == null ? null : this.activeModel;
     }
 
     private void activeModel(ActiveModel value) {

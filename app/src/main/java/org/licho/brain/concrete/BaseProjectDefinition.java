@@ -20,6 +20,8 @@ import org.licho.brain.utils.simu.system.IDisposable;
 import org.licho.brain.utils.simu.system.PropertyChangedEventArgs;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +37,8 @@ import java.util.Objects;
 @Setter
 @Getter
 public class BaseProjectDefinition implements ISimioProject, IModels {
+    private static Logger logger = LoggerFactory.getLogger(BaseProjectDefinition.class);
+
     public static final String objectName = "ModelEntity";
     public static final String pictureName = "Picture";
     public static final String animationStateName = "Animation";
@@ -136,9 +140,8 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
         return null;
     }
 
-    public LoadOperator loadXml(IFilesStream filesStream, IntelligentObjectXmlReader intelligentObjectXmlReader,
+    public void loadXml(IFilesStream filesStream, IntelligentObjectXmlReader intelligentObjectXmlReader,
                                 ExperimentConstraintsXmlReader experimentConstraintsXmlReader, boolean multi) {
-        BaseProjectDefinition.LoadOperator result;
         try (InOutputStream stream = filesStream.OpenMainStream()) {
             if (stream == null) {
                 throw new IllegalArgumentException("Unable to get XML contents");
@@ -157,9 +160,9 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
                 this.FinishedReading(intelligentObjectXml);
             }
         } catch (IOException e) {
+            logger.error("Unable to load XML contents", e);
             e.printStackTrace();
         }
-        return null;
     }
 
     private void FinishedReading(IntelligentObjectXml intelligentObjectXml) {
@@ -507,9 +510,6 @@ public class BaseProjectDefinition implements ISimioProject, IModels {
         if (this.activeModels.remove(activeModel)) {
             this.activeModels.add(activeModel);
         }
-    }
-
-    public class LoadOperator {
     }
 
     public interface IntelligentObjectXmWriter {
